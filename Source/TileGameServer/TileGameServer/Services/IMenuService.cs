@@ -26,12 +26,5 @@ namespace TileGameServer.Services
         /// <param name="userId">The user who leaves the session</param>
         /// <returns></returns>
         public Task LeaveGame(Guid userId);
-        
-        /// <summary>
-        /// Quits an existing game session
-        /// </summary>
-        /// <param name="userId">The creator of the session</param>
-        /// <returns></returns>
-        public Task QuitGame(Guid userId);
     }
 }

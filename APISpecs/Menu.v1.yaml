@@ -11,15 +11,23 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
+          description: |-
+            OK
+            GameToken - ключ, по которому можно присоединиться к игре
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  GameToken:
+                  GameKey:
                     type: string
               examples: {}
+        '401':
+          description: Unauthorized
+        '409':
+          description: |-
+            Conflict
+            Если игрок уже находится в сессии
       operationId: get-Menu-NewGame
       parameters:
         - schema:
@@ -34,17 +42,21 @@ paths:
       responses:
         '200':
           description: OK
+        '401':
+          description: Unauthorized
         '403':
-          description: Forbidden
+          description: |-
+            Forbidden
+            Если комната полная
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                GameID:
+                GameKey:
                   type: string
-        description: ''
+        description: 'GameKey - ключ игры, к которому нужно присоединиться'
       parameters:
         - schema:
             type: string
@@ -58,49 +70,10 @@ paths:
       responses:
         '200':
           description: OK
-        '403':
-          description: Forbidden
+        '409':
+          description: |-
+            Conflict
+            Если не находится в игре
       operationId: get-Menu-LeaveGame
 components:
-  schemas:
-    User:
-      title: User
-      type: object
-      description: ''
-      x-examples:
-        Alice Smith:
-          id: 142
-          firstName: Alice
-          lastName: Smith
-          email: alice.smith@gmail.com
-          dateOfBirth: '1997-10-31'
-          emailVerified: true
-          signUpDate: '2019-08-24'
-      properties:
-        id:
-          type: integer
-          description: Unique identifier for the given user.
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-          format: email
-        dateOfBirth:
-          type: string
-          format: date
-          example: '1997-10-31'
-        emailVerified:
-          type: boolean
-          description: Set to true if the user's email has been verified.
-        createDate:
-          type: string
-          format: date
-          description: The date that the user was created.
-      required:
-        - id
-        - firstName
-        - lastName
-        - email
-        - emailVerified
+  schemas: {}

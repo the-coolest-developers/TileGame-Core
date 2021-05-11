@@ -2,22 +2,20 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TileGameServer.Infrastructure;
 using TileGameServer.Infrastructure.Enums;
-using TileGameServer.Infrastructure.Models.Dto.Responses;
 
 namespace TileGameServer.Controllers
 {
     public class BaseController : ControllerBase
     {
         protected async Task<ActionResult<TResult>> ExecuteAction<TResponse, TResult>(
-                Func<Task<TResponse>> action)
-            //Func<TResponse, TResult> resultAction)
-            where TResponse : IResponse<object>
+            Func<Task<TResponse>> action)
+            where TResponse : IResponse<TResult>
         {
             var response = await action();
 
             var result = response.Result;
-            //var result = resultAction(response);
 
             ActionResult<TResult> actionResult = response.Status switch
             {
@@ -40,12 +38,5 @@ namespace TileGameServer.Controllers
 
             return actionResult;
         }
-
-        /*protected async Task<ActionResult<TResult>> ExecuteAction<TResponse, TResult>(
-            Func<Task<TResponse>> action)
-            where TResponse : IResponse<TResult>
-        {
-            var a = await ExecuteAction(action, response => response.Result);
-        }*/
     }
 }
