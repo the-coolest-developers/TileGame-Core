@@ -1,7 +1,7 @@
-namespace TileGameServer.Infrastructure.Models.Dto.Responses
+namespace TileGameServer.Infrastructure.Models
 {
-    public class Empty
+    public struct Empty
     {
-        
+        public static Empty Instance { get; } = new();
     }
 }

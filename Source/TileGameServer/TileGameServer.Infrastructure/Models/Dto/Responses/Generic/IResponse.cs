@@ -1,6 +1,6 @@
 ﻿using TileGameServer.Infrastructure.Enums;
 
-namespace TileGameServer.Infrastructure.Models.Dto.Responses
+namespace TileGameServer.Infrastructure.Models.Dto.Responses.Generic
 {
     public interface IResponse<out TResult>
     {

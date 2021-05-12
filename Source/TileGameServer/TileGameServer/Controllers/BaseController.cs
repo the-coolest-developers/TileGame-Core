@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Infrastructure.Enums;
-using TileGameServer.Infrastructure.Models.Dto.Responses;
+using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
 namespace TileGameServer.Controllers
 {
