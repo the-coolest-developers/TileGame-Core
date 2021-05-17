@@ -27,5 +27,12 @@ namespace TileGameServer.Infrastructure.Models.Dto.Responses.Generic
                 Result = result,
                 Status = ResponseStatus.Conflict
             };
+
+        public static Response<Empty> GetEmptyResponse(ResponseStatus status) =>
+            new()
+            {
+                Result = Empty.Instance,
+                Status = status
+            };
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using TileGameServer.Infrastructure.Enums;
 using TileGameServer.Infrastructure.Models;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Menu;
@@ -22,13 +23,13 @@ namespace TileGameServer.Services
 
         public Task<IResponse<Empty>> LeaveGame(Guid userId)
         {
-            IResponse<Empty> result = Response<Empty>.Success(new Empty());
+            IResponse<Empty> result = EmptyResponse.FromStatus(ResponseStatus.Success);
             return Task.FromResult(result);
         }
 
         public Task<IResponse<Empty>> QuitGame(Guid userId)
         {
-            IResponse<Empty> result = Response<Empty>.Success(new Empty());
+            IResponse<Empty> result = EmptyResponse.FromStatus(ResponseStatus.Success);
             return Task.FromResult(result);
         }
     }
