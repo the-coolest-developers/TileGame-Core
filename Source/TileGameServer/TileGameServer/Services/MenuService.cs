@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using TileGameServer.Infrastructure.Enums;
+using TileGameServer.Infrastructure.Extensions;
 using TileGameServer.Infrastructure.Models;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Menu;
@@ -11,13 +12,13 @@ namespace TileGameServer.Services
     {
         public Task<IResponse<CreateGameResponse>> CreateGame(Guid userId)
         {
-            IResponse<CreateGameResponse> result = Response<CreateGameResponse>.Success(new CreateGameResponse());
+            IResponse<CreateGameResponse> result = new CreateGameResponse().GetResponse(ResponseStatus.Success);
             return Task.FromResult(result);
         }
 
         public Task<IResponse<JoinGameResponse>> JoinGame(Guid userId, Guid sessionId)
         {
-            IResponse<JoinGameResponse> result = Response<JoinGameResponse>.Success(new JoinGameResponse());
+            IResponse<JoinGameResponse> result = new JoinGameResponse().GetResponse(ResponseStatus.Success);
             return Task.FromResult(result);
         }
 
