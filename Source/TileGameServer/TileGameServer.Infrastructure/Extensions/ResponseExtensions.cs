@@ -11,5 +11,26 @@ namespace TileGameServer.Infrastructure.Extensions
                 Result = result,
                 Status = status
             };
+
+        public static Response<T> Success<T>(this T result)
+            => new()
+            {
+                Result = result,
+                Status = ResponseStatus.Success
+            };
+        
+        public static Response<T> Forbidden<T>(this T result)
+            => new()
+            {
+                Result = result,
+                Status = ResponseStatus.Forbidden
+            };
+        
+        public static Response<T> Unauthorized<T>(this T result)
+            => new()
+            {
+                Result = result,
+                Status = ResponseStatus.Unauthorized
+            };
     }
 }
