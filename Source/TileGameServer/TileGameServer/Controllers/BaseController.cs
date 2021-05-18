@@ -10,15 +10,12 @@ namespace TileGameServer.Controllers
     public class BaseController : ControllerBase
     {
         protected async Task<ActionResult<TResult>> ExecuteAction<TResponse, TResult>(
-                Func<Task<TResponse>> action)
-            //Func<TResponse, TResult> resultAction)
+            Func<Task<TResponse>> action)
             where TResponse : IResponse<object>
         {
             var response = await action();
 
             var result = response.Result;
-            //var result = resultAction(response);
-
             ActionResult<TResult> actionResult = response.Status switch
             {
                 ResponseStatus.InternalServerError => StatusCode(StatusCodes.Status500InternalServerError, result),
@@ -40,12 +37,5 @@ namespace TileGameServer.Controllers
 
             return actionResult;
         }
-
-        /*protected async Task<ActionResult<TResult>> ExecuteAction<TResponse, TResult>(
-            Func<Task<TResponse>> action)
-            where TResponse : IResponse<TResult>
-        {
-            var a = await ExecuteAction(action, response => response.Result);
-        }*/
     }
 }
