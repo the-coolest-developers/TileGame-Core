@@ -14,5 +14,23 @@ namespace TileGameServer.Infrastructure.Models.Dto.Responses.Generic
             {
                 Status = status
             };
+        
+        public static EmptyResponse Success()
+            => new()
+            {
+                Status = ResponseStatus.Success
+            };
+        
+        public static EmptyResponse Forbidden()
+            => new()
+            {
+                Status = ResponseStatus.Forbidden
+            };
+        
+        public static EmptyResponse Unauthorized()
+            => new()
+            {
+                Status = ResponseStatus.Unauthorized
+            }; 
     }
 }
