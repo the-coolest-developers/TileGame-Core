@@ -9,9 +9,8 @@ namespace TileGameServer.Controllers
 {
     public class BaseController : ControllerBase
     {
-        protected async Task<ActionResult<TResult>> ExecuteAction<TResponse, TResult>(
-            Func<Task<TResponse>> action)
-            where TResponse : IResponse<object>
+        protected async Task<ActionResult<TResult>> ExecuteAction<TResult>(
+            Func<Task<IResponse<TResult>>> action)
         {
             var response = await action();
 
