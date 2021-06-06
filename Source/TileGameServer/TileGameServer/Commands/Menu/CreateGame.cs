@@ -18,14 +18,17 @@ namespace TileGameServer.Commands.Menu
         {
             public Task<CreateGameResponse> Handle(CreateGameCommand request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(new CreateGameResponse());
+                return Task.FromResult(new CreateGameResponse
+                {
+                    Status = ResponseStatus.Success
+                });
             }
         }
 
         public class CreateGameResponse : IResponse<Unit>
         {
             public Unit Result { get; }
-            public ResponseStatus Status { get; }
+            public ResponseStatus Status { get; set; }
         }
     }
 }
