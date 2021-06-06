@@ -2,7 +2,7 @@
 
 namespace TileGameServer.Hubs
 {
-    public class MenuHub : Hub
+    public class MenuHub : Hub, IMenuHub
     {
         
     }

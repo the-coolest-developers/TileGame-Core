@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TileGameServer.Infrastructure.Models.Dto.Responses.Menu;
-using TileGameServer.Services;
+using TileGameServer.Commands.Menu;
+using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
 namespace TileGameServer.Controllers
 {
@@ -10,17 +11,24 @@ namespace TileGameServer.Controllers
     [Route("menu")]
     public class MenuController : BaseController
     {
-        private IMenuService MenuService { get; }
+        private IMediator Mediator { get; }
 
-        public MenuController(IMenuService menuService)
+        public MenuController(IMediator mediator)
         {
-            MenuService = menuService;
+            Mediator = mediator;
         }
 
         [HttpGet("createGame")]
-        public async Task<ActionResult<CreateGameResponse>> CreateGame()
+        public async Task<ActionResult<Unit>> CreateGame()
         {
-            return await ExecuteAction(() => MenuService.CreateGame(new Guid()));
+            var command = new CreateGame.CreateGameCommand
+            {
+                UserId = Guid.Empty
+            };
+
+            IResponse<Unit> response = await Mediator.Send(command);
+            var t = Task.Run(() => response);
+            return await ExecuteAction<Unit>(() => Mediator.Send(command));
         }
     }
 }
