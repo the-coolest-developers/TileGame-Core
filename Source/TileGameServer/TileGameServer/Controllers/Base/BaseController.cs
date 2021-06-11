@@ -5,14 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Infrastructure.Enums;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
-namespace TileGameServer.Controllers
+namespace TileGameServer.Controllers.Base
 {
     public class BaseController : ControllerBase
     {
-        protected async Task<ActionResult<TResult>> ExecuteAction<TResult>(
-            Func<Task<IResponse<TResult>>> action)
+        protected Task<ActionResult<TResult>> ExecuteActionAsync<TResult>(
+            IResponse<TResult> response)
         {
-            var response = await action();
+            return ExecuteActionAsync(Task.FromResult(response));
+        }
+
+        protected async Task<ActionResult<TResult>> ExecuteActionAsync<TResult>(
+            Task<IResponse<TResult>> responseTask)
+        {
+            var response = await responseTask;
 
             var result = response.Result;
             ActionResult<TResult> actionResult = response.Status switch
