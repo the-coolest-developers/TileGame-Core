@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using TileGameServer.Services;
 
 namespace TileGameServer
 {
@@ -22,8 +21,6 @@ namespace TileGameServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(Startup));
-
-            services.AddScoped<IMenuService, MenuService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
