@@ -5,8 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Hubs;
-using TileGameServer.Repositories;
 
 namespace TileGameServer
 {

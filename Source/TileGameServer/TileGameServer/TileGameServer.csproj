@@ -12,10 +12,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\TileGameServer.DataAccess\TileGameServer.DataAccess.csproj" />
       <ProjectReference Include="..\TileGameServer.Infrastructure\TileGameServer.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Repositories" />
       <Folder Include="Requests" />
       <Folder Include="Services" />
     </ItemGroup>
