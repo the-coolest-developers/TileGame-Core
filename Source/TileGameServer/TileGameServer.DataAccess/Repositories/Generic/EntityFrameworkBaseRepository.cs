@@ -11,17 +11,10 @@ namespace TileGameServer.DataAccess.Repositories.Generic
         private DbContext EntityContext { get; }
         protected DbSet<TEntity> EntityDbSet => EntityContext.Set<TEntity>();
 
-        //private DbSet<TEntity> Entities { get; }
-
         public EntityFrameworkBaseRepository(DbContext entityContext)
         {
             EntityContext = entityContext;
         }
-
-        /*public EntityFrameworkBaseRepository(DbSet<TEntity> entityContext)
-        {
-            Entities = entityContext;
-        }*/
 
         public async Task CreateAsync(TEntity entity)
         {
