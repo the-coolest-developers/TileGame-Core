@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TileGameServer.Infrastructure.Models.Entities;
 using TileGameServer.Infrastructure.Models.Entities.Base;
 
 namespace TileGameServer.DataAccess.Repositories.Generic

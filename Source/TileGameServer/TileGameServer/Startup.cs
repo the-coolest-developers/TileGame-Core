@@ -5,8 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TileGameServer.DataAccess.Context;
 using TileGameServer.DataAccess.Repositories;
-using TileGameServer.Hubs;
+using TileGameServer.Extensions;
 
 namespace TileGameServer
 {
@@ -22,17 +23,20 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup));
+            services.AddDbContextForConnectionString<GameSessionContext>(
+                Configuration.GetConnectionString("DefaultConnectionString"));
 
             //services.AddSingleton<IMenuHub, MenuHub>();
-            services.AddSingleton<MenuHub>();
-            services.AddScoped<ISessionRepository, SessionRepository>();
+            //services.AddSingleton<MenuHub>();
+            services.AddScoped<IGameSessionRepository, GameGameSessionRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TileGameServer", Version = "v1"});
             });
+
+            services.AddMediatR(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
