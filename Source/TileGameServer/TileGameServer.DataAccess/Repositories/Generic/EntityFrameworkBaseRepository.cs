@@ -9,12 +9,19 @@ namespace TileGameServer.DataAccess.Repositories.Generic
         where TEntity : BaseEntity
     {
         private DbContext EntityContext { get; }
-        private DbSet<TEntity> EntityDbSet => EntityContext.Set<TEntity>();
+        protected DbSet<TEntity> EntityDbSet => EntityContext.Set<TEntity>();
+
+        //private DbSet<TEntity> Entities { get; }
 
         public EntityFrameworkBaseRepository(DbContext entityContext)
         {
             EntityContext = entityContext;
         }
+
+        /*public EntityFrameworkBaseRepository(DbSet<TEntity> entityContext)
+        {
+            Entities = entityContext;
+        }*/
 
         public async Task CreateAsync(TEntity entity)
         {
@@ -22,9 +29,7 @@ namespace TileGameServer.DataAccess.Repositories.Generic
         }
 
         public Task UpdateAsync(TEntity entity)
-        {
-            return Task.FromResult(EntityDbSet.Update(entity));
-        }
+            => Task.FromResult(EntityDbSet.Update(entity));
 
         public async Task<TEntity> GetAsync(Guid id)
             => await EntityDbSet.FindAsync(id);

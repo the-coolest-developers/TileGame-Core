@@ -1,6 +1,6 @@
 ﻿namespace TileGameServer.Commands.Menu
 {
-    public class QuitGame
+    public class JoinGameSession
     {
         
     }
