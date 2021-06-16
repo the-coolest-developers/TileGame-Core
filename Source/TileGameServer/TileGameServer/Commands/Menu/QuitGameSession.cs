@@ -4,29 +4,27 @@ using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.Infrastructure.Enums;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
-
 namespace TileGameServer.Commands.Menu
 {
-    public class QuitGame
+    public class QuitGameSession
     {
-        
-        public class QuitGameCommand : IRequest<QuitGameResponse>
+        public class LeaveGameCommand : IRequest<LeaveGameResponse>
         {
-            public Guid UserId { get; set; }
+            public Guid UserId;
         }
 
-        public class QuitGameCommandHandler : IRequestHandler<QuitGameCommand, QuitGameResponse>
+        public class LeaveGameCommandHandler : IRequestHandler<LeaveGameCommand, LeaveGameResponse>
         {
-            public Task<QuitGameResponse> Handle(QuitGameCommand request, CancellationToken cancellationToken)
+            public Task<LeaveGameResponse> Handle(LeaveGameCommand request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(new QuitGameResponse
+                return Task.FromResult(new LeaveGameResponse
                 {
                     Status = ResponseStatus.Success
                 });
             }
         }
 
-        public class QuitGameResponse : IResponse<Unit>
+        public class LeaveGameResponse : IResponse<Unit>
         {
             public Unit Result { get; }
             public ResponseStatus Status { get; set; }

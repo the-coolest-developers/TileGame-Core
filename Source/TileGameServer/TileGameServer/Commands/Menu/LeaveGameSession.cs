@@ -8,7 +8,7 @@ using TileGameServer.Infrastructure.Models.Dto.Responses.Menu;
 
 namespace TileGameServer.Commands.Menu
 {
-    public class JoinGame
+    public class LeaveGameSession
     {
         public class JoinGameCommand : IRequest<JoinGameResponse>
         {

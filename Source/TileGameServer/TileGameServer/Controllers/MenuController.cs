@@ -18,7 +18,7 @@ namespace TileGameServer.Controllers
         [HttpGet("createGame")]
         public async Task<ActionResult<Unit>> CreateGame()
         {
-            var command = new CreateGame.CreateGameCommand
+            var command = new CreateGameSession.CreateGameSessionCommand
             {
                 UserId = Guid.Empty
             };
