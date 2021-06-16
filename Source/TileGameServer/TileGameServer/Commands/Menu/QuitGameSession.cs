@@ -8,23 +8,23 @@ namespace TileGameServer.Commands.Menu
 {
     public class QuitGameSession
     {
-        public class LeaveGameCommand : IRequest<LeaveGameResponse>
+        public class QuitGameSessionCommand : IRequest<QuitGameSessionResponse>
         {
             public Guid UserId;
         }
 
-        public class LeaveGameCommandHandler : IRequestHandler<LeaveGameCommand, LeaveGameResponse>
+        public class LeaveGameCommandHandler : IRequestHandler<QuitGameSessionCommand, QuitGameSessionResponse>
         {
-            public Task<LeaveGameResponse> Handle(LeaveGameCommand request, CancellationToken cancellationToken)
+            public Task<QuitGameSessionResponse> Handle(QuitGameSessionCommand request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(new LeaveGameResponse
+                return Task.FromResult(new QuitGameSessionResponse
                 {
                     Status = ResponseStatus.Success
                 });
             }
         }
 
-        public class LeaveGameResponse : IResponse<Unit>
+        public class QuitGameSessionResponse : IResponse<Unit>
         {
             public Unit Result { get; }
             public ResponseStatus Status { get; set; }
