@@ -18,41 +18,44 @@ namespace TileGameServer.Controllers
         [HttpGet("createGame")]
         public async Task<ActionResult<Unit>> CreateGame()
         {
-            var command = new CreateGame.CreateGameCommand
+            var command = new CreateGameSession.CreateGameSessionCommand
             {
                 UserId = Guid.Empty
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));
         }
-        
+
         [HttpGet("joinGame")]
         public async Task<ActionResult<Unit>> JoinGame()
         {
-            var command = new JoinGame.JoinGameCommand
+            var command = new JoinGameSession.JoinGameSessionCommand
             {
                 UserId = Guid.Empty
             };
+
             return await ExecuteActionAsync(await Mediator.Send(command));
         }
 
         [HttpGet("leaveGame")]
         public async Task<ActionResult<Unit>> Leave()
         {
-            var command = new LeaveGame.LeaveGameCommand
+            var command = new LeaveGameSession.LeaveGameSessionCommand
             {
                 UserId = Guid.Empty
             };
+
             return await ExecuteActionAsync(await Mediator.Send(command));
         }
-        
+
         [HttpGet("quitGame")]
         public async Task<ActionResult<Unit>> QuitGame()
         {
-            var command = new QuitGame.QuitGameCommand
+            var command = new QuitGameSession.QuitGameSessionCommand
             {
                 UserId = Guid.Empty
             };
+
             return await ExecuteActionAsync(await Mediator.Send(command));
         }
     }

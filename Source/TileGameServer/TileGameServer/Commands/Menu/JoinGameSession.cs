@@ -7,26 +7,26 @@ using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
 namespace TileGameServer.Commands.Menu
 {
-    public class QuitGame
+    public class JoinGameSession
     {
         
-        public class QuitGameCommand : IRequest<QuitGameResponse>
+        public class JoinGameSessionCommand : IRequest<JoinGameSessionResponse>
         {
             public Guid UserId { get; set; }
         }
 
-        public class QuitGameCommandHandler : IRequestHandler<QuitGameCommand, QuitGameResponse>
+        public class JoinGameSessionCommandHandler : IRequestHandler<JoinGameSessionCommand, JoinGameSessionResponse>
         {
-            public Task<QuitGameResponse> Handle(QuitGameCommand request, CancellationToken cancellationToken)
+            public Task<JoinGameSessionResponse> Handle(JoinGameSessionCommand request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(new QuitGameResponse
+                return Task.FromResult(new JoinGameSessionResponse
                 {
                     Status = ResponseStatus.Success
                 });
             }
         }
 
-        public class QuitGameResponse : IResponse<Unit>
+        public class JoinGameSessionResponse : IResponse<Unit>
         {
             public Unit Result { get; }
             public ResponseStatus Status { get; set; }
