@@ -1,8 +1,8 @@
 ﻿using System;
+using TileGameServer.DataAccess.Entities.Base;
 using TileGameServer.Infrastructure.Enums;
-using TileGameServer.Infrastructure.Models.Entities.Base;
 
-namespace TileGameServer.Infrastructure.Models.Entities
+namespace TileGameServer.DataAccess.Entities
 {
     public class GameSession : BaseEntity
     {

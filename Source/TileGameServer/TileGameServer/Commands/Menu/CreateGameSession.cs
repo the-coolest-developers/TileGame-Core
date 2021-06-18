@@ -2,11 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Hubs;
 using TileGameServer.Infrastructure.Enums;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
-using TileGameServer.Infrastructure.Models.Entities;
 
 namespace TileGameServer.Commands.Menu
 {

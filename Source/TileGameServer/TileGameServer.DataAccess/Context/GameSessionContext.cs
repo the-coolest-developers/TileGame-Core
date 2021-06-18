@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TileGameServer.Infrastructure.Models.Entities;
+using TileGameServer.DataAccess.Entities;
 
 namespace TileGameServer.DataAccess.Context
 {

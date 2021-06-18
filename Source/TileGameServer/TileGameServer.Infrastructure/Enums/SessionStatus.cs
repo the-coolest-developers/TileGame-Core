@@ -1,4 +1,4 @@
-﻿namespace TileGameServer.Enums
+﻿namespace TileGameServer.Infrastructure.Enums
 {
     public enum SessionStatus
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TileGameServer.Infrastructure.Models.Entities.Base;
+using TileGameServer.DataAccess.Entities.Base;
 
 namespace TileGameServer.DataAccess.Repositories.Generic
 {
