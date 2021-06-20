@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TileGameServer.DataAccess.Context;
 using TileGameServer.DataAccess.Repositories;
-using TileGameServer.Extensions;
 
 namespace TileGameServer
 {
@@ -23,11 +23,10 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextForConnectionString<GameSessionContext>(
-                Configuration.GetConnectionString("DefaultConnectionString"));
+            var postgreSqlconnectionstring = Configuration.GetConnectionString("PostgreSqlConnectionString");
 
-            //services.AddSingleton<IMenuHub, MenuHub>();
-            //services.AddSingleton<MenuHub>();
+            services.AddDbContext<GameSessionContext>(options => { options.UseNpgsql(postgreSqlconnectionstring); });
+            
             services.AddScoped<IGameSessionRepository, GameGameSessionRepository>();
 
             services.AddControllers();

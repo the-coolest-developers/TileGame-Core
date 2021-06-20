@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TileGameServer.Infrastructure.Models.Entities.Base
+namespace TileGameServer.DataAccess.Entities.Base
 {
     public class BaseEntity
     {

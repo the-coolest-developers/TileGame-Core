@@ -4,8 +4,17 @@ on:
 #  push:
 #    branches: [ develop, feature/*, bugfix/*, release/* ]
   pull_request:
-    branches: [ develop, release ]
-
+    branches:
+      - develop
+      - release
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+      - edited
+      - review_requested 
+      - synchronize
+  
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
