@@ -1,6 +1,6 @@
 create table if not exists "GameSessions" 
 (
 	"Id" uuid,
-	"Status" int,
+	"Status" smallint,
 	"CreationDate" timestamp 
 );
