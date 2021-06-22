@@ -1,8 +1,8 @@
 create table if not exists "Accounts" 
 (
 	"Id" uuid,
-	"RoleId" int,
-	"Email" char,
-	"FullName" char,
-	"PasswordHash" char
+	"RoleId" smallint,
+	"Email" varchar(50),
+	"FullName" varchar(50),
+	"PasswordHash" varchar(50)
 );
