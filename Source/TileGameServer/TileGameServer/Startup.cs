@@ -1,4 +1,6 @@
+using System;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -6,19 +8,24 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TileGameServer.Constants;
 using TileGameServer.DataAccess.Context;
 using TileGameServer.DataAccess.Repositories;
+using TileGameServer.Infrastructure.Configurators;
+using TileGameServer.Infrastructure.Models.Configurations;
 
 namespace TileGameServer
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        private IServiceProvider _serviceProvider;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -26,8 +33,29 @@ namespace TileGameServer
             var postgreSqlconnectionstring = Configuration.GetConnectionString("PostgreSqlConnectionString");
 
             services.AddDbContext<GameSessionContext>(options => { options.UseNpgsql(postgreSqlconnectionstring); });
-            
+
             services.AddScoped<IGameSessionRepository, GameGameSessionRepository>();
+
+            services.AddSingleton<IJwtConfigurator, JwtConfigurator>(_ =>
+            {
+                var jwtConfiguration = Configuration.GetSection(SettingNames.JwtConfiguration)
+                    .Get<JwtConfiguration>();
+
+                return new JwtConfigurator(jwtConfiguration);
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                var jwtConfigurator = _serviceProvider.GetService<IJwtConfigurator>();
+
+                options.RequireHttpsMetadata = true;
+                options.TokenValidationParameters = jwtConfigurator?.ValidationParameters;
+            });
+            services.AddAuthorization();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -41,6 +69,8 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            _serviceProvider = app.ApplicationServices;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -52,6 +82,7 @@ namespace TileGameServer
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
