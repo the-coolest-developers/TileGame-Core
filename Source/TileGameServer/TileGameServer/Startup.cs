@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -61,6 +62,39 @@ namespace TileGameServer
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TileGameServer", Version = "v1"});
+            });
+
+            services.AddSwaggerGen(options =>
+            {
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Description = "Json Web Token for authorization. Write: 'Bearer {your token}'",
+                    Name = HeaderNames.Authorization,
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = Schemes.Bearer
+                };
+                options.AddSecurityDefinition(securityScheme.Scheme, securityScheme);
+
+                var requirement = new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = securityScheme.Scheme
+                            },
+                            Scheme = Schemes.OAuth,
+                            Name = securityScheme.Scheme,
+                            In = securityScheme.In
+                        },
+                        new List<string>()
+                    }
+                };
+
+                options.AddSecurityRequirement(requirement);
             });
 
             services.AddMediatR(typeof(Startup));
