@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using TileGameServer.Constants;
 using TileGameServer.DataAccess.Context;
 using TileGameServer.DataAccess.Repositories;
+using TileGameServer.Extensions;
 using TileGameServer.Infrastructure.Configurators;
 using TileGameServer.Infrastructure.Models.Configurations;
 
@@ -63,6 +64,9 @@ namespace TileGameServer
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TileGameServer", Version = "v1"});
             });
+
+            services.AddAuthorization(
+                options => { options.AddRequireAdministratorRolePolicy(); });
 
             services.AddSwaggerGen(options =>
             {
