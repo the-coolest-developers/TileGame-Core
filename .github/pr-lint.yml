@@ -1,10 +1,8 @@
 ---
 projects:
   - "TG"
-  - "feature/TG"
-  - "bugfix/TG"
 check_title: true
-check_branch: true
+check_branch: false
 check_commits: true
 ignore_case: true
 
