@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu;
 using TileGameServer.Controllers.Base;
 
 namespace TileGameServer.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("menu")]
     public class MenuController : BaseMediatorController
