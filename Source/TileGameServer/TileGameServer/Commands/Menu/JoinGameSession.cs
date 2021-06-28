@@ -21,7 +21,7 @@ namespace TileGameServer.Commands.Menu
             {
                 var user = AccountInSessionRepository.GetAsync(request.UserId);
                 
-                if(user != null)
+                if(user == null)
                 {
                     AccountsInSession.AddAsync(new AccountsInSession
                     {
