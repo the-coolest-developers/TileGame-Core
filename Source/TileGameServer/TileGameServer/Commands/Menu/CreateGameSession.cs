@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.DataAccess.Entities;
+using TileGameServer.DataAccess.Enums;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Infrastructure.Enums;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
@@ -16,7 +17,8 @@ namespace TileGameServer.Commands.Menu
             public Guid UserId { get; set; }
         }
 
-        public class CreateGameSessionCommandHandler : IRequestHandler<CreateGameSessionCommand, CreateGameSessionResponse>
+        public class CreateGameSessionCommandHandler :
+            IRequestHandler<CreateGameSessionCommand, CreateGameSessionResponse>
         {
             private IGameSessionRepository GameSessionRepository { get; }
 
@@ -25,7 +27,8 @@ namespace TileGameServer.Commands.Menu
                 GameSessionRepository = gameSessionRepository;
             }
 
-            public async Task<CreateGameSessionResponse> Handle(CreateGameSessionCommand request, CancellationToken cancellationToken)
+            public async Task<CreateGameSessionResponse> Handle(CreateGameSessionCommand request,
+                CancellationToken cancellationToken)
             {
                 var session = new GameSession()
                 {
