@@ -1,6 +1,6 @@
 ﻿using System;
 using TileGameServer.DataAccess.Entities.Base;
-using TileGameServer.Infrastructure.Enums;
+using TileGameServer.DataAccess.Enums;
 
 namespace TileGameServer.DataAccess.Entities
 {
