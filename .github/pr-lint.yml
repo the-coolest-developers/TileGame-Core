@@ -1,16 +1,6 @@
 ---
-projects:
-  - "TG"
+projects: [ "TG" ]
 check_title: true
 check_branch: false
 check_commits: true
-ignore_case: true
-
----
-projects:
-  - "feature/TG"
-  - "bugfix/TG"
-check_title: false
-check_branch: true
-check_commits: false
 ignore_case: true
