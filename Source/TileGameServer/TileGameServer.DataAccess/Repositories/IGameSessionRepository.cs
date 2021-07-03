@@ -8,7 +8,6 @@ namespace TileGameServer.DataAccess.Repositories
 {
     public interface IGameSessionRepository : IRepository<GameSession>
     {
-        Task<GameSessionStatus> GetStatus(Guid gameId);
         Task<GameSession[]> GetRecentSessionsWithStatus(GameSessionStatus gameSessionStatus, int limit = 10);
     }
 }

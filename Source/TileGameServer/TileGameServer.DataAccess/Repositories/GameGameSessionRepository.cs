@@ -17,13 +17,6 @@ namespace TileGameServer.DataAccess.Repositories
             GameSessionContext = gameSessionContext;
         }
 
-        public async Task<GameSessionStatus> GetStatus(Guid gameId)
-        {
-            var session = await GetAsync(gameId);
-
-            return session.Status;
-        }
-
         public Task<GameSession[]> GetRecentSessionsWithStatus(GameSessionStatus gameSessionStatus, int limit = 10)
         {
             var sessions = EntityDbSet.Where(session => session.Status == gameSessionStatus)
