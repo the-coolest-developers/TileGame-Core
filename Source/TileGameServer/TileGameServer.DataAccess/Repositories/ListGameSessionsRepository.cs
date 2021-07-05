@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using TileGameServer.DataAccess.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using TileGameServer.Infrastructure.Models;
 
 namespace TileGameServer.DataAccess.Repositories
 {
@@ -17,7 +18,15 @@ namespace TileGameServer.DataAccess.Repositories
             => GameSessions.Remove(GameSessions.FirstOrDefault(t => t.Id == id)));
 
         public async Task<bool> ExistsWithIdAsync(Guid id) 
-            => await Task.Run(() => GameSessions.Exists(t => t.Id == id));
+        {
+            bool IsTrue = await Task.Run(() => GameSessions.Exists(t => t.Id == id));
+            return IsTrue;
+        }
+
+        public async Task<bool> ExistsWithPlayerAsync(Guid playerId)
+            => await Task.Run(() => 
+            GameSessions.Exists(t 
+            => t.PlayersId.FirstOrDefault(a => a == playerId) != null));
         
 
         public async Task<GameSession> GetAsync(Guid id) => await Task.Run(() 
@@ -38,7 +47,7 @@ namespace TileGameServer.DataAccess.Repositories
             {
                 updatedSession.CreationDate = session.CreationDate;
                 updatedSession.Status = session.Status;
-                updatedSession.Players = session.Players;
+                updatedSession.PlayersId = session.PlayersId;
             }
         }
     }
