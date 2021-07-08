@@ -7,13 +7,12 @@ using TileGameServer.Infrastructure.Models;
 
 namespace TileGameServer.DataAccess.Repositories
 {
-    public class ListGameSessionsRepository : IListGameSessionsRepository
+    public class GameSessionRepository : IGameSessionRepository
     {
         List<GameSession> GameSessions { get; set; } = new List<GameSession>();  
         public async Task CreateAsync(GameSession session)
             => await Task.Run(() => GameSessions.Add(session));
         
-
         public async Task DeleteAsync(Guid id) => await Task.Run(() 
             => GameSessions.Remove(GameSessions.FirstOrDefault(t => t.Id == id)));
 
@@ -26,17 +25,10 @@ namespace TileGameServer.DataAccess.Repositories
         public async Task<bool> ExistsWithPlayerAsync(Guid playerId)
             => await Task.Run(() => 
             GameSessions.Exists(t 
-            => t.PlayersId.FirstOrDefault(a => a == playerId) != null));
+            => t.PlayerIds.FirstOrDefault(a => a == playerId) != null));
         
-
         public async Task<GameSession> GetAsync(Guid id) => await Task.Run(() 
             => GameSessions.FirstOrDefault(t => t.Id == id));
-        
-
-        public Task SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task UpdateAsync(GameSession session)
         {
@@ -47,7 +39,7 @@ namespace TileGameServer.DataAccess.Repositories
             {
                 updatedSession.CreationDate = session.CreationDate;
                 updatedSession.Status = session.Status;
-                updatedSession.PlayersId = session.PlayersId;
+                updatedSession.PlayerIds = session.PlayerIds;
             }
         }
     }

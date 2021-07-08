@@ -29,12 +29,12 @@ namespace TileGameServer.Controllers
         }
 
         [HttpGet("joinGame")]
-        public async Task<ActionResult<Unit>> JoinGame([FromBody] Guid SessionId)
+        public async Task<ActionResult<Unit>> JoinGame([FromBody] JoinGameSessionRequest request)
         {
             var command = new JoinGameSession.JoinGameSessionCommand
             {
-                UserId = Guid.Empty,
-                SessionId = SessionId
+                UserId = Guid.Empty,//тут ещё нужно разобраться
+                SessionId = request.SessionId
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));

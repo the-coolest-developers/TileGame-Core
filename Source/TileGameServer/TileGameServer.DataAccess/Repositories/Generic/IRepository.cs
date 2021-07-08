@@ -12,8 +12,6 @@ namespace TileGameServer.DataAccess.Repositories.Generic
         public Task<TEntity> GetAsync(Guid id);
         public Task DeleteAsync(Guid id);
 
-        public Task SaveChangesAsync();
-
         public Task<bool> ExistsWithIdAsync(Guid id);
     }
 }
