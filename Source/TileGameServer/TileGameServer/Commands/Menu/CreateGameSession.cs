@@ -38,7 +38,6 @@ namespace TileGameServer.Commands.Menu
                 };
 
                 await GameSessionRepository.CreateAsync(session);
-                await GameSessionRepository.SaveChangesAsync();
 
                 return new CreateGameSessionResponse
                 {

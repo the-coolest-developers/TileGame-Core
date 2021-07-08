@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using System.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu;
 using TileGameServer.Controllers.Base;
+using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TileGameServer.Controllers
 {
@@ -33,7 +37,7 @@ namespace TileGameServer.Controllers
         {
             var command = new JoinGameSession.JoinGameSessionCommand
             {
-                UserId = Guid.Empty,//тут ещё нужно разобраться
+                UserId = User.GetClaim(AppClaimTypes.UserId),
                 SessionId = request.SessionId
             };
 

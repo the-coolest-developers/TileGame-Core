@@ -20,10 +20,10 @@ namespace TileGameServer.Commands.Menu
 
         public class JoinGameSessionCommandHandler : IRequestHandler<JoinGameSessionCommand, JoinGameSessionResponse>
         {
-            private IListGameSessionsRepository ListGameSessionsRepository { get; }
+            private IGameSessionRepository GameSessionsRepository { get; }
             public async Task<JoinGameSessionResponse> Handle(JoinGameSessionCommand request, CancellationToken cancellationToken)
             {
-                if(await ListGameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
+                if(await GameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
                 {
                     return new JoinGameSessionResponse
                     {
@@ -31,8 +31,8 @@ namespace TileGameServer.Commands.Menu
                     };                    
                 }
 
-                GameSession session = await ListGameSessionsRepository.GetAsync(request.SessionId);
-                session.PlayersId.Add(request.UserId);
+                GameSession session = await GameSessionsRepository.GetAsync(request.SessionId);
+                session.PlayerIds.Add(request.UserId);
                 
                 return new JoinGameSessionResponse
                 {
