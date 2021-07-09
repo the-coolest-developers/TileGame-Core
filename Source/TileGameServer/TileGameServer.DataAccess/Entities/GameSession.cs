@@ -2,7 +2,6 @@
 using TileGameServer.DataAccess.Entities.Base;
 using TileGameServer.DataAccess.Enums;
 using System.Collections.Generic;
-using TileGameServer.Infrastructure.Models;
 
 namespace TileGameServer.DataAccess.Entities
 {

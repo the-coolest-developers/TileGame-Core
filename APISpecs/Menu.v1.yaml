@@ -5,7 +5,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  /Menu/NewGame:
+  /Menu/CreateGameSession:
     get:
       summary: Your GET endpoint
       tags: []
@@ -17,7 +17,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  GameToken:
+                  SessionId:
                     type: string
               examples: {}
       operationId: get-Menu-NewGame
@@ -27,7 +27,8 @@ paths:
           in: header
           name: Autorization
           description: 'Bearer {token}'
-  /Menu/JoinGame:
+    parameters: []
+  /Menu/JoinGameSession:
     post:
       summary: ''
       operationId: post-Menu-JoinGame
@@ -42,7 +43,7 @@ paths:
             schema:
               type: object
               properties:
-                GameID:
+                Token:
                   type: string
         description: ''
       parameters:
@@ -51,7 +52,8 @@ paths:
           in: header
           name: Authorization
           description: 'Bearer {token}'
-  /Menu/LeaveGame:
+    parameters: []
+  /Menu/LeaveGameSession:
     get:
       summary: Your GET endpoint
       tags: []
@@ -61,6 +63,7 @@ paths:
         '403':
           description: Forbidden
       operationId: get-Menu-LeaveGame
+    parameters: []
 components:
   schemas:
     User:

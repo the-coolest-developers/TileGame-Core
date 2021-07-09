@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using TileGameServer.DataAccess.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using TileGameServer.Infrastructure.Models;
 
 namespace TileGameServer.DataAccess.Repositories
 {

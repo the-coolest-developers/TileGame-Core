@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Security.Claims;
-using System.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu;
 using TileGameServer.Controllers.Base;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
-using System.ComponentModel.DataAnnotations;
 using TileGameServer.Extensions;
 
 namespace TileGameServer.Controllers
@@ -23,7 +20,7 @@ namespace TileGameServer.Controllers
         }
 
         [HttpGet("createGame")]
-        public async Task<ActionResult<Unit>> CreateGame()
+        public async Task<ActionResult<Guid>> CreateGame()
         {
             var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new CreateGameSession.CreateGameSessionCommand
@@ -35,7 +32,7 @@ namespace TileGameServer.Controllers
         }
 
         [HttpPost("joinGame")]
-        public async Task<ActionResult<Unit>> JoinGame([FromBody] JoinGameSessionRequest request)
+        public async Task<ActionResult<string>> JoinGame([FromBody] JoinGameSessionRequest request)
         {
             var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new JoinGameSession.JoinGameSessionCommand

@@ -6,6 +6,7 @@ using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Infrastructure.Enums;
+using TileGameServer.Infrastructure.Generators;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
 namespace TileGameServer.Commands.Menu
@@ -22,12 +23,15 @@ namespace TileGameServer.Commands.Menu
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
 
-            public CreateGameSessionCommandHandler(IGameSessionRepository gameSessionsRepository)
+            public CreateGameSessionCommandHandler(
+                IGameSessionRepository gameSessionsRepository,
+                IJwtGenerator jwtGenerator)
             {
                 _gameSessionsRepository = gameSessionsRepository;
             }
 
-            public async Task<CreateGameSessionResponse> Handle(CreateGameSessionCommand request,
+            public async Task<CreateGameSessionResponse> Handle(
+                CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
                 if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
@@ -38,7 +42,7 @@ namespace TileGameServer.Commands.Menu
                     };
                 }
 
-                var session = new GameSession()
+                var session = new GameSession
                 {
                     Id = Guid.NewGuid(),
                     Status = GameSessionStatus.Created,
@@ -49,14 +53,15 @@ namespace TileGameServer.Commands.Menu
 
                 return new CreateGameSessionResponse
                 {
-                    Status = ResponseStatus.Success
+                    Status = ResponseStatus.Success,
+                    Result = session.Id
                 };
             }
         }
 
-        public class CreateGameSessionResponse : IResponse<Unit>
+        public class CreateGameSessionResponse : IResponse<Guid>
         {
-            public Unit Result { get; }
+            public Guid Result { get; set; }
             public ResponseStatus Status { get; set; }
         }
     }

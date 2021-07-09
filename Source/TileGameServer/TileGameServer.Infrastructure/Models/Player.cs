@@ -1,6 +1,4 @@
-using TileGameServer.Infrastructure.Enums;
 using System;
-using System.Collections.Generic;
 
 namespace TileGameServer.Infrastructure.Models
 {
