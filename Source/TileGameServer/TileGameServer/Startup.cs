@@ -36,7 +36,7 @@ namespace TileGameServer
 
             services.AddDbContext<GameSessionContext>(options => { options.UseNpgsql(postgreSqlconnectionstring); });
 
-            services.AddScoped<IGameSessionRepository, GameSessionRepository>();
+            services.AddSingleton<IGameSessionRepository, GameSessionRepository>();
 
             services.AddSingleton<IJwtConfigurator, JwtConfigurator>(_ =>
             {

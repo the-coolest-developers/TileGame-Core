@@ -6,12 +6,12 @@ using TileGameServer.Infrastructure.Enums;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.DataAccess.Entities;
+using TileGameServer.DataAccess.Enums;
 
 namespace TileGameServer.Commands.Menu
 {
     public class JoinGameSession
     {
-        
         public class JoinGameSessionCommand : IRequest<JoinGameSessionResponse>
         {
             public Guid UserId { get; set; }
@@ -20,25 +20,35 @@ namespace TileGameServer.Commands.Menu
 
         public class JoinGameSessionCommandHandler : IRequestHandler<JoinGameSessionCommand, JoinGameSessionResponse>
         {
-            private IGameSessionRepository GameSessionsRepository { get; }
-            public async Task<JoinGameSessionResponse> Handle(JoinGameSessionCommand request, CancellationToken cancellationToken)
+            private readonly IGameSessionRepository _gameSessionsRepository;
+
+            public JoinGameSessionCommandHandler(IGameSessionRepository gameSessionsRepository)
             {
-                if(await GameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
+                _gameSessionsRepository = gameSessionsRepository;
+            }
+
+            public async Task<JoinGameSessionResponse> Handle(JoinGameSessionCommand request,
+                CancellationToken cancellationToken)
+            {
+                var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId);
+                if (!playerIsInSession)
                 {
-                    return new JoinGameSessionResponse
+                    GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
+                    if (session.Status == GameSessionStatus.Created)
                     {
-                        Status = ResponseStatus.Conflict
-                    };                    
+                        session.PlayerIds.Add(request.UserId);
+
+                        return new JoinGameSessionResponse
+                        {
+                            Status = ResponseStatus.Success
+                        };
+                    }
                 }
 
-                GameSession session = await GameSessionsRepository.GetAsync(request.SessionId);
-                session.PlayerIds.Add(request.UserId);
-                
                 return new JoinGameSessionResponse
                 {
-                    Status = ResponseStatus.Success
+                    Status = ResponseStatus.Conflict
                 };
-             
             }
         }
 

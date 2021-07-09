@@ -9,6 +9,7 @@ using TileGameServer.Commands.Menu;
 using TileGameServer.Controllers.Base;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 using System.ComponentModel.DataAnnotations;
+using TileGameServer.Extensions;
 
 namespace TileGameServer.Controllers
 {
@@ -24,20 +25,22 @@ namespace TileGameServer.Controllers
         [HttpGet("createGame")]
         public async Task<ActionResult<Unit>> CreateGame()
         {
+            var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new CreateGameSession.CreateGameSessionCommand
             {
-                UserId = Guid.Empty
+                UserId = userId
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));
         }
 
-        [HttpGet("joinGame")]
+        [HttpPost("joinGame")]
         public async Task<ActionResult<Unit>> JoinGame([FromBody] JoinGameSessionRequest request)
         {
+            var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new JoinGameSession.JoinGameSessionCommand
             {
-                UserId = User.GetClaim(AppClaimTypes.UserId),
+                UserId = userId,
                 SessionId = request.SessionId
             };
 

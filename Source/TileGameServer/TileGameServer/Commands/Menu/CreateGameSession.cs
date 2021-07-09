@@ -20,24 +20,32 @@ namespace TileGameServer.Commands.Menu
         public class CreateGameSessionCommandHandler :
             IRequestHandler<CreateGameSessionCommand, CreateGameSessionResponse>
         {
-            private IGameSessionRepository GameSessionRepository { get; }
+            private readonly IGameSessionRepository _gameSessionsRepository;
 
-            public CreateGameSessionCommandHandler(IGameSessionRepository gameSessionRepository)
+            public CreateGameSessionCommandHandler(IGameSessionRepository gameSessionsRepository)
             {
-                GameSessionRepository = gameSessionRepository;
+                _gameSessionsRepository = gameSessionsRepository;
             }
 
             public async Task<CreateGameSessionResponse> Handle(CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
+                {
+                    return new CreateGameSessionResponse
+                    {
+                        Status = ResponseStatus.Conflict
+                    };
+                }
+
                 var session = new GameSession()
                 {
                     Id = Guid.NewGuid(),
-                    Status = GameSessionStatus.Closed,
+                    Status = GameSessionStatus.Created,
                     CreationDate = DateTime.Now
                 };
 
-                await GameSessionRepository.CreateAsync(session);
+                await _gameSessionsRepository.CreateAsync(session);
 
                 return new CreateGameSessionResponse
                 {
