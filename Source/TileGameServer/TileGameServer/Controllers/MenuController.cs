@@ -54,16 +54,5 @@ namespace TileGameServer.Controllers
 
             return await ExecuteActionAsync(await Mediator.Send(command));
         }
-
-        [HttpGet("quitGame")]
-        public async Task<ActionResult<Unit>> QuitGame()
-        {
-            var command = new QuitGameSession.QuitGameSessionCommand
-            {
-                UserId = Guid.Empty
-            };
-
-            return await ExecuteActionAsync(await Mediator.Send(command));
-        }
     }
 }
