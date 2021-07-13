@@ -17,9 +17,12 @@ namespace TileGameServer.DataAccess.Repositories
             return Task.CompletedTask;
         }
 
-        public async Task DeleteAsync(Guid id) => await Task.Run(()
-            => GameSessions.Remove(GameSessions.FirstOrDefault(t => t.Id == id)));
-
+        public Task DeleteAsync(Guid id)
+        {
+            GameSessions.Remove(GameSessions.FirstOrDefault(t => t.Id == id));
+            
+            return Task.CompletedTask;
+        } 
         public Task<bool> ExistsWithIdAsync(Guid id)
         {
             var exists = GameSessions.Exists(t => t.Id == id);
@@ -31,12 +34,15 @@ namespace TileGameServer.DataAccess.Repositories
         {
             var exists = GameSessions.Exists(
                 t => t.PlayerIds.FirstOrDefault(a => a == playerId) != default);
-
             return Task.FromResult(exists);
         }
 
-        public async Task<GameSession> GetAsync(Guid id) => await Task.Run(()
-            => GameSessions.FirstOrDefault(t => t.Id == id));
+        public Task<GameSession> GetAsync(Guid id)
+        {
+            var session = GameSessions.FirstOrDefault(t => t.Id == id);
+
+            return Task.FromResult(session);
+        }
 
         public Task UpdateAsync(GameSession session)
         {
