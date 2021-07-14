@@ -6,6 +6,7 @@ using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Infrastructure.Enums;
+using TileGameServer.Infrastructure.Generators;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
 namespace TileGameServer.Commands.Menu
@@ -20,36 +21,47 @@ namespace TileGameServer.Commands.Menu
         public class CreateGameSessionCommandHandler :
             IRequestHandler<CreateGameSessionCommand, CreateGameSessionResponse>
         {
-            private IGameSessionRepository GameSessionRepository { get; }
+            private readonly IGameSessionRepository _gameSessionsRepository;
 
-            public CreateGameSessionCommandHandler(IGameSessionRepository gameSessionRepository)
+            public CreateGameSessionCommandHandler(
+                IGameSessionRepository gameSessionsRepository,
+                IJwtGenerator jwtGenerator)
             {
-                GameSessionRepository = gameSessionRepository;
+                _gameSessionsRepository = gameSessionsRepository;
             }
 
-            public async Task<CreateGameSessionResponse> Handle(CreateGameSessionCommand request,
+            public async Task<CreateGameSessionResponse> Handle(
+                CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                var session = new GameSession()
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
+                {
+                    return new CreateGameSessionResponse
+                    {
+                        Status = ResponseStatus.Conflict
+                    };
+                }
+
+                var session = new GameSession
                 {
                     Id = Guid.NewGuid(),
-                    Status = GameSessionStatus.Closed,
+                    Status = GameSessionStatus.Created,
                     CreationDate = DateTime.Now
                 };
 
-                await GameSessionRepository.CreateAsync(session);
-                await GameSessionRepository.SaveChangesAsync();
+                await _gameSessionsRepository.CreateAsync(session);
 
                 return new CreateGameSessionResponse
                 {
-                    Status = ResponseStatus.Success
+                    Status = ResponseStatus.Success,
+                    Result = session.Id
                 };
             }
         }
 
-        public class CreateGameSessionResponse : IResponse<Unit>
+        public class CreateGameSessionResponse : IResponse<Guid>
         {
-            public Unit Result { get; }
+            public Guid Result { get; set; }
             public ResponseStatus Status { get; set; }
         }
     }

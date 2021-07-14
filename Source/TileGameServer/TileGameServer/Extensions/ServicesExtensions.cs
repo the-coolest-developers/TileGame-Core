@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TileGameServer.Infrastructure.Generators;
 
 namespace TileGameServer.Extensions
 {
@@ -17,6 +18,12 @@ namespace TileGameServer.Extensions
             where TDbContext : DbContext
         {
             services.AddDbContext<TDbContext>(options => { options.UseNpgsql(connectionString); });
+        }
+
+        public static void AddJwt(this IServiceCollection services)
+        {
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+            //services.AddScoped<IJwtReader, JwtReader>();
         }
     }
 }

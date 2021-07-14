@@ -4,13 +4,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TileGameServer.Constants;
-using TileGameServer.DataAccess.Context;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Extensions;
 using TileGameServer.Infrastructure.Configurators;
@@ -32,11 +30,13 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var postgreSqlconnectionstring = Configuration.GetConnectionString("PostgreSqlConnectionString");
+            //var postgreSqlconnectionstring = Configuration.GetConnectionString("PostgreSqlConnectionString");
 
-            services.AddDbContext<GameSessionContext>(options => { options.UseNpgsql(postgreSqlconnectionstring); });
+            //services.AddDbContext<GameSessionContext>(options => { options.UseNpgsql(postgreSqlconnectionstring); });
 
-            services.AddScoped<IGameSessionRepository, GameGameSessionRepository>();
+            services.AddJwt();
+
+            services.AddSingleton<IGameSessionRepository, GameSessionRepository>();
 
             services.AddSingleton<IJwtConfigurator, JwtConfigurator>(_ =>
             {
