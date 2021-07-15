@@ -1,0 +1,22 @@
+# This workflow integrates Scan with GitHub's code scanning feature
+# Scan is a free open-source security tool for modern DevOps teams from ShiftLeft
+# Visit https://slscan.io/en/latest/integrations/code-scan for help
+name: SQLCheck
+
+on:
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ develop ]
+
+jobs:
+ sqlcheck:
+    name: sqlcheck job
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: yokawasa/action-sqlcheck@v1.3.0
+      with:
+        post-comment: true
+        risk-level: 1
+        verbose: false
+        token: ${{ secrets.GITHUB_TOKEN }}
