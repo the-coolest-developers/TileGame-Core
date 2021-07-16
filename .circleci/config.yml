@@ -11,7 +11,6 @@ jobs:
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # Be sure to update the tag on this image to a more stable version, using latest can result in unstable builds.
     docker:
-      # - image: microsoft/dotnet:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       # Checkout the code as the first step.
@@ -35,10 +34,10 @@ workflows:
   sample_build: 
     jobs:
       - build_job:
+          context: test_circleci_context
           name: Build
           post-steps:
             - jira/notify
+           
     
-        # post-steps:
-          # jira/notify
-  
+   
