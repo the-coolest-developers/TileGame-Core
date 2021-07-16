@@ -32,12 +32,12 @@ workflows:
   sample_build: 
     jobs:
       - build_job:
-          context: test_circleci_context
+          # context: test_circleci_context
           name: Build
           post-steps:
             - jira/notify:
-              environment_type: development
-              job_type: deployment
+              # environment_type: development
+              # job_type: deployment
            
     
    
