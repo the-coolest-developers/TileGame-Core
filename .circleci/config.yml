@@ -37,7 +37,9 @@ workflows:
           context: test_circleci_context
           name: Build
           post-steps:
-            - jira/notify
+            - jira/notify:
+              environment_type: development
+              job_type: deployment
            
     
    
