@@ -19,7 +19,7 @@ jobs:
           working_directory: ~/Sources/
           name: Run Build
           command: |
-            dotnet build
+            dotnet build ./Source/TileGameServer/
             
 
 workflows:
