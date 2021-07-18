@@ -69,12 +69,14 @@ namespace TileGameServer.Commands.Menu
                 };
             }
         }
+        
         public class JoinGameSessionResponse
         {
             public Guid UserId { get; set; }
-            public Guid SessionId {get; set;  }
+            public Guid SessionId {get; set; }
             public string Token { get; set; }
         }
+        
         public class JoinGameSessionRequest
         {
             public Guid SessionId { get; set; }

@@ -32,7 +32,8 @@ namespace TileGameServer.Controllers
         }
 
         [HttpPost("joinGame")]
-        public async Task<ActionResult<JoinGameSession.JoinGameSessionResponse>> JoinGame([FromBody] JoinGameSession.JoinGameSessionRequest request)
+        public async Task<ActionResult<JoinGameSession.JoinGameSessionResponse>> JoinGame(
+            [FromBody] JoinGameSession.JoinGameSessionRequest request)
         {
             var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new JoinGameSession.JoinGameSessionCommand
@@ -45,7 +46,8 @@ namespace TileGameServer.Controllers
         }
 
         [HttpPost("leaveGame")]
-        public async Task<ActionResult<LeaveGameSession.LeaveGameSessionResponse>> Leave([FromBody] LeaveGameSession.LeaveGameSessionRequest request)
+        public async Task<ActionResult<LeaveGameSession.LeaveGameSessionResponse>> Leave(
+            [FromBody] LeaveGameSession.LeaveGameSessionRequest request)
         {
             var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new LeaveGameSession.LeaveGameSessionCommand

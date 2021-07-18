@@ -23,9 +23,7 @@ namespace TileGameServer.Commands.Menu
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
             public LeaveGameSessionCommandHandler(
-                IGameSessionRepository gameSessionsRepository,
-                IJwtGenerator jwtGenerator
-            )
+                IGameSessionRepository gameSessionsRepository)
             {
                 _gameSessionsRepository = gameSessionsRepository;
             }
@@ -57,6 +55,7 @@ namespace TileGameServer.Commands.Menu
             public Guid UserId { get; set; }
             public Guid SessionId { get; set; }
         }
+        
         public class LeaveGameSessionRequest
         {
             public Guid SessionId { get; set; }

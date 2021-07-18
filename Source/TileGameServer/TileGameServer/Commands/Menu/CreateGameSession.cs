@@ -24,8 +24,7 @@ namespace TileGameServer.Commands.Menu
             private readonly IGameSessionRepository _gameSessionsRepository;
 
             public CreateGameSessionCommandHandler(
-                IGameSessionRepository gameSessionsRepository,
-                IJwtGenerator jwtGenerator)
+                IGameSessionRepository gameSessionsRepository)
             {
                 _gameSessionsRepository = gameSessionsRepository;
             }

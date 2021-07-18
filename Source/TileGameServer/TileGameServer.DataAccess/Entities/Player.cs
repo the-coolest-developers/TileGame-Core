@@ -1,6 +1,6 @@
 using System;
 
-namespace TileGameServer.Infrastructure.Models
+namespace TileGameServer.DataAccess.Entities
 {
     public class Player
     {
