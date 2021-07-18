@@ -18,7 +18,7 @@ jobs:
           working_directory: ./Source/TileGameServer/
           name: Run Build
           command: |
-            echo "I am here now [ $(pwd) ]"
+            echo "I am [Token -> $CIRCLE_TOKEN ] here now [ $(pwd) ]"
             dotnet build .
             
 version: 2.1
