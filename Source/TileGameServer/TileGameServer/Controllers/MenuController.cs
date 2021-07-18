@@ -20,7 +20,7 @@ namespace TileGameServer.Controllers
         }
 
         [HttpGet("createGame")]
-        public async Task<ActionResult<Guid>> CreateGame()
+        public async Task<ActionResult<CreateGameSession.CreateGameSessionResponse>> CreateGame()
         {
             var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new CreateGameSession.CreateGameSessionCommand
@@ -32,7 +32,7 @@ namespace TileGameServer.Controllers
         }
 
         [HttpPost("joinGame")]
-        public async Task<ActionResult<string>> JoinGame([FromBody] JoinGameSessionRequest request)
+        public async Task<ActionResult<JoinGameSession.JoinGameSessionResponse>> JoinGame([FromBody] JoinGameSession.JoinGameSessionRequest request)
         {
             var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new JoinGameSession.JoinGameSessionCommand
@@ -44,12 +44,14 @@ namespace TileGameServer.Controllers
             return await ExecuteActionAsync(await Mediator.Send(command));
         }
 
-        [HttpGet("leaveGame")]
-        public async Task<ActionResult<Unit>> Leave()
+        [HttpPost("leaveGame")]
+        public async Task<ActionResult<LeaveGameSession.LeaveGameSessionResponse>> Leave([FromBody] LeaveGameSession.LeaveGameSessionRequest request)
         {
+            var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new LeaveGameSession.LeaveGameSessionCommand
             {
-                UserId = Guid.Empty
+                UserId = userId,
+                SessionId = request.SessionId
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));

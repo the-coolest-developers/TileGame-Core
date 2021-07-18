@@ -15,13 +15,13 @@ namespace TileGameServer.Commands.Menu
 {
     public class JoinGameSession
     {
-        public class JoinGameSessionCommand : IRequest<JoinGameSessionResponse>
+        public class JoinGameSessionCommand : IRequest<Response<JoinGameSessionResponse>>
         {
             public Guid UserId { get; set; }
             public Guid SessionId { get; set; }
         }
 
-        public class JoinGameSessionCommandHandler : IRequestHandler<JoinGameSessionCommand, JoinGameSessionResponse>
+        public class JoinGameSessionCommandHandler : IRequestHandler<JoinGameSessionCommand, Response<JoinGameSessionResponse>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
             private readonly IJwtGenerator _jwtGenerator;
@@ -33,7 +33,7 @@ namespace TileGameServer.Commands.Menu
                 _jwtGenerator = jwtGenerator;
             }
 
-            public async Task<JoinGameSessionResponse> Handle(
+            public async Task<Response<JoinGameSessionResponse>> Handle(
                 JoinGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
@@ -52,25 +52,32 @@ namespace TileGameServer.Commands.Menu
                                 new Claim(ApplicationClaimTypes.SessionId, session.Id.ToString())
                             });
 
-                        return new JoinGameSessionResponse
+                        return new Response<JoinGameSessionResponse>
                         {
                             Status = ResponseStatus.Success,
-                            Result = token
+                            Result = new JoinGameSessionResponse
+                            {
+                                Token = token
+                            }
                         };
                     }
                 }
 
-                return new JoinGameSessionResponse
+                return new Response<JoinGameSessionResponse>
                 {
                     Status = ResponseStatus.Conflict
                 };
             }
         }
-
-        public class JoinGameSessionResponse : IResponse<string>
+        public class JoinGameSessionResponse
         {
-            public string Result { get; set; }
-            public ResponseStatus Status { get; set; }
+            public Guid UserId { get; set; }
+            public Guid SessionId {get; set;  }
+            public string Token { get; set; }
+        }
+        public class JoinGameSessionRequest
+        {
+            public Guid SessionId { get; set; }
         }
     }
 }

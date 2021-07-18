@@ -13,13 +13,13 @@ namespace TileGameServer.Commands.Menu
 {
     public class CreateGameSession
     {
-        public class CreateGameSessionCommand : IRequest<CreateGameSessionResponse>
+        public class CreateGameSessionCommand : IRequest<Response<CreateGameSessionResponse>>
         {
             public Guid UserId { get; set; }
         }
 
         public class CreateGameSessionCommandHandler :
-            IRequestHandler<CreateGameSessionCommand, CreateGameSessionResponse>
+            IRequestHandler<CreateGameSessionCommand, Response<CreateGameSessionResponse>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
 
@@ -30,13 +30,13 @@ namespace TileGameServer.Commands.Menu
                 _gameSessionsRepository = gameSessionsRepository;
             }
 
-            public async Task<CreateGameSessionResponse> Handle(
+            public async Task<Response<CreateGameSessionResponse>> Handle(
                 CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
                 if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
                 {
-                    return new CreateGameSessionResponse
+                    return new Response<CreateGameSessionResponse>
                     {
                         Status = ResponseStatus.Conflict
                     };
@@ -51,18 +51,17 @@ namespace TileGameServer.Commands.Menu
 
                 await _gameSessionsRepository.CreateAsync(session);
 
-                return new CreateGameSessionResponse
+                return new Response<CreateGameSessionResponse>
                 {
                     Status = ResponseStatus.Success,
-                    Result = session.Id
                 };
             }
         }
 
-        public class CreateGameSessionResponse : IResponse<Guid>
+        public class CreateGameSessionResponse
         {
-            public Guid Result { get; set; }
-            public ResponseStatus Status { get; set; }
+            public Guid UserId { get; set; }
         }
+        
     }
 }
