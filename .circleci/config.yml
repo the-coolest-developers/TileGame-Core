@@ -19,6 +19,7 @@ jobs:
           name: Run Build
           command: |
             echo "I am here now [ $(pwd) ]"
+            which nuget
             dotnet build .
             
 version: 2.1
@@ -32,11 +33,7 @@ workflows:
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
   sample_build: 
     jobs:
-      - github-super-linter/lint:
-          scan-dir: ./Source/
       - build_job:
-          requires:
-            - github-super-linter/lint
           context: 
             - Tokens
           name: Build
