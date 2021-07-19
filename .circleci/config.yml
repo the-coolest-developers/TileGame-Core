@@ -5,7 +5,7 @@ executors:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
 
 jobs:
-  build:
+  build_code:
     environment:
       PROJECT_NAME: TileGameServer
     
@@ -42,7 +42,7 @@ jobs:
           paths:
             - output/
 
-  pack:
+  pack_code:
     environment:
       PROJECT_NAME: TileGameServer
     executor: dotnet_executor
@@ -76,31 +76,32 @@ jobs:
               CPACK="Release"
             fi
             
-            dotnet pack -c $CPACK --suffix $CIRCLE_BRANCH  -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
+            dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH  -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
       
       - run:
           working_directory: ./
           name: Push Nugets
           command: |
-            set -ex 
+            set -ex
+
             dotnet nuget push output/Nuget/ --source Artifactory
             
 version: 2.1
 orbs:
   jira: circleci/jira@1.3.1
 workflows:
-  Build:
+  BuildFlow:
     jobs:
-      - build:
+      - build_code:
           name: Build code
           context: 
             - Tokens
           post-steps:
             - jira/notify
-  Pack:
-    jobs:    
-      - pack:
+      - pack_code:
           name: Pack and push to Artifactory
+          requires:
+            - "Build code"
           filters:
             branches: 
               only:
@@ -109,7 +110,3 @@ workflows:
           context: Tokens
           post-steps:
             - jira/notify
-          
-          
-    
-   
