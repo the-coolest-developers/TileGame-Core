@@ -20,7 +20,7 @@ jobs:
             set -ex
             
             echo "I am on branch [ $CIRCLE_BRANCH ] now"
-            dotnet nuget add source $ARTIFACTORY_URL/nuget/TCD/$PROJECT_NAME/$CIRCLE_BRANCH \
+            dotnet nuget add source $ARTIFACTORY_URL/nuget/tcd-nuget/$PROJECT_NAME/$CIRCLE_BRANCH \
             --name Artifactory \
             --username $ARTIFACTORY_USER \
             --password "$ARTIFACTORY_PASSWORD" \
@@ -50,6 +50,7 @@ jobs:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: /root/project/output/
+      - checkout
       - run:
           name: Configure Nuget
           command: |
@@ -57,14 +58,14 @@ jobs:
             
             echo "I am on branch [ $CIRCLE_BRANCH ] now"
             
-            dotnet nuget add source $ARTIFACTORY_URL/nuget/TCD/$PROJECT_NAME/$CIRCLE_BRANCH \
+            dotnet nuget add source $ARTIFACTORY_URL/nuget/tcd-nuget/$PROJECT_NAME/$CIRCLE_BRANCH \
             --name Artifactory \
             --username $ARTIFACTORY_USER \
             --password "$ARTIFACTORY_PASSWORD" \
             --store-password-in-clear-text  
       
       - run:
-          working_directory: ./Source/
+          working_directory: /root/project/output/
           name: Pack Nuget
           command: |
             set -ex
@@ -76,7 +77,8 @@ jobs:
               CPACK="Release"
             fi
             
-            dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH  -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
+            # dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH  -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
+            dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH --no-build -o /root/project/Nuget 
       
       - run:
           working_directory: ./
@@ -84,7 +86,7 @@ jobs:
           command: |
             set -ex
 
-            dotnet nuget push output/Nuget/ --source Artifactory
+            dotnet nuget push Nuget/ --source Artifactory
             
 version: 2.1
 orbs:
