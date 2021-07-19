@@ -18,17 +18,20 @@ jobs:
           name: Configure Nuget
           command: |
             set -ex
+            
             echo "I am on branch [ $CIRCLE_BRANCH ] now"
             dotnet nuget add source $ARTIFACTORY_URL/nuget/TCD/$PROJECT_NAME/$CIRCLE_BRANCH \
             --name Artifactory \
             --username $ARTIFACTORY_USER \
             --password "$ARTIFACTORY_PASSWORD" \
             --store-password-in-clear-text  
+      
       - run:
           working_directory: ./Source
           name: Run Build
           command: |
             set -ex
+            
             dotnet build --output /root/project/output/Build/ $PROJECT_NAME/$PROJECT_NAME.sln
       # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
       - persist_to_workspace:
@@ -51,23 +54,28 @@ jobs:
           name: Configure Nuget
           command: |
             set -ex
+            
             echo "I am on branch [ $CIRCLE_BRANCH ] now"
+            
             dotnet nuget add source $ARTIFACTORY_URL/nuget/TCD/$PROJECT_NAME/$CIRCLE_BRANCH \
             --name Artifactory \
             --username $ARTIFACTORY_USER \
             --password "$ARTIFACTORY_PASSWORD" \
             --store-password-in-clear-text  
+      
       - run:
           working_directory: ./Source/
           name: Pack Nuget
           command: |
             set -ex
+            
             if [[ "$CIRCLE_BRANCH" == "develop" ]];
             then
               CPACK="Developmnet"
             else
               CPACK="Release"
             fi
+            
             dotnet pack -c $CPACK --suffix $CIRCLE_BRANCH  -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
       
       - run:
@@ -91,8 +99,6 @@ workflows:
             - jira/notify
       - pack:
           name: Pack and push to Artifactory
-          requires:
-            - build
           filters:
             branches: 
               only:
