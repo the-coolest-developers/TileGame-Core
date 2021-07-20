@@ -78,7 +78,7 @@ jobs:
               CPACK="Release"
             fi
             
-            dotnet pack -c $CPACK /p:Configuration=Debug /p:Platform="Any CPU" --version-suffix $CIRCLE_BRANCH -o /root/project/output /p:OutputPath=/root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
+            dotnet pack -c $CPACK /p:Configuration=Debug /p:Platform="Any CPU" --version-suffix $CIRCLE_BRANCH -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
             # dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH --no-build -o /root/project/Nuget 
       
       - run:
