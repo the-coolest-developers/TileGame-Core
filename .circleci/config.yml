@@ -20,7 +20,7 @@ jobs:
             set -ex
             
             echo "I am on branch [ $CIRCLE_BRANCH ] now"
-            dotnet nuget add source $ARTIFACTORY_URL/nuget/tcd-nuget/$PROJECT_NAME/$CIRCLE_BRANCH \
+            dotnet nuget add source $ARTIFACTORY_URL/nuget/tcd-nuget/ \
             --name Artifactory \
             --username $ARTIFACTORY_USER \
             --password "$ARTIFACTORY_PASSWORD" \
@@ -66,7 +66,7 @@ jobs:
             --store-password-in-clear-text  
       
       - run:
-          working_directory: /root/project/output/
+          working_directory: ./Source
           name: Pack Nuget
           command: |
             set -ex
@@ -78,11 +78,11 @@ jobs:
               CPACK="Release"
             fi
             
-            # dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH  -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
-            dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH --no-build -o /root/project/Nuget 
+            dotnet pack -c $CPACK --no-build --no-restore --version-suffix $CIRCLE_BRANCH -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
+            # dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH --no-build -o /root/project/Nuget 
       
       - run:
-          working_directory: ./
+          working_directory: ./project/output/
           name: Push Nugets
           command: |
             set -ex
