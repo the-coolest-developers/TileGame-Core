@@ -47,10 +47,11 @@ jobs:
       PROJECT_NAME: TileGameServer
     executor: dotnet_executor
     steps:
+      - checkout
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: /root/project/output/
-      - checkout
+      
       - run:
           name: Configure Nuget
           command: |
