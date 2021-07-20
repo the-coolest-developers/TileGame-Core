@@ -65,12 +65,6 @@ jobs:
             --password "$ARTIFACTORY_PASSWORD" \
             --store-password-in-clear-text
 
-            dotnet nuget add source $ARTIFACTORY_URL/nuget/tcd-nuget/$PROJECT_NAME/$CIRCLE_BRANCH \
-            --name "${PROJECT_NAME}_Artifactory" \
-            --username $ARTIFACTORY_USER \
-            --password "$ARTIFACTORY_PASSWORD" \
-            --store-password-in-clear-text   
-      
       - run:
           working_directory: ./Source
           name: Pack Nuget
@@ -94,7 +88,13 @@ jobs:
           name: Push Nugets
           command: |
             set -ex
-
+            
+            dotnet nuget add source $ARTIFACTORY_URL/nuget/tcd-nuget/$PROJECT_NAME/$CIRCLE_BRANCH \
+            --name "${PROJECT_NAME}_Artifactory" \
+            --username $ARTIFACTORY_USER \
+            --password "$ARTIFACTORY_PASSWORD" \
+            --store-password-in-clear-text   
+      
             dotnet nuget push Nuget/ --source "${PROJECT_NAME}_Artifactory"
             
 version: 2.1
