@@ -79,14 +79,12 @@ jobs:
             fi
             
             dotnet pack -c $CPACK /p:Configuration=Debug /p:Platform="Any CPU" --version-suffix $CIRCLE_BRANCH -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
-            # dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH --no-build -o /root/project/Nuget 
       
       - run:
-          working_directory: ./project/output/
+          working_directory: ./output/
           name: Push Nugets
           command: |
             set -ex
-            
             dotnet nuget add source $ARTIFACTORY_URL/nuget/tcd-nuget/$PROJECT_NAME/$CIRCLE_BRANCH \
             --name "${PROJECT_NAME}_Artifactory" \
             --username $ARTIFACTORY_USER \
