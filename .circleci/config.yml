@@ -34,13 +34,13 @@ jobs:
             
             dotnet build --output /root/project/output/Build/ $PROJECT_NAME/$PROJECT_NAME.sln
       # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
-      - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
-          # taken to be the root directory of the workspace.
-          root: /root/project/
-          # Must be relative path from root
-          paths:
-            - output/
+      # - persist_to_workspace:
+      #     # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+      #     # taken to be the root directory of the workspace.
+      #     root: /root/project/
+      #     # Must be relative path from root
+      #     paths:
+      #       - output/
 
   pack_code:
     environment:
@@ -48,9 +48,9 @@ jobs:
     executor: dotnet_executor
     steps:
       - checkout
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: /root/project/output/
+      # - attach_workspace:
+      #     # Must be absolute path or relative path from working_directory
+      #     at: /root/project/output/
       
       - run:
           name: Configure Nuget
@@ -77,10 +77,8 @@ jobs:
             else
               CPACK="Release"
             fi
-
-            dotnet restore $PROJECT_NAME/$PROJECT_NAME.sln
             
-            dotnet pack -c $CPACK --no-build --no-restore /p:Configuration=Debug /p:Platform="Any CPU" --version-suffix $CIRCLE_BRANCH -o /root/project/output /p:OutputPath=/root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
+            dotnet pack -c $CPACK /p:Configuration=Debug /p:Platform="Any CPU" --version-suffix $CIRCLE_BRANCH -o /root/project/output /p:OutputPath=/root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
             # dotnet pack -c $CPACK --version-suffix $CIRCLE_BRANCH --no-build -o /root/project/Nuget 
       
       - run:
