@@ -21,7 +21,8 @@ namespace TileGameServer.Commands.Menu
             public Guid SessionId { get; set; }
         }
 
-        public class JoinGameSessionCommandHandler : IRequestHandler<JoinGameSessionCommand, Response<JoinGameSessionResponse>>
+        public class
+            JoinGameSessionCommandHandler : IRequestHandler<JoinGameSessionCommand, Response<JoinGameSessionResponse>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
             private readonly IJwtGenerator _jwtGenerator;
@@ -69,14 +70,14 @@ namespace TileGameServer.Commands.Menu
                 };
             }
         }
-        
+
         public class JoinGameSessionResponse
         {
             public Guid UserId { get; set; }
-            public Guid SessionId {get; set; }
+            public Guid SessionId { get; set; }
             public string Token { get; set; }
         }
-        
+
         public class JoinGameSessionRequest
         {
             public Guid SessionId { get; set; }

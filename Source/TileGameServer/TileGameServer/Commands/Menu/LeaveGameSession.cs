@@ -19,9 +19,12 @@ namespace TileGameServer.Commands.Menu
             public Guid SessionId { get; set; }
         }
 
-        public class LeaveGameSessionCommandHandler : IRequestHandler<LeaveGameSessionCommand, Response<LeaveGameSessionResponse>>
+        public class
+            LeaveGameSessionCommandHandler : IRequestHandler<LeaveGameSessionCommand,
+                Response<LeaveGameSessionResponse>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
+
             public LeaveGameSessionCommandHandler(
                 IGameSessionRepository gameSessionsRepository)
             {
@@ -31,7 +34,7 @@ namespace TileGameServer.Commands.Menu
             public async Task<Response<LeaveGameSessionResponse>> Handle(LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if(await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
                 {
                     var session = await _gameSessionsRepository.GetAsync(request.SessionId);
                     session.PlayerIds.Remove(request.UserId);
@@ -46,7 +49,6 @@ namespace TileGameServer.Commands.Menu
                 {
                     Status = ResponseStatus.Conflict
                 };
-                
             }
         }
 
@@ -55,7 +57,7 @@ namespace TileGameServer.Commands.Menu
             public Guid UserId { get; set; }
             public Guid SessionId { get; set; }
         }
-        
+
         public class LeaveGameSessionRequest
         {
             public Guid SessionId { get; set; }

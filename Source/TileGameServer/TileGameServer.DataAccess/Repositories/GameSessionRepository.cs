@@ -20,9 +20,10 @@ namespace TileGameServer.DataAccess.Repositories
         public Task DeleteAsync(Guid id)
         {
             GameSessions.Remove(GameSessions.FirstOrDefault(t => t.Id == id));
-            
+
             return Task.CompletedTask;
-        } 
+        }
+
         public Task<bool> ExistsWithIdAsync(Guid id)
         {
             var exists = GameSessions.Exists(t => t.Id == id);
@@ -47,7 +48,7 @@ namespace TileGameServer.DataAccess.Repositories
         public Task UpdateAsync(GameSession session)
         {
             var updatedSession = GameSessions.FirstOrDefault(t => t.Id == session.Id);
-            
+
             if (updatedSession != null)
             {
                 updatedSession.CreationDate = session.CreationDate;

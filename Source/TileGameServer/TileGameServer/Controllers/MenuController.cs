@@ -15,14 +15,16 @@ namespace TileGameServer.Controllers
     [Route("menu")]
     public class MenuController : BaseMediatorController
     {
+        private Guid userId { get; }
+
         public MenuController(IMediator mediator) : base(mediator)
         {
+            userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
         }
 
         [HttpGet("createGame")]
         public async Task<ActionResult<CreateGameSession.CreateGameSessionResponse>> CreateGame()
         {
-            var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new CreateGameSession.CreateGameSessionCommand
             {
                 UserId = userId
@@ -35,7 +37,6 @@ namespace TileGameServer.Controllers
         public async Task<ActionResult<JoinGameSession.JoinGameSessionResponse>> JoinGame(
             [FromBody] JoinGameSession.JoinGameSessionRequest request)
         {
-            var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new JoinGameSession.JoinGameSessionCommand
             {
                 UserId = userId,

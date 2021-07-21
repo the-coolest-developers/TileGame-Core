@@ -61,6 +61,5 @@ namespace TileGameServer.Commands.Menu
         {
             public Guid UserId { get; set; }
         }
-        
     }
 }

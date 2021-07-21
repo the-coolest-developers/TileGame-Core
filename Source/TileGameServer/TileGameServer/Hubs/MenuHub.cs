@@ -4,6 +4,5 @@ namespace TileGameServer.Hubs
 {
     public class MenuHub : Hub, IMenuHub
     {
-        
     }
 }

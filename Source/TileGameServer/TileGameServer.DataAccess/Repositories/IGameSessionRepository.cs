@@ -8,6 +8,5 @@ namespace TileGameServer.DataAccess.Repositories
     public interface IGameSessionRepository : IRepository<GameSession>
     {
         public Task<bool> ExistsWithPlayerAsync(Guid playerId);
-        
     }
 }
