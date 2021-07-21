@@ -18,8 +18,8 @@ namespace TileGameServer.Commands.Menu
             public Guid UserId { get; set; }
         }
 
-        public class CreateGameSessionCommandHandler :
-            IRequestHandler<CreateGameSessionCommand, Response<CreateGameSessionResponse>>
+        public class CreateGameSessionCommandHandler 
+            : IRequestHandler<CreateGameSessionCommand, Response<CreateGameSessionResponse>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
 

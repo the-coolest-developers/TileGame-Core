@@ -19,9 +19,8 @@ namespace TileGameServer.Commands.Menu
             public Guid SessionId { get; set; }
         }
 
-        public class
-            LeaveGameSessionCommandHandler : IRequestHandler<LeaveGameSessionCommand,
-                Response<LeaveGameSessionResponse>>
+        public class LeaveGameSessionCommandHandler 
+            : IRequestHandler<LeaveGameSessionCommand, Response<LeaveGameSessionResponse>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
 
