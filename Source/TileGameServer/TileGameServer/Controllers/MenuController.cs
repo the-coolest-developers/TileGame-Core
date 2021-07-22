@@ -22,12 +22,14 @@ namespace TileGameServer.Controllers
             userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
         }
 
-        [HttpGet("createGame")]
-        public async Task<ActionResult<CreateGameSession.CreateGameSessionResponse>> CreateGame()
+        [HttpPost("createGame")]
+        public async Task<ActionResult<CreateGameSession.CreateGameSessionResponse>> CreateGame(
+            [FromBody] CreateGameSession.CreateGameSessionRequest request)
         {
             var command = new CreateGameSession.CreateGameSessionCommand
             {
-                UserId = userId
+                UserId = userId,
+                SessionCapacity = request.SessionCapacity
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));

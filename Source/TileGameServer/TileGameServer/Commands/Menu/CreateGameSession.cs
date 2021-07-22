@@ -63,5 +63,9 @@ namespace TileGameServer.Commands.Menu
         {
             public Guid UserId { get; set; }
         }
+        public class CreateGameSessionRequest
+        {
+            public int SessionCapacity { get; set; }
+        }
     }
 }
