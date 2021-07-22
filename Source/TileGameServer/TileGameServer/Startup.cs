@@ -11,8 +11,8 @@ using Microsoft.OpenApi.Models;
 using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Extensions;
-using TileGameServer.Infrastructure.Configurators;
-using TileGameServer.Infrastructure.Models.Configurations;
+using WebApiBaseLibrary.Authorization.Configurators;
+using WebApiBaseLibrary.Authorization.Models;
 
 namespace TileGameServer
 {

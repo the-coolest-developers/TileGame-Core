@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using TileGameServer.Infrastructure.Enums;
+using WebApiBaseLibrary.Authorization.Enums;
 
 namespace TileGameServer.Extensions
 {

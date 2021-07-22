@@ -1,5 +1,5 @@
-﻿using TileGameServer.Infrastructure.Enums;
-using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
+﻿using WebApiBaseLibrary.Enums;
+using WebApiBaseLibrary.Responses;
 
 namespace TileGameServer.Infrastructure.Extensions
 {

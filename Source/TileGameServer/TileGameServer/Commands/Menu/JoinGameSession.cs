@@ -3,13 +3,13 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TileGameServer.Infrastructure.Enums;
-using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
 using TileGameServer.Extensions;
-using TileGameServer.Infrastructure.Generators;
+using WebApiBaseLibrary.Authorization.Generators;
+using WebApiBaseLibrary.Enums;
+using WebApiBaseLibrary.Responses;
 
 namespace TileGameServer.Commands.Menu
 {

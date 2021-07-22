@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TileGameServer.Infrastructure.Generators;
+using WebApiBaseLibrary.Authorization.Generators;
 
 namespace TileGameServer.Extensions
 {
@@ -23,7 +23,6 @@ namespace TileGameServer.Extensions
         public static void AddJwt(this IServiceCollection services)
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
-            //services.AddScoped<IJwtReader, JwtReader>();
         }
     }
 }

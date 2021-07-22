@@ -4,9 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu;
-using TileGameServer.Controllers.Base;
-using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 using TileGameServer.Extensions;
+using WebApiBaseLibrary.Controllers;
 
 namespace TileGameServer.Controllers
 {
