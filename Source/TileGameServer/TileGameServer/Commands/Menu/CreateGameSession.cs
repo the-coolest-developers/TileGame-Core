@@ -16,6 +16,7 @@ namespace TileGameServer.Commands.Menu
         public class CreateGameSessionCommand : IRequest<Response<CreateGameSessionResponse>>
         {
             public Guid UserId { get; set; }
+            public int SessionCapacity { get; set; }
         }
 
         public class CreateGameSessionCommandHandler 
@@ -33,19 +34,20 @@ namespace TileGameServer.Commands.Menu
                 CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId) || request.SessionCapacity < 2)
                 {
                     return new Response<CreateGameSessionResponse>
                     {
                         Status = ResponseStatus.Conflict
                     };
                 }
-
+            
                 var session = new GameSession
                 {
                     Id = Guid.NewGuid(),
                     Status = GameSessionStatus.Created,
-                    CreationDate = DateTime.Now
+                    CreationDate = DateTime.Now,
+                    SessionCapacity = request.SessionCapacity
                 };
 
                 await _gameSessionsRepository.CreateAsync(session);
