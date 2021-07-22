@@ -2,34 +2,64 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using TileGameServer.DataAccess.Entities;
+using TileGameServer.DataAccess.Enums;
+using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Infrastructure.Enums;
+using TileGameServer.Infrastructure.Generators;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
 namespace TileGameServer.Commands.Menu
 {
     public class LeaveGameSession
     {
-        public class LeaveGameSessionCommand : IRequest<LeaveGameSessionResponse>
+        public class LeaveGameSessionCommand : IRequest<Response<LeaveGameSessionResponse>>
         {
             public Guid UserId { get; set; }
+            public Guid SessionId { get; set; }
         }
 
-        public class JoinGameCommandHandler : IRequestHandler<LeaveGameSessionCommand, LeaveGameSessionResponse>
+        public class LeaveGameSessionCommandHandler 
+            : IRequestHandler<LeaveGameSessionCommand, Response<LeaveGameSessionResponse>>
         {
-            public Task<LeaveGameSessionResponse> Handle(LeaveGameSessionCommand request,
+            private readonly IGameSessionRepository _gameSessionsRepository;
+
+            public LeaveGameSessionCommandHandler(
+                IGameSessionRepository gameSessionsRepository)
+            {
+                _gameSessionsRepository = gameSessionsRepository;
+            }
+
+            public async Task<Response<LeaveGameSessionResponse>> Handle(LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                return Task.FromResult(new LeaveGameSessionResponse
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
                 {
-                    Status = ResponseStatus.Success
-                });
+                    var session = await _gameSessionsRepository.GetAsync(request.SessionId);
+                    session.PlayerIds.Remove(request.UserId);
+
+                    return new Response<LeaveGameSessionResponse>
+                    {
+                        Status = ResponseStatus.Success
+                    };
+                }
+
+                return new Response<LeaveGameSessionResponse>()
+                {
+                    Status = ResponseStatus.Conflict
+                };
             }
         }
 
-        public class LeaveGameSessionResponse : IResponse<Unit>
+        public class LeaveGameSessionResponse
         {
-            public Unit Result { get; }
-            public ResponseStatus Status { get; set; }
+            public Guid UserId { get; set; }
+            public Guid SessionId { get; set; }
+        }
+
+        public class LeaveGameSessionRequest
+        {
+            public Guid SessionId { get; set; }
         }
     }
 }
