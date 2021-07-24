@@ -24,13 +24,13 @@ namespace TileGameServer.Commands.Menu
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
 
-            public LeaveGameSessionCommandHandler(
-                IGameSessionRepository gameSessionsRepository)
+            public LeaveGameSessionCommandHandler(IGameSessionRepository gameSessionsRepository)
             {
                 _gameSessionsRepository = gameSessionsRepository;
             }
 
-            public async Task<Response<LeaveGameSessionResponse>> Handle(LeaveGameSessionCommand request,
+            public async Task<Response<LeaveGameSessionResponse>> Handle(
+                LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
                 if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
