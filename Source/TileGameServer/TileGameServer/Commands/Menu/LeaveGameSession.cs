@@ -33,20 +33,20 @@ namespace TileGameServer.Commands.Menu
                 LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId))
+                if (!await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId))
                 {
-                    var session = await _gameSessionsRepository.GetAsync(request.SessionId);
-                    session.PlayerIds.Remove(request.AccountId);
-
                     return new Response<Unit>
                     {
-                        Status = ResponseStatus.Success
+                        Status = ResponseStatus.Conflict
                     };
                 }
 
+                var session = await _gameSessionsRepository.GetAsync(request.SessionId);
+                session.PlayerIds.Remove(request.AccountId);
+
                 return new Response<Unit>
                 {
-                    Status = ResponseStatus.Conflict
+                    Status = ResponseStatus.Success
                 };
             }
         }
