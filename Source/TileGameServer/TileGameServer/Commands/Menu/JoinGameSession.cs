@@ -47,9 +47,10 @@ namespace TileGameServer.Commands.Menu
                 if (!playerIsInSession)
                 {
                     GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
-                    if (session.Status == GameSessionStatus.Created
-                        && session.PlayerIds.Count < session.Capacity
-                        && session.PlayerIds.Count >= _sessionCapacityConfiguration.MinSessionCapacity)
+                    bool sessionIsFull = session.PlayerIds.Count > session.Capacity
+                                         || session.PlayerIds.Count < _sessionCapacityConfiguration.MinSessionCapacity;
+                        
+                    if (session.Status == GameSessionStatus.Created && !sessionIsFull)
                     {
                         session.PlayerIds.Add(request.AccountId);
 

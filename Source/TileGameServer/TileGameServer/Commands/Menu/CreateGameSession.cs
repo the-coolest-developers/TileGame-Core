@@ -40,9 +40,10 @@ namespace TileGameServer.Commands.Menu
                 CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId)
-                    || request.SessionCapacity < _sessionCapacityConfigurator.Configuration.MinSessionCapacity
-                    || request.SessionCapacity > _sessionCapacityConfigurator.Configuration.MaxSessionCapacity)
+                bool capacityIsValid = request.SessionCapacity > _sessionCapacityConfigurator.Configuration.MinSessionCapacity
+                                       && request.SessionCapacity < _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
+                
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId) || !capacityIsValid)
                 {
                     return new Response<CreateGameSessionResponse>
                     {
