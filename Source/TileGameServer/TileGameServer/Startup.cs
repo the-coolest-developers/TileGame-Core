@@ -13,6 +13,7 @@ using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Extensions;
 using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Authorization.Configurators;
+using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Models;
 
 namespace TileGameServer

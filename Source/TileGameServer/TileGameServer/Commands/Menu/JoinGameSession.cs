@@ -3,11 +3,12 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
 using TileGameServer.Extensions;
-using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
+using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Responses;
@@ -53,8 +54,8 @@ namespace TileGameServer.Commands.Menu
                         var token = _jwtGenerator.GenerateToken(
                             new[]
                             {
-                                new Claim(ApplicationClaimTypes.AccountId, request.AccountId.ToString()),
-                                new Claim(ApplicationClaimTypes.SessionId, session.Id.ToString())
+                                new Claim(WebApiClaimTypes.AccountId, request.AccountId.ToString()),
+                                new Claim(TileGameClaimTypes.SessionId, session.Id.ToString())
                             });
 
                         return new Response<JoinGameSessionResponse>

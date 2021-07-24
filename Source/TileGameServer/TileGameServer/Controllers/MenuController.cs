@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu;
 using TileGameServer.Extensions;
+using WebApiBaseLibrary.Authorization.Constants;
+using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Controllers;
 
 namespace TileGameServer.Controllers
@@ -14,7 +16,7 @@ namespace TileGameServer.Controllers
     [Route("menu")]
     public class MenuController : BaseMediatorController
     {
-        private Guid AccountId => Guid.Parse(User.GetClaim(ApplicationClaimTypes.AccountId).Value);
+        private Guid AccountId => Guid.Parse(User.GetClaim(WebApiClaimTypes.AccountId).Value);
 
         public MenuController(IMediator mediator) : base(mediator)
         {
