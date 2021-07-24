@@ -31,11 +31,19 @@ namespace TileGameServer.DataAccess.Repositories
             return Task.FromResult(exists);
         }
 
-        public Task<bool> ExistsWithPlayerAsync(Guid playerId)
+        public Task<GameSession> GetWithPlayerAsync(Guid playerId)
         {
-            var exists = GameSessions.Exists(
-                t => t.PlayerIds.FirstOrDefault(a => a == playerId) != default);
-            return Task.FromResult(exists);
+            var session = GameSessions.FirstOrDefault(s => s.PlayerIds.Contains(playerId));
+
+            return Task.FromResult(session);
+        }
+
+        public async Task<bool> ExistsWithPlayerAsync(Guid playerId)
+        {
+            var session = await GetWithPlayerAsync(playerId);
+            var exists = session != default;
+
+            return exists;
         }
 
         public Task<GameSession> GetAsync(Guid id)

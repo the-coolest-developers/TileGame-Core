@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu;
 using TileGameServer.Controllers.Base;
-using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 using TileGameServer.Extensions;
 
 namespace TileGameServer.Controllers
@@ -15,19 +14,20 @@ namespace TileGameServer.Controllers
     [Route("menu")]
     public class MenuController : BaseMediatorController
     {
-        private Guid userId { get; }
+        private Guid AccountId => Guid.Parse(User.GetClaim(ApplicationClaimTypes.AccountId).Value);
 
         public MenuController(IMediator mediator) : base(mediator)
         {
-            userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
         }
 
-        [HttpGet("createGame")]
-        public async Task<ActionResult<CreateGameSession.CreateGameSessionResponse>> CreateGame()
+        [HttpPost("createGame")]
+        public async Task<ActionResult<CreateGameSession.CreateGameSessionResponse>> CreateGame(
+            [FromBody] CreateGameSession.CreateGameSessionRequest request)
         {
             var command = new CreateGameSession.CreateGameSessionCommand
             {
-                UserId = userId
+                AccountId = AccountId,
+                SessionCapacity = request.SessionCapacity
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));
@@ -39,7 +39,7 @@ namespace TileGameServer.Controllers
         {
             var command = new JoinGameSession.JoinGameSessionCommand
             {
-                UserId = userId,
+                AccountId = AccountId,
                 SessionId = request.SessionId
             };
 
@@ -47,14 +47,11 @@ namespace TileGameServer.Controllers
         }
 
         [HttpPost("leaveGame")]
-        public async Task<ActionResult<LeaveGameSession.LeaveGameSessionResponse>> Leave(
-            [FromBody] LeaveGameSession.LeaveGameSessionRequest request)
+        public async Task<ActionResult<Unit>> Leave()
         {
-            var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new LeaveGameSession.LeaveGameSessionCommand
             {
-                UserId = userId,
-                SessionId = request.SessionId
+                AccountId = AccountId
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));

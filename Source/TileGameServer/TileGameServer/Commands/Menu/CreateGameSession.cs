@@ -5,8 +5,8 @@ using MediatR;
 using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
 using TileGameServer.DataAccess.Repositories;
+using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using TileGameServer.Infrastructure.Enums;
-using TileGameServer.Infrastructure.Generators;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
 namespace TileGameServer.Commands.Menu
@@ -15,25 +15,32 @@ namespace TileGameServer.Commands.Menu
     {
         public class CreateGameSessionCommand : IRequest<Response<CreateGameSessionResponse>>
         {
-            public Guid UserId { get; set; }
+            public Guid AccountId { get; set; }
+            public int SessionCapacity { get; set; }
         }
 
-        public class CreateGameSessionCommandHandler 
+        public class CreateGameSessionCommandHandler
             : IRequestHandler<CreateGameSessionCommand, Response<CreateGameSessionResponse>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
+            private readonly ISessionCapacityConfigurator _sessionCapacityConfigurator;
 
             public CreateGameSessionCommandHandler(
-                IGameSessionRepository gameSessionsRepository)
+                IGameSessionRepository gameSessionsRepository,
+                ISessionCapacityConfigurator capacityConfigurator)
             {
                 _gameSessionsRepository = gameSessionsRepository;
+                _sessionCapacityConfigurator = capacityConfigurator;
             }
 
             public async Task<Response<CreateGameSessionResponse>> Handle(
                 CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
+                bool capacityIsValid = request.SessionCapacity >= _sessionCapacityConfigurator.Configuration.MinSessionCapacity
+                                       && request.SessionCapacity <= _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
+                
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId) || !capacityIsValid)
                 {
                     return new Response<CreateGameSessionResponse>
                     {
@@ -45,13 +52,18 @@ namespace TileGameServer.Commands.Menu
                 {
                     Id = Guid.NewGuid(),
                     Status = GameSessionStatus.Created,
-                    CreationDate = DateTime.Now
+                    CreationDate = DateTime.Now,
+                    Capacity = request.SessionCapacity
                 };
 
                 await _gameSessionsRepository.CreateAsync(session);
 
                 return new Response<CreateGameSessionResponse>
                 {
+                    Result = new CreateGameSessionResponse
+                    {
+                        SessionId = session.Id
+                    },
                     Status = ResponseStatus.Success,
                 };
             }
@@ -59,7 +71,12 @@ namespace TileGameServer.Commands.Menu
 
         public class CreateGameSessionResponse
         {
-            public Guid UserId { get; set; }
+            public Guid SessionId { get; set; }
+        }
+
+        public class CreateGameSessionRequest
+        {
+            public int SessionCapacity { get; set; }
         }
     }
 }

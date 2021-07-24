@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using TileGameServer.Infrastructure.Models.Configurations;
 
-namespace TileGameServer.Infrastructure.Configurators
+namespace TileGameServer.Infrastructure.Configurators.JwtConfigurators
 {
     public class JwtConfigurator : IJwtConfigurator
     {
