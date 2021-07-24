@@ -3,15 +3,14 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.Extensions.Options;
-using TileGameServer.Infrastructure.Enums;
-using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
+using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
-using TileGameServer.Extensions;
-using TileGameServer.Infrastructure.Generators;
-using TileGameServer.Infrastructure.Models.Configurations;
+using WebApiBaseLibrary.Authorization.Constants;
+using WebApiBaseLibrary.Authorization.Generators;
+using WebApiBaseLibrary.Enums;
+using WebApiBaseLibrary.Responses;
 
 namespace TileGameServer.Commands.Menu
 {
@@ -28,14 +27,13 @@ namespace TileGameServer.Commands.Menu
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
             private readonly IJwtGenerator _jwtGenerator;
-            private readonly SessionCapacityConfiguration _sessionCapacityConfiguration;
 
-            public JoinGameSessionCommandHandler(IGameSessionRepository gameSessionsRepository,
-                IJwtGenerator jwtGenerator, IOptions<SessionCapacityConfiguration> capacityConfiguration)
+            public JoinGameSessionCommandHandler(
+                IGameSessionRepository gameSessionsRepository,
+                IJwtGenerator jwtGenerator)
             {
                 _gameSessionsRepository = gameSessionsRepository;
                 _jwtGenerator = jwtGenerator;
-                _sessionCapacityConfiguration = capacityConfiguration.Value;
             }
 
             public async Task<Response<JoinGameSessionResponse>> Handle(
@@ -47,7 +45,7 @@ namespace TileGameServer.Commands.Menu
                 {
                     GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
                     bool sessionIsFull = session.PlayerIds.Count >= session.Capacity;
-                        
+
                     if (session.Status == GameSessionStatus.Created && !sessionIsFull)
                     {
                         session.PlayerIds.Add(request.AccountId);
@@ -55,8 +53,8 @@ namespace TileGameServer.Commands.Menu
                         var token = _jwtGenerator.GenerateToken(
                             new[]
                             {
-                                new Claim(ApplicationClaimTypes.AccountId, request.AccountId.ToString()),
-                                new Claim(ApplicationClaimTypes.SessionId, session.Id.ToString())
+                                new Claim(WebApiClaimTypes.AccountId, request.AccountId.ToString()),
+                                new Claim(TileGameClaimTypes.SessionId, session.Id.ToString())
                             });
 
                         return new Response<JoinGameSessionResponse>

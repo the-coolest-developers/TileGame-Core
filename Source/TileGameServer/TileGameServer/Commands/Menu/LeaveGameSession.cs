@@ -5,8 +5,8 @@ using MediatR;
 using TileGameServer.DataAccess.Enums;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
-using TileGameServer.Infrastructure.Enums;
-using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
+using WebApiBaseLibrary.Enums;
+using WebApiBaseLibrary.Responses;
 
 namespace TileGameServer.Commands.Menu
 {

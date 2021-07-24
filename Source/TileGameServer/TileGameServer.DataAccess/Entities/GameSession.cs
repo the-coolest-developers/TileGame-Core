@@ -1,7 +1,7 @@
 ﻿using System;
-using TileGameServer.DataAccess.Entities.Base;
 using TileGameServer.DataAccess.Enums;
 using System.Collections.Generic;
+using WebApiBaseLibrary.DataAccess.Entities;
 
 namespace TileGameServer.DataAccess.Entities
 {

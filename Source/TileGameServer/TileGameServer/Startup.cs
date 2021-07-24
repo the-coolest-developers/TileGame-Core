@@ -8,12 +8,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Extensions;
-using TileGameServer.Infrastructure.Configurators.JwtConfigurators;
 using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
-using TileGameServer.Infrastructure.Models.Configurations;
+using WebApiBaseLibrary.Authorization.Configurators;
+using WebApiBaseLibrary.Authorization.Constants;
+using WebApiBaseLibrary.Authorization.Extensions;
+using WebApiBaseLibrary.Authorization.Generators;
+using WebApiBaseLibrary.Authorization.Models;
+using HeaderNames = TileGameServer.Constants.HeaderNames;
+using Schemes = TileGameServer.Constants.Schemes;
 
 namespace TileGameServer
 {
@@ -31,13 +35,13 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwt();
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
 
             services.AddSingleton<IGameSessionRepository, GameSessionRepository>();
 
             services.AddSingleton<IJwtConfigurator, JwtConfigurator>(_ =>
             {
-                var jwtConfiguration = Configuration.GetSection(SettingNames.JwtConfiguration)
+                var jwtConfiguration = Configuration.GetSection(AuthorizationAppsettings.JwtConfiguration)
                     .Get<JwtConfiguration>();
 
                 return new JwtConfigurator(jwtConfiguration);
