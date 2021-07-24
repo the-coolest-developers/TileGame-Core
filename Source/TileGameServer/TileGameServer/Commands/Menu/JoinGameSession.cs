@@ -3,13 +3,16 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.Options;
 using TileGameServer.Infrastructure.Enums;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
 using TileGameServer.Extensions;
+using TileGameServer.Infrastructure.Configurators;
 using TileGameServer.Infrastructure.Generators;
+using TileGameServer.Infrastructure.Models.Configurations;
 
 namespace TileGameServer.Commands.Menu
 {
@@ -26,12 +29,14 @@ namespace TileGameServer.Commands.Menu
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
             private readonly IJwtGenerator _jwtGenerator;
+            private readonly SessionCapacityConfiguration _sessionCapacityConfiguration;
 
             public JoinGameSessionCommandHandler(IGameSessionRepository gameSessionsRepository,
-                IJwtGenerator jwtGenerator)
+                IJwtGenerator jwtGenerator, IOptions<SessionCapacityConfiguration> capacityConfiguration)
             {
                 _gameSessionsRepository = gameSessionsRepository;
                 _jwtGenerator = jwtGenerator;
+                _sessionCapacityConfiguration = capacityConfiguration.Value;
             }
 
             public async Task<Response<JoinGameSessionResponse>> Handle(
@@ -42,7 +47,9 @@ namespace TileGameServer.Commands.Menu
                 if (!playerIsInSession)
                 {
                     GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
-                    if (session.Status == GameSessionStatus.Created && session.PlayerIds.Count < session.SessionCapacity)
+                    if (session.Status == GameSessionStatus.Created 
+                        && session.PlayerIds.Count <=  _sessionCapacityConfiguration.MaxSessionCapacity 
+                        && session.PlayerIds.Count >= _sessionCapacityConfiguration.MinSessionCapacity)
                     {
                         session.PlayerIds.Add(request.UserId);
 

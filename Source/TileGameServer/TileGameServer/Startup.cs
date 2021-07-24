@@ -12,6 +12,8 @@ using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Extensions;
 using TileGameServer.Infrastructure.Configurators;
+using TileGameServer.Infrastructure.Configurators.JwtConfigurators;
+using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using TileGameServer.Infrastructure.Models.Configurations;
 
 namespace TileGameServer
@@ -44,6 +46,14 @@ namespace TileGameServer
                     .Get<JwtConfiguration>();
 
                 return new JwtConfigurator(jwtConfiguration);
+            });
+            
+            services.AddSingleton<ISessionCapacityConfigurator, SessionCapacityConfigurator>(_ =>
+            {
+                var sessionCapacityConfiguration = Configuration.GetSection(SettingNames.SessionCapacityConfiguration)
+                    .Get<SessionCapacityConfiguration>();
+
+                return new SessionCapacityConfigurator(sessionCapacityConfiguration);
             });
 
             services.AddAuthentication(options =>
