@@ -40,7 +40,7 @@ namespace TileGameServer.Commands.Menu
             {
                 if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId) 
                     || request.SessionCapacity < _sessionCapacityConfiguration.MinSessionCapacity
-                    || request.SessionCapacity > _sessionCapacityConfiguration.MaxSessionCapacity)
+                    || request.SessionCapacity > request.SessionCapacity)
                 {
                     return new Response<CreateGameSessionResponse>
                     {
