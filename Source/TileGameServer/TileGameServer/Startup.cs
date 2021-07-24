@@ -32,10 +32,6 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var postgreSqlconnectionstring = Configuration.GetConnectionString("PostgreSqlConnectionString");
-
-            //services.AddDbContext<GameSessionContext>(options => { options.UseNpgsql(postgreSqlconnectionstring); });
-
             services.AddJwt();
 
             services.AddSingleton<IGameSessionRepository, GameSessionRepository>();
@@ -47,7 +43,7 @@ namespace TileGameServer
 
                 return new JwtConfigurator(jwtConfiguration);
             });
-            
+
             services.AddSingleton<ISessionCapacityConfigurator, SessionCapacityConfigurator>(_ =>
             {
                 var sessionCapacityConfiguration = Configuration.GetSection(SettingNames.SessionCapacityConfiguration)

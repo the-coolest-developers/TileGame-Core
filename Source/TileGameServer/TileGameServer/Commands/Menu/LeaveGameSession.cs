@@ -13,14 +13,14 @@ namespace TileGameServer.Commands.Menu
 {
     public class LeaveGameSession
     {
-        public class LeaveGameSessionCommand : IRequest<Response<LeaveGameSessionResponse>>
+        public class LeaveGameSessionCommand : IRequest<Response<Unit>>
         {
-            public Guid UserId { get; set; }
+            public Guid AccountId { get; set; }
             public Guid SessionId { get; set; }
         }
 
-        public class LeaveGameSessionCommandHandler 
-            : IRequestHandler<LeaveGameSessionCommand, Response<LeaveGameSessionResponse>>
+        public class LeaveGameSessionCommandHandler
+            : IRequestHandler<LeaveGameSessionCommand, Response<Unit>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
 
@@ -29,32 +29,26 @@ namespace TileGameServer.Commands.Menu
                 _gameSessionsRepository = gameSessionsRepository;
             }
 
-            public async Task<Response<LeaveGameSessionResponse>> Handle(
+            public async Task<Response<Unit>> Handle(
                 LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId))
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId))
                 {
                     var session = await _gameSessionsRepository.GetAsync(request.SessionId);
-                    session.PlayerIds.Remove(request.UserId);
+                    session.PlayerIds.Remove(request.AccountId);
 
-                    return new Response<LeaveGameSessionResponse>
+                    return new Response<Unit>
                     {
                         Status = ResponseStatus.Success
                     };
                 }
 
-                return new Response<LeaveGameSessionResponse>()
+                return new Response<Unit>
                 {
                     Status = ResponseStatus.Conflict
                 };
             }
-        }
-
-        public class LeaveGameSessionResponse
-        {
-            public Guid UserId { get; set; }
-            public Guid SessionId { get; set; }
         }
 
         public class LeaveGameSessionRequest

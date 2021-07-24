@@ -15,11 +15,10 @@ namespace TileGameServer.Controllers
     [Route("menu")]
     public class MenuController : BaseMediatorController
     {
-        private Guid userId { get; }
+        private Guid AccountId => Guid.Parse(User.GetClaim(ApplicationClaimTypes.AccountId).Value);
 
         public MenuController(IMediator mediator) : base(mediator)
         {
-            userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
         }
 
         [HttpPost("createGame")]
@@ -28,7 +27,7 @@ namespace TileGameServer.Controllers
         {
             var command = new CreateGameSession.CreateGameSessionCommand
             {
-                UserId = userId,
+                AccountId = AccountId,
                 SessionCapacity = request.SessionCapacity
             };
 
@@ -41,7 +40,7 @@ namespace TileGameServer.Controllers
         {
             var command = new JoinGameSession.JoinGameSessionCommand
             {
-                UserId = userId,
+                AccountId = AccountId,
                 SessionId = request.SessionId
             };
 
@@ -49,13 +48,12 @@ namespace TileGameServer.Controllers
         }
 
         [HttpPost("leaveGame")]
-        public async Task<ActionResult<LeaveGameSession.LeaveGameSessionResponse>> Leave(
+        public async Task<ActionResult<Unit>> Leave(
             [FromBody] LeaveGameSession.LeaveGameSessionRequest request)
         {
-            var userId = Guid.Parse(User.GetClaim(ApplicationClaimTypes.UserId).Value);
             var command = new LeaveGameSession.LeaveGameSessionCommand
             {
-                UserId = userId,
+                AccountId = AccountId,
                 SessionId = request.SessionId
             };
 

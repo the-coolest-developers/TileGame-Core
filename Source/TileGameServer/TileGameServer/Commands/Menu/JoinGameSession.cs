@@ -20,11 +20,11 @@ namespace TileGameServer.Commands.Menu
     {
         public class JoinGameSessionCommand : IRequest<Response<JoinGameSessionResponse>>
         {
-            public Guid UserId { get; set; }
+            public Guid AccountId { get; set; }
             public Guid SessionId { get; set; }
         }
 
-        public class JoinGameSessionCommandHandler 
+        public class JoinGameSessionCommandHandler
             : IRequestHandler<JoinGameSessionCommand, Response<JoinGameSessionResponse>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
@@ -43,20 +43,20 @@ namespace TileGameServer.Commands.Menu
                 JoinGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerAsync(request.UserId);
+                var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId);
                 if (!playerIsInSession)
                 {
                     GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
-                    if (session.Status == GameSessionStatus.Created 
-                        && session.PlayerIds.Count <  session.Capacity
+                    if (session.Status == GameSessionStatus.Created
+                        && session.PlayerIds.Count < session.Capacity
                         && session.PlayerIds.Count >= _sessionCapacityConfiguration.MinSessionCapacity)
                     {
-                        session.PlayerIds.Add(request.UserId);
+                        session.PlayerIds.Add(request.AccountId);
 
                         var token = _jwtGenerator.GenerateToken(
                             new[]
                             {
-                                new Claim(ApplicationClaimTypes.UserId, request.UserId.ToString()),
+                                new Claim(ApplicationClaimTypes.AccountId, request.AccountId.ToString()),
                                 new Claim(ApplicationClaimTypes.SessionId, session.Id.ToString())
                             });
 
@@ -80,8 +80,6 @@ namespace TileGameServer.Commands.Menu
 
         public class JoinGameSessionResponse
         {
-            public Guid UserId { get; set; }
-            public Guid SessionId { get; set; }
             public string Token { get; set; }
         }
 
