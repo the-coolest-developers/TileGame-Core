@@ -1,28 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TileGameServer.Constants;
+using TileGameServer.Infrastructure.Models.Configurations;
 using WebApiBaseLibrary.Authorization.Generators;
 
 namespace TileGameServer.Extensions
 {
     public static class ServicesExtensions
     {
-        public static void AddDbContextForSqlServer<TDbContext>(this IServiceCollection services,
-            string connectionString)
-            where TDbContext : DbContext
+        public static IServiceCollection AddJwt(this IServiceCollection services)
         {
-            services.AddDbContext<TDbContext>(options => { options.UseSqlServer(connectionString); });
+            return services.AddScoped<IJwtGenerator, JwtGenerator>();
         }
 
-        public static void AddDbContextForPostGreSql<TDbContext>(this IServiceCollection services,
-            string connectionString)
-            where TDbContext : DbContext
+        public static IServiceCollection AddSingletonSessionCapacityConfiguration(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddDbContext<TDbContext>(options => { options.UseNpgsql(connectionString); });
-        }
+            var sessionCapacityConfiguration = configuration.GetSection(SettingNames.SessionCapacityConfiguration)
+                .Get<SessionCapacityConfiguration>();
 
-        public static void AddJwt(this IServiceCollection services)
-        {
-            services.AddScoped<IJwtGenerator, JwtGenerator>();
+            return services.AddSingleton(sessionCapacityConfiguration);
         }
     }
 }

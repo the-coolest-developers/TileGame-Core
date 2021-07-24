@@ -10,5 +10,6 @@ namespace TileGameServer.DataAccess.Entities
         public GameSessionStatus Status { get; set; }
         public DateTime CreationDate { get; set; }
         public List<Guid> PlayerIds { get; set; } = new List<Guid>();
+        public int Capacity { get; set; }
     }
 }

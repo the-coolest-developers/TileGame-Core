@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Extensions;
+using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Authorization.Configurators;
 using WebApiBaseLibrary.Authorization.Models;
 
@@ -30,10 +31,6 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var postgreSqlconnectionstring = Configuration.GetConnectionString("PostgreSqlConnectionString");
-
-            //services.AddDbContext<GameSessionContext>(options => { options.UseNpgsql(postgreSqlconnectionstring); });
-
             services.AddJwt();
 
             services.AddSingleton<IGameSessionRepository, GameSessionRepository>();
@@ -45,6 +42,9 @@ namespace TileGameServer
 
                 return new JwtConfigurator(jwtConfiguration);
             });
+
+            services.AddSingletonSessionCapacityConfiguration(Configuration);
+            services.AddScoped<ISessionCapacityConfigurator, SessionCapacityConfigurator>();
 
             services.AddAuthentication(options =>
             {

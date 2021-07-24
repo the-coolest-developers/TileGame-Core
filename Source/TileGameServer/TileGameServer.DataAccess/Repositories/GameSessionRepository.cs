@@ -62,6 +62,12 @@ namespace TileGameServer.DataAccess.Repositories
             return Task.CompletedTask;
         }
 
+        public Task<GameSession> GetWithPlayerAsync(Guid playerId)
+        {
+            var session = GameSessions.FirstOrDefault(s => s.PlayerIds.Contains(playerId));
+
+            return Task.FromResult(session);
+        }
 
         public bool ExistsWithId(Guid id)
         {
