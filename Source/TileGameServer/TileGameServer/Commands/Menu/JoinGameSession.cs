@@ -10,7 +10,6 @@ using TileGameServer.DataAccess.Repositories;
 using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
 using TileGameServer.Extensions;
-using TileGameServer.Infrastructure.Configurators;
 using TileGameServer.Infrastructure.Generators;
 using TileGameServer.Infrastructure.Models.Configurations;
 

@@ -11,7 +11,6 @@ using Microsoft.OpenApi.Models;
 using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Extensions;
-using TileGameServer.Infrastructure.Configurators;
 using TileGameServer.Infrastructure.Configurators.JwtConfigurators;
 using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using TileGameServer.Infrastructure.Models.Configurations;
