@@ -7,7 +7,6 @@ using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Enums;
-using TileGameServer.Extensions;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Enums;

@@ -1,8 +1,7 @@
 ﻿namespace TileGameServer.Constants
 {
-    public static class SettingNames
+    public static class TileGameAppSettings
     {
-        public const string JwtConfiguration = "JwtConfiguration";
         public static string SessionCapacityConfiguration = "SessionCapacityConfiguration";
     }
 }

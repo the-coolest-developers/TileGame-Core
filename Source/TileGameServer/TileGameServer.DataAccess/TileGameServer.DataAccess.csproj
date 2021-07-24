@@ -18,7 +18,7 @@
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
-      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.0-release" />
+      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.2-develop" />
     </ItemGroup>
 
 </Project>
