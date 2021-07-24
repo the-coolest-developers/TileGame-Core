@@ -15,7 +15,6 @@ namespace TileGameServer.Commands.Menu
         public class LeaveGameSessionCommand : IRequest<Response<Unit>>
         {
             public Guid AccountId { get; set; }
-            public Guid SessionId { get; set; }
         }
 
         public class LeaveGameSessionCommandHandler
@@ -44,7 +43,7 @@ namespace TileGameServer.Commands.Menu
                     };
                 }
 
-                var session = await _gameSessionsRepository.GetAsync(request.SessionId);
+                var session = await _gameSessionsRepository.GetWithPlayerAsync(request.AccountId);
                 session.PlayerIds.Remove(request.AccountId);
 
                 if (session.PlayerIds.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity)
@@ -58,11 +57,6 @@ namespace TileGameServer.Commands.Menu
                     Status = ResponseStatus.Success
                 };
             }
-        }
-
-        public class LeaveGameSessionRequest
-        {
-            public Guid SessionId { get; set; }
         }
     }
 }

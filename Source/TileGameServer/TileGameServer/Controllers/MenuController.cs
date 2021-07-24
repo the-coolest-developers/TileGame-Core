@@ -47,13 +47,11 @@ namespace TileGameServer.Controllers
         }
 
         [HttpPost("leaveGame")]
-        public async Task<ActionResult<Unit>> Leave(
-            [FromBody] LeaveGameSession.LeaveGameSessionRequest request)
+        public async Task<ActionResult<Unit>> Leave()
         {
             var command = new LeaveGameSession.LeaveGameSessionCommand
             {
-                AccountId = AccountId,
-                SessionId = request.SessionId
+                AccountId = AccountId
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));
