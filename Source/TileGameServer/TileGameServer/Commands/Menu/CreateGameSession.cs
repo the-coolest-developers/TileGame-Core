@@ -27,18 +27,18 @@ namespace TileGameServer.Commands.Menu
 
             public CreateGameSessionCommandHandler(
                 IGameSessionRepository gameSessionsRepository,
-                ISessionCapacityConfigurator capacityConfiguration)
+                ISessionCapacityConfigurator capacityConfigurator)
             {
                 _gameSessionsRepository = gameSessionsRepository;
-                _sessionCapacityConfigurator = capacityConfiguration;
+                _sessionCapacityConfigurator = capacityConfigurator;
             }
 
             public async Task<Response<CreateGameSessionResponse>> Handle(
                 CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                bool capacityIsValid = request.SessionCapacity > _sessionCapacityConfigurator.Configuration.MinSessionCapacity
-                                       && request.SessionCapacity < _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
+                bool capacityIsValid = request.SessionCapacity >= _sessionCapacityConfigurator.Configuration.MinSessionCapacity
+                                       && request.SessionCapacity <= _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
                 
                 if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId) || !capacityIsValid)
                 {

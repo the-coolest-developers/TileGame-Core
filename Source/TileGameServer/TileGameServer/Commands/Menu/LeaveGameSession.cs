@@ -2,7 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using TileGameServer.DataAccess.Enums;
 using TileGameServer.DataAccess.Repositories;
+using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using TileGameServer.Infrastructure.Enums;
 using TileGameServer.Infrastructure.Models.Dto.Responses.Generic;
 
@@ -20,10 +22,14 @@ namespace TileGameServer.Commands.Menu
             : IRequestHandler<LeaveGameSessionCommand, Response<Unit>>
         {
             private readonly IGameSessionRepository _gameSessionsRepository;
+            private readonly ISessionCapacityConfigurator _sessionCapacityConfigurator;
 
-            public LeaveGameSessionCommandHandler(IGameSessionRepository gameSessionsRepository)
+            public LeaveGameSessionCommandHandler(
+                IGameSessionRepository gameSessionsRepository,
+                ISessionCapacityConfigurator capacityConfigurator)
             {
                 _gameSessionsRepository = gameSessionsRepository;
+                _sessionCapacityConfigurator = capacityConfigurator;
             }
 
             public async Task<Response<Unit>> Handle(
@@ -40,6 +46,12 @@ namespace TileGameServer.Commands.Menu
 
                 var session = await _gameSessionsRepository.GetAsync(request.SessionId);
                 session.PlayerIds.Remove(request.AccountId);
+
+                if (session.PlayerIds.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity)
+                {
+                    await _gameSessionsRepository.DeleteAsync(session.Id);
+                    session.Status = GameSessionStatus.Closed;
+                }
 
                 return new Response<Unit>
                 {
