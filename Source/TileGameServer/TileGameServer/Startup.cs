@@ -44,13 +44,8 @@ namespace TileGameServer
                 return new JwtConfigurator(jwtConfiguration);
             });
 
-            services.AddSingleton<ISessionCapacityConfigurator, SessionCapacityConfigurator>(_ =>
-            {
-                var sessionCapacityConfiguration = Configuration.GetSection(SettingNames.SessionCapacityConfiguration)
-                    .Get<SessionCapacityConfiguration>();
-
-                return new SessionCapacityConfigurator(sessionCapacityConfiguration);
-            });
+            services.AddSingletonSessionCapacityConfiguration(Configuration);
+            services.AddScoped<ISessionCapacityConfigurator, SessionCapacityConfigurator>();
 
             services.AddAuthentication(options =>
             {
