@@ -14,6 +14,7 @@ using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Authorization.Configurators;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
+using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;
@@ -34,7 +35,7 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwt();
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
 
             services.AddSingleton<IGameSessionRepository, GameSessionRepository>();
 
