@@ -7,7 +7,7 @@
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
 
-    <!-- Default libs from nuget.org -->
+    <!-- Libs from nuget.org -->
     <ItemGroup>
         <PackageReference Include="MediatR" Version="9.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />

@@ -6,7 +6,7 @@
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
 
-    <!-- Default libs from nuget.org -->
+    <!-- Libs from nuget.org -->
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.7" />

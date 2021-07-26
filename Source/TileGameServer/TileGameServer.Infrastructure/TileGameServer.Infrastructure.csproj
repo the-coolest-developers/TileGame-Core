@@ -6,7 +6,7 @@
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
     
-    <!-- Default libs from nuget.org -->
+    <!-- Libs from nuget.org -->
     <ItemGroup>
       <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.6.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
