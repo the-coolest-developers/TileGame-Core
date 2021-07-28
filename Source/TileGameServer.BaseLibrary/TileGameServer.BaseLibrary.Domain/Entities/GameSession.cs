@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WebApiBaseLibrary.DataAccess.Entities;
 
 namespace TileGameServer.BaseLibrary.Domain.Entities
 {
