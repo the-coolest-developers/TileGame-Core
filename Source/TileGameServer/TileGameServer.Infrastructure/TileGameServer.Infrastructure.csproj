@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <VersionPrefix>1.0.0</VersionPrefix>
+        <VersionPrefix>1.0.1</VersionPrefix>
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
     
@@ -14,7 +14,7 @@
 
     <!-- TCD writen libs from own artifactory -->
     <ItemGroup>
-      <PackageReference Include="WebApiBaseLibrary" Version="1.0.3" />
+      <PackageReference Include="WebApiBaseLibrary" Version="1.0.4" />
     </ItemGroup>
 
 </Project>
