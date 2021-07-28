@@ -32,4 +32,10 @@
       <Folder Include="Requests" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="TileGameServer.BaseLibrary.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.Domain\bin\Release\net5.0\TileGameServer.BaseLibrary.Domain.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

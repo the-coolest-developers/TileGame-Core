@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using TileGameServer.DataAccess.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using TileGameServer.BaseLibrary.Domain.Entities;
 
 namespace TileGameServer.DataAccess.Repositories
 {
@@ -51,7 +51,7 @@ namespace TileGameServer.DataAccess.Repositories
             {
                 updatedSession.CreationDate = session.CreationDate;
                 updatedSession.Status = session.Status;
-                updatedSession.PlayerIds = session.PlayerIds;
+                updatedSession.Players = session.Players;
             }
         }
 
@@ -64,7 +64,7 @@ namespace TileGameServer.DataAccess.Repositories
 
         public Task<GameSession> GetWithPlayerAsync(Guid playerId)
         {
-            var session = GameSessions.FirstOrDefault(s => s.PlayerIds.Contains(playerId));
+            var session = GameSessions.FirstOrDefault(s => s.Players.Contains(playerId));
 
             return Task.FromResult(session);
         }
@@ -85,7 +85,7 @@ namespace TileGameServer.DataAccess.Repositories
 
         public bool ExistsWithPlayer(Guid playerId)
         {
-            var exists = GameSessions.Exists(t => t.PlayerIds.FirstOrDefault(a => a == playerId) != default);
+            var exists = GameSessions.Exists(t => t.Players.FirstOrDefault(a => a == playerId) != default);
 
             return exists;
         }

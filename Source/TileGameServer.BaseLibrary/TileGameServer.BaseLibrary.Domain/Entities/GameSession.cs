@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TileGameServer.BaseLibrary.Domain.Enums;
 using WebApiBaseLibrary.DataAccess.Entities;
 
 namespace TileGameServer.BaseLibrary.Domain.Entities

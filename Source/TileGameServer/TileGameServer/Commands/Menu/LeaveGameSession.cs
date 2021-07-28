@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TileGameServer.DataAccess.Enums;
+using TileGameServer.BaseLibrary.Domain.Enums;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Enums;
@@ -44,9 +44,9 @@ namespace TileGameServer.Commands.Menu
                 }
 
                 var session = await _gameSessionsRepository.GetWithPlayerAsync(request.AccountId);
-                session.PlayerIds.Remove(request.AccountId);
+                session.Players.Remove(request.AccountId);
 
-                if (session.PlayerIds.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity)
+                if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity)
                 {
                     await _gameSessionsRepository.DeleteAsync(session.Id);
                     session.Status = GameSessionStatus.Closed;

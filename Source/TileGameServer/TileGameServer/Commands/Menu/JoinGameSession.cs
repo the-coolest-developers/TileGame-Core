@@ -3,10 +3,10 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using TileGameServer.BaseLibrary.Domain.Entities;
+using TileGameServer.BaseLibrary.Domain.Enums;
 using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
-using TileGameServer.DataAccess.Entities;
-using TileGameServer.DataAccess.Enums;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Enums;
@@ -44,11 +44,11 @@ namespace TileGameServer.Commands.Menu
                 if (!playerIsInSession)
                 {
                     GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
-                    bool sessionIsFull = session.PlayerIds.Count >= session.Capacity;
+                    bool sessionIsFull = session.Players.Count >= session.Capacity;
 
                     if (session.Status == GameSessionStatus.Created && !sessionIsFull)
                     {
-                        session.PlayerIds.Add(request.AccountId);
+                        session.Players.Add(request.AccountId);
 
                         var token = _jwtGenerator.GenerateToken(
                             new[]

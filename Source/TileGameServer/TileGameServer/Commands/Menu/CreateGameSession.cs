@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TileGameServer.DataAccess.Entities;
-using TileGameServer.DataAccess.Enums;
+using TileGameServer.BaseLibrary.Domain.Entities;
+using TileGameServer.BaseLibrary.Domain.Enums;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Enums;
@@ -37,9 +37,10 @@ namespace TileGameServer.Commands.Menu
                 CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                bool capacityIsValid = request.SessionCapacity >= _sessionCapacityConfigurator.Configuration.MinSessionCapacity
-                                       && request.SessionCapacity <= _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
-                
+                bool capacityIsValid =
+                    request.SessionCapacity >= _sessionCapacityConfigurator.Configuration.MinSessionCapacity
+                    && request.SessionCapacity <= _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
+
                 if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId) || !capacityIsValid)
                 {
                     return new Response<CreateGameSessionResponse>
