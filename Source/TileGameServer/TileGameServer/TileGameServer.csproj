@@ -25,6 +25,7 @@
     <!-- Local repo refs -->
     <ItemGroup>
       <ProjectReference Include="..\TileGameServer.DataAccess\TileGameServer.DataAccess.csproj" />
+      <ProjectReference Include="..\TileGameServer.Domain\TileGameServer.Domain.csproj" />
       <ProjectReference Include="..\TileGameServer.Infrastructure\TileGameServer.Infrastructure.csproj" />
     </ItemGroup>
 

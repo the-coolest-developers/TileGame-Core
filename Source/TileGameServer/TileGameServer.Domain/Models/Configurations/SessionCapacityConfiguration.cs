@@ -1,4 +1,4 @@
-namespace TileGameServer.Infrastructure.Models.Configurations
+namespace TileGameServer.Domain.Models.Configurations
 {
     public class SessionCapacityConfiguration
     {

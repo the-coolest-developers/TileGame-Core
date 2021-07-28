@@ -5,7 +5,7 @@ using MediatR;
 using TileGameServer.BaseLibrary.Domain.Entities;
 using TileGameServer.BaseLibrary.Domain.Enums;
 using TileGameServer.DataAccess.Repositories;
-using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
+using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;

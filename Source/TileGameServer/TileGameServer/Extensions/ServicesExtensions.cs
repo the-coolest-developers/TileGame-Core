@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TileGameServer.Constants;
-using TileGameServer.Infrastructure.Models.Configurations;
-using WebApiBaseLibrary.Authorization.Generators;
+using TileGameServer.Domain.Models.Configurations;
 
 namespace TileGameServer.Extensions
 {
