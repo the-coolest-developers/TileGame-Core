@@ -10,6 +10,7 @@ using TileGameServer.DataAccess.Repositories;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Enums;
+using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;
 
 namespace TileGameServer.Commands.Menu
@@ -57,14 +58,12 @@ namespace TileGameServer.Commands.Menu
                                 new Claim(TileGameClaimTypes.SessionId, session.Id.ToString())
                             });
 
-                        return new Response<JoinGameSessionResponse>
+                        var response = new JoinGameSessionResponse
                         {
-                            Status = ResponseStatus.Success,
-                            Result = new JoinGameSessionResponse
-                            {
-                                Token = token
-                            }
+                            Token = token
                         };
+
+                        return response.Success();
                     }
                 }
 
