@@ -78,3 +78,6 @@ fabric.properties
 **/bin
 
 *.sln.DotSettings.user
+
+output
+.vs

@@ -35,7 +35,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Reference Include="TileGameServer.BaseLibrary.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="TileGameServer.BaseLibrary.Domain, Culture=neutral, PublicKeyToken=null">
           <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.Domain.dll</HintPath>
       </Reference>
     </ItemGroup>
