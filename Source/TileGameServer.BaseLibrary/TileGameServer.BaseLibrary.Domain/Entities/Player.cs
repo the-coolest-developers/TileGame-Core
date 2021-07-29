@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace TileGameServer.DataAccess.Entities
+namespace TileGameServer.BaseLibrary.Domain.Entities
 {
     public class Player
     {

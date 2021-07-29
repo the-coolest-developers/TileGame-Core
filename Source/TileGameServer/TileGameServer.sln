@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.DataAccess", "TileGameServer.DataAccess\TileGameServer.DataAccess.csproj", "{FF5BD612-676D-48C5-871F-840284FCED4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.Domain", "TileGameServer.Domain\TileGameServer.Domain.csproj", "{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{FF5BD612-676D-48C5-871F-840284FCED4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF5BD612-676D-48C5-871F-840284FCED4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF5BD612-676D-48C5-871F-840284FCED4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

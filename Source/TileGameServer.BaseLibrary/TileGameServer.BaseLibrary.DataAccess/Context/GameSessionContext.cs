@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TileGameServer.DataAccess.Entities;
+using TileGameServer.BaseLibrary.Domain.Entities;
 
-namespace TileGameServer.DataAccess.Context
+namespace TileGameServer.BaseLibrary.DataAccess.Context
 {
     public class GameSessionContext : DbContext
     {

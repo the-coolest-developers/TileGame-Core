@@ -2,11 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TileGameServer.DataAccess.Entities;
-using TileGameServer.DataAccess.Enums;
+using TileGameServer.BaseLibrary.Domain.Entities;
+using TileGameServer.BaseLibrary.Domain.Enums;
 using TileGameServer.DataAccess.Repositories;
-using TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators;
+using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Enums;
+using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;
 
 namespace TileGameServer.Commands.Menu
@@ -37,9 +38,10 @@ namespace TileGameServer.Commands.Menu
                 CreateGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                bool capacityIsValid = request.SessionCapacity >= _sessionCapacityConfigurator.Configuration.MinSessionCapacity
-                                       && request.SessionCapacity <= _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
-                
+                bool capacityIsValid =
+                    request.SessionCapacity >= _sessionCapacityConfigurator.Configuration.MinSessionCapacity
+                    && request.SessionCapacity <= _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
+
                 if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId) || !capacityIsValid)
                 {
                     return new Response<CreateGameSessionResponse>
@@ -58,14 +60,12 @@ namespace TileGameServer.Commands.Menu
 
                 await _gameSessionsRepository.CreateAsync(session);
 
-                return new Response<CreateGameSessionResponse>
+                var createGameSessionResponse = new CreateGameSessionResponse
                 {
-                    Result = new CreateGameSessionResponse
-                    {
-                        SessionId = session.Id
-                    },
-                    Status = ResponseStatus.Success,
+                    SessionId = session.Id
                 };
+
+                return createGameSessionResponse.Success();
             }
         }
 

@@ -1,6 +1,6 @@
-using TileGameServer.Infrastructure.Models.Configurations;
+using TileGameServer.Domain.Models.Configurations;
 
-namespace TileGameServer.Infrastructure.Configurators.SessionCapacityConfigurators
+namespace TileGameServer.Domain.Configurators.SessionCapacityConfigurators
 {
     public class SessionCapacityConfigurator : ISessionCapacityConfigurator
     {

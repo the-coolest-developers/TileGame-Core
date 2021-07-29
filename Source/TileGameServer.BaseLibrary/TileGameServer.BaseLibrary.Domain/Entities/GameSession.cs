@@ -1,15 +1,15 @@
 ﻿using System;
-using TileGameServer.DataAccess.Enums;
 using System.Collections.Generic;
+using TileGameServer.BaseLibrary.Domain.Enums;
 using WebApiBaseLibrary.DataAccess.Entities;
 
-namespace TileGameServer.DataAccess.Entities
+namespace TileGameServer.BaseLibrary.Domain.Entities
 {
     public class GameSession : BaseEntity
     {
         public GameSessionStatus Status { get; set; }
         public DateTime CreationDate { get; set; }
-        public List<Guid> PlayerIds { get; set; } = new List<Guid>();
+        public List<Guid> Players { get; set; }
         public int Capacity { get; set; }
     }
 }
