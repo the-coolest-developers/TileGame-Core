@@ -89,6 +89,11 @@ jobs:
             elif [[ "$CIRCLE_BRANCH" == "release" ]];
             then
               CPACK="Release"
+            
+            elif [[ "$CIRCLE_BRANCH" == "feature/TGS-56" ]]
+            then
+              CPACK="Debug"
+              VSUFFIX="tgs"
             fi
             
             for PROJECT_NAME in $(ls | tac)
@@ -132,6 +137,7 @@ workflows:
               only:
               - develop
               - release
+              - feature/TGS-56
           project_name: TileGameServer
           context: Tokens
           post-steps:
