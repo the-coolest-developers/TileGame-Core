@@ -6,4 +6,9 @@
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <OutputPath>$(MSBuildProjectDirectory)/../../../output</OutputPath>
+    </PropertyGroup>
+
 </Project>

@@ -11,8 +11,7 @@ jobs:
         type: string
         default: Dummy_project
     environment:
-      PROJECTS_LIST: "<< parameters.project_name >>, << parameters.project_name >>."
-      # PROJECT_NAME: << parameters.project_name >>
+      PROJECTS_LIST: "<< parameters.project_name >>, << parameters.project_name >>.BaseLibrary"
 
     executor: dotnet_executor
     steps:
@@ -36,8 +35,9 @@ jobs:
             set -ex
             for PROJECT_NAME in $(ls | tac)
             do
-              dotnet build --output /root/project/output/Build/ $PROJECT_NAME/$PROJECT_NAME.sln
+              dotnet build -c Release $PROJECT_NAME/$PROJECT_NAME.sln
             done
+
       # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
       # - persist_to_workspace:
       #     # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
@@ -48,8 +48,14 @@ jobs:
       #       - output/
 
   pack_code:
+    parameters: # parameters are at the job level
+      project_name:
+        type: string
+        default: Dummy_project
     environment:
-      PROJECT_NAME: TileGameServer
+      PROJECTS_LIST: "<< parameters.project_name >>, << parameters.project_name >>.BaseLibrary"
+    # environment:
+      # PROJECT_NAME: TileGameServer
     executor: dotnet_executor
     steps:
       - checkout
@@ -76,14 +82,20 @@ jobs:
           command: |
             set -ex
             
-            if [[ "$CIRCLE_BRANCH" == "develop" ]];
+             if [[ "$CIRCLE_BRANCH" == "develop" ]];
             then
-              CPACK="Developmnet"
-            else
+              CPACK="Debug"
+              VSUFFIX=$CIRCLE_BRANCH
+            elif [[ "$CIRCLE_BRANCH" == "release" ]];
+            then
               CPACK="Release"
             fi
             
-            dotnet pack -c $CPACK /p:Configuration=Debug /p:Platform="Any CPU" --version-suffix $CIRCLE_BRANCH -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
+            for PROJECT_NAME in $(ls | tac)
+            do
+              dotnet pack -c $CPACK --version-suffix "$VSUFFIX" -o /root/project/output/Nuget $PROJECT_NAME/$PROJECT_NAME.sln
+            done
+            
       
       - run:
           working_directory: ./output/
@@ -120,6 +132,7 @@ workflows:
               only:
               - develop
               - release
+          project_name: TileGameServer
           context: Tokens
           post-steps:
             - jira/notify

@@ -5,6 +5,11 @@
         <VersionPrefix>1.0.1</VersionPrefix>
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <OutputPath>$(MSBuildProjectDirectory)/../../../output</OutputPath>
+    </PropertyGroup>
     
     <!-- Libs from nuget.org -->
     <ItemGroup>

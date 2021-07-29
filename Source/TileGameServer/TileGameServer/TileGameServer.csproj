@@ -7,6 +7,11 @@
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <OutputPath>$(MSBuildProjectDirectory)/../../../output</OutputPath>
+    </PropertyGroup>
+
     <!-- Libs from nuget.org -->
     <ItemGroup>
         <PackageReference Include="MediatR" Version="9.0.0"/>
@@ -35,7 +40,7 @@
 
     <ItemGroup>
         <Reference Include="TileGameServer.BaseLibrary.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>"$(OutputPath)\TileGameServer.BaseLibrary.Domain.dll"</HintPath>
+            <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.Domain.dll</HintPath>
         </Reference>
     </ItemGroup>
 
