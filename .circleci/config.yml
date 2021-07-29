@@ -6,12 +6,15 @@ executors:
 
 jobs:
   build_code:
+    parameters: # parameters are at the job level
+      project_name:
+        type: string
+        default: Dummy_project
     environment:
-      PROJECT_NAME: TileGameServer
-    
+      PROJECTS_LIST: "<< parameters.project_name >>, << parameters.project_name >>."
+      # PROJECT_NAME: << parameters.project_name >>
+
     executor: dotnet_executor
-    # docker:
-    #   - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
@@ -19,7 +22,7 @@ jobs:
           command: |
             set -ex
             
-            echo "I am on branch [ $CIRCLE_BRANCH ] now"
+            echo "I am on [ $PROJECTS_LIST ]"
             dotnet nuget add source $ARTIFACTORY_URL/nuget/tcd-nuget/ \
             --name Artifactory \
             --username $ARTIFACTORY_USER \
@@ -31,8 +34,10 @@ jobs:
           name: Run Build
           command: |
             set -ex
-            
-            dotnet build --output /root/project/output/Build/ $PROJECT_NAME/$PROJECT_NAME.sln
+            for PROJECT_NAME in $(ls | tac)
+            do
+              dotnet build --output /root/project/output/Build/ $PROJECT_NAME/$PROJECT_NAME.sln
+            done
       # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
       # - persist_to_workspace:
       #     # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
@@ -101,6 +106,7 @@ workflows:
     jobs:
       - build_code:
           name: Build code
+          project_name: TileGameServer
           context: 
             - Tokens
           post-steps:
