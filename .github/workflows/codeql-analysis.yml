@@ -69,9 +69,17 @@ jobs:
           --username $ARTIFACTORY_USERNAME \
           --password "$ARTIFACTORY_PASSWORD" \
           --store-password-in-clear-text
-
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    
+    - name: Build Code
+      run: |
+        cd Source/
+        for PROJECT_NAME in $(ls | tac)
+        do
+            dotnet build -c Release $PROJECT_NAME/$PROJECT_NAME.sln
+        done
+    
+    # - name: Autobuild
+    #   uses: github/codeql-action/autobuild@v1
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
