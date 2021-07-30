@@ -69,28 +69,17 @@ jobs:
           --username $ARTIFACTORY_USERNAME \
           --password "$ARTIFACTORY_PASSWORD" \
           --store-password-in-clear-text
-    
+
     - name: Build Code
+      env:
+        PROJECTS_LIST: "TileGameServer.BaseLibrary TileGameServer.InSession TileGameServer "
       run: |
+        sed -ex
         cd Source/
-        for PROJECT_NAME in $(ls | tac)
+        for PROJECT_NAME in $PROJECTS_LIST
         do
-            dotnet build -c Release $PROJECT_NAME/$PROJECT_NAME.sln
+          dotnet build -c Release $PROJECT_NAME/$PROJECT_NAME.sln
         done
-    
-    # - name: Autobuild
-    #   uses: github/codeql-action/autobuild@v1
-
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
-
-#    - run: |
-    #   make bootstrap
-    #   make release
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
