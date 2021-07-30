@@ -104,7 +104,8 @@ jobs:
           name: Push Nugets
           command: |
             set -ex
-
+            
+            END_ART_BRANCH=$CIRCLE_BRANCH
             # if [[ "$CIRCLE_BRANCH" == "feature/TGS-" ]];
             # then
               # END_ART_BRANCH="tgs"
