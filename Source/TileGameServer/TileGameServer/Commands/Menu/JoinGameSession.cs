@@ -26,14 +26,14 @@ namespace TileGameServer.Commands.Menu
         public class JoinGameSessionCommandHandler
             : IRequestHandler<JoinGameSessionCommand, Response<JoinGameSessionResponse>>
         {
-            private readonly IGameSessionRepository _gameSessionsRepository;
+            private readonly IGameSessionListRepository _gameSessionsListRepository;
             private readonly IJwtGenerator _jwtGenerator;
 
             public JoinGameSessionCommandHandler(
-                IGameSessionRepository gameSessionsRepository,
+                IGameSessionListRepository gameSessionsListRepository,
                 IJwtGenerator jwtGenerator)
             {
-                _gameSessionsRepository = gameSessionsRepository;
+                _gameSessionsListRepository = gameSessionsListRepository;
                 _jwtGenerator = jwtGenerator;
             }
 
@@ -41,10 +41,10 @@ namespace TileGameServer.Commands.Menu
                 JoinGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId);
+                var playerIsInSession = await _gameSessionsListRepository.ExistsWithPlayerAsync(request.AccountId);
                 if (!playerIsInSession)
                 {
-                    GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
+                    GameSession session = await _gameSessionsListRepository.GetAsync(request.SessionId);
                     bool sessionIsFull = session.Players.Count >= session.Capacity;
 
                     if (session.Status == GameSessionStatus.Created && !sessionIsFull)

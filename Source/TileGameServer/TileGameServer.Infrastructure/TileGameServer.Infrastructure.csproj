@@ -20,6 +20,7 @@
     <!-- TCD writen libs from own artifactory -->
     <ItemGroup>
       <PackageReference Include="WebApiBaseLibrary" Version="1.0.4" />
+      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.4" />
     </ItemGroup>
 
 </Project>

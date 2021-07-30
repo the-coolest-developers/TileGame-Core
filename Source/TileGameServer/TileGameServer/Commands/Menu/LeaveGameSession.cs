@@ -20,14 +20,14 @@ namespace TileGameServer.Commands.Menu
         public class LeaveGameSessionCommandHandler
             : IRequestHandler<LeaveGameSessionCommand, Response<Unit>>
         {
-            private readonly IGameSessionRepository _gameSessionsRepository;
+            private readonly IGameSessionListRepository _gameSessionsListRepository;
             private readonly ISessionCapacityConfigurator _sessionCapacityConfigurator;
 
             public LeaveGameSessionCommandHandler(
-                IGameSessionRepository gameSessionsRepository,
+                IGameSessionListRepository gameSessionsListRepository,
                 ISessionCapacityConfigurator capacityConfigurator)
             {
-                _gameSessionsRepository = gameSessionsRepository;
+                _gameSessionsListRepository = gameSessionsListRepository;
                 _sessionCapacityConfigurator = capacityConfigurator;
             }
 
@@ -35,7 +35,7 @@ namespace TileGameServer.Commands.Menu
                 LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if (!await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId))
+                if (!await _gameSessionsListRepository.ExistsWithPlayerAsync(request.AccountId))
                 {
                     return new Response<Unit>
                     {
@@ -43,12 +43,12 @@ namespace TileGameServer.Commands.Menu
                     };
                 }
 
-                var session = await _gameSessionsRepository.GetWithPlayerAsync(request.AccountId);
+                var session = await _gameSessionsListRepository.GetWithPlayerAsync(request.AccountId);
                 session.Players.Remove(request.AccountId);
 
                 if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity)
                 {
-                    await _gameSessionsRepository.DeleteAsync(session.Id);
+                    await _gameSessionsListRepository.DeleteAsync(session.Id);
                     session.Status = GameSessionStatus.Closed;
                 }
 

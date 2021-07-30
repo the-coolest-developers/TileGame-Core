@@ -37,7 +37,7 @@ namespace TileGameServer
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
-            services.AddSingleton<IGameSessionRepository, GameSessionRepository>();
+            services.AddSingleton<IGameSessionListRepository, GameSessionListRepository>();
 
             services.AddSingleton<IJwtConfigurator, JwtConfigurator>(_ =>
             {

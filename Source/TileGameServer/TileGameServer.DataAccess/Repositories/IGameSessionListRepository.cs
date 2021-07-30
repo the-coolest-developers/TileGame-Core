@@ -5,7 +5,7 @@ using WebApiBaseLibrary.DataAccess.Repositories;
 
 namespace TileGameServer.DataAccess.Repositories
 {
-    public interface IGameSessionRepository : IRepository<GameSession>
+    public interface IGameSessionListRepository : IRepository<GameSession>
     {
         public Task<GameSession> GetWithPlayerAsync(Guid playerId);
 
