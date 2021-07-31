@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TileGameServer.DataAccess.Repositories
 {
-    public class GameSessionListRepository : IGameSessionRepository
+    public class GameSessionListRepository //: IGameSessionRepository
     {
         private List<GameSession> GameSessions { get; } = new();
 

@@ -9,7 +9,8 @@ namespace TileGameServer.BaseLibrary.Domain.Entities
     {
         public GameSessionStatus Status { get; set; }
         public DateTime CreationDate { get; set; }
-        public List<Player> Players { get; set; } 
         public int Capacity { get; set; }
+
+        public List<Player> Players { get; set; }
     }
 }

@@ -10,16 +10,27 @@ using WebApiBaseLibrary.DataAccess.Repositories;
 
 namespace TileGameServer.DataAccess.Repositories
 {
-    public class GameSessionDBRepository : EntityFrameworkBaseRepository<GameSession>, IGameSessionRepository
+    public class GameSessionDbRepository : EntityFrameworkBaseRepository<GameSession>, IGameSessionRepository
     {
-        public GameSessionDBRepository(GameSessionContext entityContext) : base(entityContext)
-        { }
+        private readonly GameSessionContext _gameSessionContext;
+
+        public GameSessionDbRepository(GameSessionContext entityContext) : base(entityContext)
+        {
+            _gameSessionContext = entityContext;
+        }
+
+
+        public async Task<GameSession> GetTestAsync(Guid sessionId)
+        {
+            var includableQueryable = _gameSessionContext.GameSessions.Include(gs => gs.Players);
+            return await includableQueryable.FirstOrDefaultAsync(gs => gs.Id == sessionId);
+        }
 
         public bool ExistsWithPlayer(Guid playerId)
         {
             var player = EntityDbSet.Find(playerId);
-            
-            if(player != null) 
+
+            if (player != null)
             {
                 return true;
             }

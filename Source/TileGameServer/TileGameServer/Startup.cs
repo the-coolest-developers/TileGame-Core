@@ -40,7 +40,7 @@ namespace TileGameServer
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
 
             services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
-            services.AddScoped<IGameSessionRepository, GameSessionDBRepository>();
+            services.AddScoped<IGameSessionRepository, GameSessionDbRepository>();
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 

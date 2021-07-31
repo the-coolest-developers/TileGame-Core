@@ -44,17 +44,18 @@ namespace TileGameServer.Commands.Menu
                 var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId);
                 if (!playerIsInSession)
                 {
-                    GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
+                    GameSession session = await _gameSessionsRepository.GetTestAsync(request.SessionId);
                     bool sessionIsFull = session.Players.Count >= session.Capacity;
 
                     if (session.Status == GameSessionStatus.Created && !sessionIsFull)
                     {
-                        session.Players.Add(new Player 
-                        {
-                            Id = request.AccountId,
-                            GameSession = session,
-                            GameSessionId = session.Id
-                        });
+                        session.Players.Add(
+                            new Player
+                            {
+                                Id = request.AccountId,
+                                GameSession = session,
+                                GameSessionId = session.Id
+                            });
                         await _gameSessionsRepository.SaveChangesAsync();
 
                         var token = _jwtGenerator.GenerateToken(
