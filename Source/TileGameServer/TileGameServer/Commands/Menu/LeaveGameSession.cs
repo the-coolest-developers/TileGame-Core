@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -20,14 +21,14 @@ namespace TileGameServer.Commands.Menu
         public class LeaveGameSessionCommandHandler
             : IRequestHandler<LeaveGameSessionCommand, Response<Unit>>
         {
-            private readonly IGameSessionListRepository _gameSessionsListRepository;
+            private readonly IGameSessionRepository _gameSessionsRepository;
             private readonly ISessionCapacityConfigurator _sessionCapacityConfigurator;
 
             public LeaveGameSessionCommandHandler(
-                IGameSessionListRepository gameSessionsListRepository,
+                IGameSessionRepository gameSessionsRepository,
                 ISessionCapacityConfigurator capacityConfigurator)
             {
-                _gameSessionsListRepository = gameSessionsListRepository;
+                _gameSessionsRepository = gameSessionsRepository;
                 _sessionCapacityConfigurator = capacityConfigurator;
             }
 
@@ -35,7 +36,7 @@ namespace TileGameServer.Commands.Menu
                 LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if (!await _gameSessionsListRepository.ExistsWithPlayerAsync(request.AccountId))
+                if (!await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId))
                 {
                     return new Response<Unit>
                     {
@@ -43,14 +44,18 @@ namespace TileGameServer.Commands.Menu
                     };
                 }
 
-                var session = await _gameSessionsListRepository.GetWithPlayerAsync(request.AccountId);
-                session.Players.Remove(request.AccountId);
+                var session = await _gameSessionsRepository.GetWithPlayerAsync(request.AccountId);
 
+                var player = session.Players.FirstOrDefault(p => p.Id == request.AccountId); 
+                session.Players.Remove(player);
+                
                 if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity)
                 {
-                    await _gameSessionsListRepository.DeleteAsync(session.Id);
+                    await _gameSessionsRepository.DeleteAsync(session.Id);
                     session.Status = GameSessionStatus.Closed;
                 }
+
+                await _gameSessionsRepository.SaveChangesAsync();
 
                 return new Response<Unit>
                 {

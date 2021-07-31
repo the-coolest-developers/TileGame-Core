@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TileGameServer.DataAccess.Repositories
 {
-    public class GameSessionListRepository : IGameSessionListRepository
+    public class GameSessionListRepository : IGameSessionRepository
     {
-
         private List<GameSession> GameSessions { get; } = new();
 
         public void Create(GameSession session)
         {
+            session.Players = new List<Player>();
             GameSessions.Add(session);
         }
 
@@ -67,7 +67,7 @@ namespace TileGameServer.DataAccess.Repositories
 
         public Task<GameSession> GetWithPlayerAsync(Guid playerId)
         {
-            var session = GameSessions.FirstOrDefault(s => s.Players.Contains(playerId));
+            var session = GameSessions.FirstOrDefault(s => s.Players.FirstOrDefault(p => p.Id == playerId) != default);
 
             return Task.FromResult(session);
         }
@@ -88,7 +88,7 @@ namespace TileGameServer.DataAccess.Repositories
 
         public bool ExistsWithPlayer(Guid playerId)
         {
-            var exists = GameSessions.Exists(t => t.Players.FirstOrDefault(a => a == playerId) != default);
+            var exists = GameSessions.Exists(t => t.Players.FirstOrDefault(a => a.Id == playerId) != default);
 
             return exists;
         }
@@ -98,6 +98,16 @@ namespace TileGameServer.DataAccess.Repositories
             var exists = ExistsWithPlayer(playerId);
 
             return Task.FromResult(exists);
+        }
+
+        public void SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

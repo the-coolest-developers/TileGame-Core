@@ -1,6 +1,7 @@
 create table if not exists "GameSessions" 
 (
-	"Id" uuid,
+	"Id" uuid primary key,
 	"Status" smallint,
-	"CreationDate" timestamp 
+	"CreationDate" timestamp,
+	"Capacity" smallint
 );

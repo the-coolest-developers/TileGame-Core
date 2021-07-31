@@ -23,14 +23,14 @@ namespace TileGameServer.Commands.Menu
         public class CreateGameSessionCommandHandler
             : IRequestHandler<CreateGameSessionCommand, Response<CreateGameSessionResponse>>
         {
-            private readonly IGameSessionListRepository _gameSessionsListRepository;
+            private readonly IGameSessionRepository _gameSessionsRepository;
             private readonly ISessionCapacityConfigurator _sessionCapacityConfigurator;
 
             public CreateGameSessionCommandHandler(
-                IGameSessionListRepository gameSessionsListRepository,
+                IGameSessionRepository gameSessionsRepository,
                 ISessionCapacityConfigurator capacityConfigurator)
             {
-                _gameSessionsListRepository = gameSessionsListRepository;
+                _gameSessionsRepository = gameSessionsRepository;
                 _sessionCapacityConfigurator = capacityConfigurator;
             }
 
@@ -42,7 +42,7 @@ namespace TileGameServer.Commands.Menu
                     request.SessionCapacity >= _sessionCapacityConfigurator.Configuration.MinSessionCapacity
                     && request.SessionCapacity <= _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
 
-                if (await _gameSessionsListRepository.ExistsWithPlayerAsync(request.AccountId) || !capacityIsValid)
+                if (await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId) || !capacityIsValid)
                 {
                     return new Response<CreateGameSessionResponse>
                     {
@@ -58,7 +58,8 @@ namespace TileGameServer.Commands.Menu
                     Capacity = request.SessionCapacity
                 };
 
-                await _gameSessionsListRepository.CreateAsync(session);
+                await _gameSessionsRepository.CreateAsync(session);
+                await _gameSessionsRepository.SaveChangesAsync();
 
                 var createGameSessionResponse = new CreateGameSessionResponse
                 {

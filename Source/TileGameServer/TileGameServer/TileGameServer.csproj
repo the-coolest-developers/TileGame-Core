@@ -40,6 +40,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Reference Include="TileGameServer.BaseLibrary.DataAccess">
+          <HintPath>..\..\..\output\TileGameServer.BaseLibrary.DataAccess.dll</HintPath>
+        </Reference>
         <Reference Include="TileGameServer.BaseLibrary.Domain, Culture=neutral, PublicKeyToken=null">
             <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.Domain.dll</HintPath>
         </Reference>

@@ -26,14 +26,14 @@ namespace TileGameServer.Commands.Menu
         public class JoinGameSessionCommandHandler
             : IRequestHandler<JoinGameSessionCommand, Response<JoinGameSessionResponse>>
         {
-            private readonly IGameSessionListRepository _gameSessionsListRepository;
+            private readonly IGameSessionRepository _gameSessionsRepository;
             private readonly IJwtGenerator _jwtGenerator;
 
             public JoinGameSessionCommandHandler(
-                IGameSessionListRepository gameSessionsListRepository,
+                IGameSessionRepository gameSessionsRepository,
                 IJwtGenerator jwtGenerator)
             {
-                _gameSessionsListRepository = gameSessionsListRepository;
+                _gameSessionsRepository = gameSessionsRepository;
                 _jwtGenerator = jwtGenerator;
             }
 
@@ -41,15 +41,21 @@ namespace TileGameServer.Commands.Menu
                 JoinGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                var playerIsInSession = await _gameSessionsListRepository.ExistsWithPlayerAsync(request.AccountId);
+                var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId);
                 if (!playerIsInSession)
                 {
-                    GameSession session = await _gameSessionsListRepository.GetAsync(request.SessionId);
+                    GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
                     bool sessionIsFull = session.Players.Count >= session.Capacity;
 
                     if (session.Status == GameSessionStatus.Created && !sessionIsFull)
                     {
-                        session.Players.Add(request.AccountId);
+                        session.Players.Add(new Player 
+                        {
+                            Id = request.AccountId,
+                            GameSession = session,
+                            GameSessionId = session.Id
+                        });
+                        await _gameSessionsRepository.SaveChangesAsync();
 
                         var token = _jwtGenerator.GenerateToken(
                             new[]
