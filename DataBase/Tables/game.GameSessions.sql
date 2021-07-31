@@ -1,4 +1,4 @@
-create table if not exists "GameSessions" 
+create table if not exists "game"."GameSessions"
 (
 	"Id" uuid primary key,
 	"Status" smallint,
