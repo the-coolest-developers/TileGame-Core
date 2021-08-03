@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TileGameServer.BaseLibrary.DataAccess.Context;
 using TileGameServer.BaseLibrary.Domain.Entities;
 using WebApiBaseLibrary.DataAccess.Repositories;
@@ -33,14 +34,10 @@ namespace TileGameServer.DataAccess.Repositories
 
         public bool ExistsWithPlayer(Guid playerId)
         {
-            var player = EntityDbSet.Find(playerId);
+            var gameSession = _gameSessionContext.GameSessions.FirstOrDefault(
+                session => session.Players.FirstOrDefault(p => p.Id == playerId) != default);
 
-            if (player != null)
-            {
-                return true;
-            }
-
-            return false;
+            return gameSession != null;
         }
 
         public Task<bool> ExistsWithPlayerAsync(Guid playerId)
@@ -53,6 +50,22 @@ namespace TileGameServer.DataAccess.Repositories
         {
             var player = Get(playerId);
             return Task.FromResult(player);
+        }
+
+        public override async Task SaveChangesAsync()
+        {
+            var modifiedPlayers = _gameSessionContext.ChangeTracker.Entries()
+                .Where(entry => entry.Entity is Player)
+                .Where(entry => entry.State == EntityState.Modified)
+                .Select(entry => entry.Entity as Player).ToList();
+
+            var existingPlayers = _gameSessionContext.Players.Intersect(modifiedPlayers);
+            var newPlayers = modifiedPlayers.Except(existingPlayers);
+
+            _gameSessionContext.Players.UpdateRange(existingPlayers);
+            await _gameSessionContext.Players.AddRangeAsync(newPlayers);
+
+            await base.SaveChangesAsync();
         }
     }
 }
