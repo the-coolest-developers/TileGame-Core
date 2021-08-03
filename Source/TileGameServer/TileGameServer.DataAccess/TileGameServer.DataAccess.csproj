@@ -27,7 +27,7 @@
     
     <!-- TCD writen libs from own artifactory -->
     <ItemGroup>
-      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.4" />
+      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.6-develop" />
     </ItemGroup>
     
     <!-- Local repo refs -->

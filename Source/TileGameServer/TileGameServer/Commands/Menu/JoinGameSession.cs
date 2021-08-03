@@ -44,7 +44,7 @@ namespace TileGameServer.Commands.Menu
                 var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId);
                 if (!playerIsInSession)
                 {
-                    GameSession session = await _gameSessionsRepository.GetTestAsync(request.SessionId);
+                    GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
                     bool sessionIsFull = session.Players.Count >= session.Capacity;
 
                     if (session.Status == GameSessionStatus.Created && !sessionIsFull)

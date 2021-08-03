@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TileGameServer.BaseLibrary.DataAccess.Context;
 using TileGameServer.BaseLibrary.Domain.Entities;
@@ -19,11 +17,18 @@ namespace TileGameServer.DataAccess.Repositories
             _gameSessionContext = entityContext;
         }
 
-
-        public async Task<GameSession> GetTestAsync(Guid sessionId)
+        public override GameSession Get(Guid id)
         {
             var includableQueryable = _gameSessionContext.GameSessions.Include(gs => gs.Players);
-            return await includableQueryable.FirstOrDefaultAsync(gs => gs.Id == sessionId);
+
+            return includableQueryable.FirstOrDefault(gs => gs.Id == id);
+        }
+
+        public override async Task<GameSession> GetAsync(Guid id)
+        {
+            var includableQueryable = _gameSessionContext.GameSessions.Include(gs => gs.Players);
+
+            return await includableQueryable.FirstOrDefaultAsync(gs => gs.Id == id);
         }
 
         public bool ExistsWithPlayer(Guid playerId)

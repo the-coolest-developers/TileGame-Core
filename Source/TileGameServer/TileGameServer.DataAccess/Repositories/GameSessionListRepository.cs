@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using TileGameServer.BaseLibrary.Domain.Entities;
-using WebApiBaseLibrary.DataAccess.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace TileGameServer.DataAccess.Repositories
 {
