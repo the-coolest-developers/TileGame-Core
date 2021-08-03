@@ -11,6 +11,6 @@ namespace TileGameServer.BaseLibrary.Domain.Entities
         public DateTime CreationDate { get; set; }
         public int Capacity { get; set; }
 
-        public List<Player> Players { get; set; }
+        public ICollection<Player> Players { get; set; }
     }
 }
