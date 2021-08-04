@@ -63,6 +63,16 @@ namespace TileGameServer.DataAccess.Repositories
             return gameSession;
         }
 
+        public Task<GameSession> GetWithPlayerInOpenSessionsAsync(Guid playerId)
+        {
+            var gameSession = GetWithPlayerAsync(
+                playerId,
+                GameSessionStatus.Created,
+                GameSessionStatus.Running);
+
+            return gameSession;
+        }
+
         public override void SaveChanges()
         {
             var (existingPlayers, newPlayers) = GetExistingAndNewPlayers();
@@ -117,7 +127,15 @@ namespace TileGameServer.DataAccess.Repositories
         {
             var player = GetWithPlayerInOpenSessions(playerId);
             bool existsWithPlayer = player != null;
-            
+
+            return existsWithPlayer;
+        }
+
+        public async Task<bool> ExistsWithPlayerAsync(Guid playerId)
+        {
+            var player = await GetWithPlayerInOpenSessionsAsync(playerId);
+            bool existsWithPlayer = player != null;
+
             return existsWithPlayer;
         }
     }

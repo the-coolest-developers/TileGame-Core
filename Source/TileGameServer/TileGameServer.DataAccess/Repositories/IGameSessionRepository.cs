@@ -9,7 +9,11 @@ namespace TileGameServer.DataAccess.Repositories
     public interface IGameSessionRepository : IRepository<GameSession>, IDatabaseRepository
     {
         public Task<GameSession> GetWithPlayerAsync(Guid playerId, params GameSessionStatus[] statuses);
+
         public GameSession GetWithPlayerInOpenSessions(Guid playerId);
+        public Task<GameSession> GetWithPlayerInOpenSessionsAsync(Guid playerId);
+
         public bool ExistsWithPlayer(Guid playerId);
+        public Task<bool> ExistsWithPlayerAsync(Guid playerId);
     }
 }
