@@ -41,8 +41,7 @@ namespace TileGameServer.Commands.Menu
                 JoinGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                var playerIsInSession =
-                    await _gameSessionsRepository.GetWithPlayerInOpenSessions(request.AccountId) != null;
+                var playerIsInSession = _gameSessionsRepository.ExistsWithPlayer(request.AccountId);
 
                 if (!playerIsInSession)
                 {

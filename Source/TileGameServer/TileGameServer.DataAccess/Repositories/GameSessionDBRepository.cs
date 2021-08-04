@@ -53,9 +53,9 @@ namespace TileGameServer.DataAccess.Repositories
             return gameSession;
         }
 
-        public Task<GameSession> GetWithPlayerInOpenSessions(Guid playerId)
+        public GameSession GetWithPlayerInOpenSessions(Guid playerId)
         {
-            var gameSession = GetWithPlayerAsync(
+            var gameSession = GetWithPlayer(
                 playerId,
                 GameSessionStatus.Created,
                 GameSessionStatus.Running);
@@ -111,6 +111,14 @@ namespace TileGameServer.DataAccess.Repositories
             var existingPlayers = _gameSessionContext.Players.Where(t => modifiedPlayers.Contains(t));
 
             return existingPlayers;
+        }
+
+        public bool ExistsWithPlayer(Guid playerId)
+        {
+            var player = GetWithPlayerInOpenSessions(playerId);
+            bool existsWithPlayer = player != null;
+            
+            return existsWithPlayer;
         }
     }
 }
