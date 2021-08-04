@@ -1,11 +1,11 @@
 ﻿using System;
+using WebApiBaseLibrary.DataAccess.Entities;
 
 namespace TileGameServer.BaseLibrary.Domain.Entities
 {
-    public class Player
+    public class Player : BaseEntity
     {
-        public Guid Id { get; set; }
-        public string FullName { get; set; }
-        public int RoleId { get; set; }
+        public Guid GameSessionId { get; set; }
+        public GameSession GameSession { get; set; }
     }
 }

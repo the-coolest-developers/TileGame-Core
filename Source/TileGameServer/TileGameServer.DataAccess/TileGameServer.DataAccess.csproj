@@ -22,11 +22,12 @@
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
+      <PackageReference Include="WebApiBaseLibrary" Version="1.0.4" />
     </ItemGroup>
     
     <!-- TCD writen libs from own artifactory -->
     <ItemGroup>
-      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.4" />
+      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.9-develop" />
     </ItemGroup>
     
     <!-- Local repo refs -->
@@ -37,6 +38,9 @@
     <ItemGroup>
       <Reference Include="TileGameServer.BaseLibrary.Domain, Culture=neutral, PublicKeyToken=null">
           <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.Domain.dll</HintPath>
+      </Reference>
+      <Reference Include="TileGameServer.BaseLibrary.DataAccess, Culture=neutral, PublicKeyToken=null">
+        <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.DataAccess.dll</HintPath>
       </Reference>
     </ItemGroup>
 

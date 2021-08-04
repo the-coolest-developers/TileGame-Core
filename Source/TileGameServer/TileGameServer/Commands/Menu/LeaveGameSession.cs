@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -35,7 +36,9 @@ namespace TileGameServer.Commands.Menu
                 LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                if (!await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId))
+                var session = await _gameSessionsRepository.GetWithPlayerInOpenSessionsAsync(request.AccountId);
+
+                if (session == null)
                 {
                     return new Response<Unit>
                     {
@@ -43,14 +46,16 @@ namespace TileGameServer.Commands.Menu
                     };
                 }
 
-                var session = await _gameSessionsRepository.GetWithPlayerAsync(request.AccountId);
-                session.Players.Remove(request.AccountId);
+                var player = session.Players.FirstOrDefault(p => p.Id == request.AccountId);
+                session.Players.Remove(player);
 
-                if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity)
+                if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity
+                    && session.Status == GameSessionStatus.Running)
                 {
-                    await _gameSessionsRepository.DeleteAsync(session.Id);
                     session.Status = GameSessionStatus.Closed;
                 }
+
+                await _gameSessionsRepository.SaveChangesAsync();
 
                 return new Response<Unit>
                 {

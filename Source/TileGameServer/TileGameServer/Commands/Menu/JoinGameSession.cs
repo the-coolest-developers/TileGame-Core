@@ -42,6 +42,7 @@ namespace TileGameServer.Commands.Menu
                 CancellationToken cancellationToken)
             {
                 var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId);
+
                 if (!playerIsInSession)
                 {
                     GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
@@ -49,7 +50,14 @@ namespace TileGameServer.Commands.Menu
 
                     if (session.Status == GameSessionStatus.Created && !sessionIsFull)
                     {
-                        session.Players.Add(request.AccountId);
+                        session.Players.Add(
+                            new Player
+                            {
+                                Id = request.AccountId,
+                                GameSession = session,
+                                GameSessionId = session.Id
+                            });
+                        await _gameSessionsRepository.SaveChangesAsync();
 
                         var token = _jwtGenerator.GenerateToken(
                             new[]
