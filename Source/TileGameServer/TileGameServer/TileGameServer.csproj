@@ -25,7 +25,7 @@
     <ItemGroup>
         <PackageReference Include="WebApiBaseLibrary" Version="1.0.4" />
         <PackageReference Include="WebApiBaseLibrary.Authorization" Version="1.0.4" />
-        <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.7-develop" />
+        <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.9-develop" />
     </ItemGroup>
 
     <!-- Local repo refs -->

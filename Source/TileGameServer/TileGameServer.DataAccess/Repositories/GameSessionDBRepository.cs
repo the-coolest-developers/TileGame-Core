@@ -105,17 +105,6 @@ namespace TileGameServer.DataAccess.Repositories
 
         private IEnumerable<Player> GetModifiedPlayers() => GetModifiedEntities<Player>();
 
-        private IEnumerable<TEntity> GetModifiedEntities<TEntity>()
-            where TEntity : BaseEntity
-        {
-            var modifiedEntities = _gameSessionContext.ChangeTracker.Entries()
-                .Where(entry => entry.Entity is TEntity)
-                .Where(entry => entry.State == EntityState.Modified)
-                .Select(entry => entry.Entity as TEntity);
-
-            return modifiedEntities;
-        }
-
         private IQueryable<Player> GetExistingPlayers(IEnumerable<Player> modifiedPlayers)
         {
             var existingPlayers = _gameSessionContext.Players.Where(t => modifiedPlayers.Contains(t));
