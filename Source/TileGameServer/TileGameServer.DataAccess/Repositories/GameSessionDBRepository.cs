@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -7,6 +8,7 @@ using TileGameServer.BaseLibrary.DataAccess.Context;
 using TileGameServer.BaseLibrary.Domain.Entities;
 using WebApiBaseLibrary.DataAccess.Repositories;
 using TileGameServer.BaseLibrary.Domain.Enums;
+using WebApiBaseLibrary.DataAccess.Entities;
 
 namespace TileGameServer.DataAccess.Repositories
 {
@@ -21,16 +23,16 @@ namespace TileGameServer.DataAccess.Repositories
 
         public override GameSession Get(Guid id)
         {
-            var includableQueryable = _gameSessionContext.GameSessions.Include(gs => gs.Players);
+            var sessionWithPlayers = _gameSessionContext.GameSessions.Include(gs => gs.Players);
 
-            return includableQueryable.FirstOrDefault(gs => gs.Id == id);
+            return sessionWithPlayers.FirstOrDefault(gs => gs.Id == id);
         }
 
         public override async Task<GameSession> GetAsync(Guid id)
         {
-            var includableQueryable = _gameSessionContext.GameSessions.Include(gs => gs.Players);
+            var sessionWithPlayers = _gameSessionContext.GameSessions.Include(gs => gs.Players);
 
-            return await includableQueryable.FirstOrDefaultAsync(gs => gs.Id == id);
+            return await sessionWithPlayers.FirstOrDefaultAsync(gs => gs.Id == id);
         }
 
         public GameSession GetWithPlayer(Guid playerId, params GameSessionStatus[] statuses)
@@ -46,49 +48,69 @@ namespace TileGameServer.DataAccess.Repositories
         {
             var gameSession = await _gameSessionContext.GameSessions.Include(gs => gs.Players)
                 .FirstOrDefaultAsync(session => session.Players.FirstOrDefault(p => p.Id == playerId) != default &&
-                                           statuses.Contains(session.Status));
+                                                statuses.Contains(session.Status));
 
             return gameSession;
         }
 
-        public GameSession GetWithPlayerFromAllSessions(Guid playerId) 
+        public Task<GameSession> GetWithPlayerInOpenSessions(Guid playerId)
         {
-            var session = GetWithPlayer(playerId, GameSessionStatus.Running,
-                                                      GameSessionStatus.Created,
-                                                      GameSessionStatus.Closed);
-            
-            return session;
-        }
+            var gameSession = GetWithPlayerAsync(
+                playerId,
+                GameSessionStatus.Created,
+                GameSessionStatus.Running);
 
-        public async Task<GameSession> GetWithPlayerFromAllSessionsAsync(Guid playerId)
-        {
-            var session = await GetWithPlayerAsync(playerId, GameSessionStatus.Running,
-                                                      GameSessionStatus.Created,
-                                                      GameSessionStatus.Closed);
-
-            return session;
+            return gameSession;
         }
 
         public override void SaveChanges()
         {
-            var modifiedPlayers = _gameSessionContext.ChangeTracker.Entries()
-                .Where(entry => entry.Entity is Player)
-                .Where(entry => entry.State == EntityState.Modified)
-                .Select(entry => entry.Entity as Player).ToList();
-
-            var existingPlayers = _gameSessionContext.Players.Where(t => modifiedPlayers.Contains(t));
-            var newPlayers = modifiedPlayers.Except(existingPlayers);
+            var (existingPlayers, newPlayers) = GetExistingAndNewPlayers();
 
             _gameSessionContext.Players.UpdateRange(existingPlayers);
+
             _gameSessionContext.Players.AddRange(newPlayers);
-            base.SaveChanges();
+            _gameSessionContext.SaveChanges();
         }
 
         public override async Task SaveChangesAsync()
         {
-            SaveChanges();
+            var (existingPlayers, newPlayers) = GetExistingAndNewPlayers();
 
-            await base.SaveChangesAsync();
+            _gameSessionContext.Players.UpdateRange(existingPlayers);
+
+            await _gameSessionContext.Players.AddRangeAsync(newPlayers);
+            await _gameSessionContext.SaveChangesAsync();
+        }
+
+        private (IQueryable<Player>, IEnumerable<Player>) GetExistingAndNewPlayers()
+        {
+            var modifiedPlayers = GetModifiedPlayers().ToList();
+
+            var existingPlayers = GetExistingPlayers(modifiedPlayers);
+            var newPlayers = modifiedPlayers.Except(existingPlayers);
+
+            return (existingPlayers, newPlayers);
+        }
+
+        private IEnumerable<Player> GetModifiedPlayers() => GetModifiedEntities<Player>();
+
+        private IEnumerable<TEntity> GetModifiedEntities<TEntity>()
+            where TEntity : BaseEntity
+        {
+            var modifiedEntities = _gameSessionContext.ChangeTracker.Entries()
+                .Where(entry => entry.Entity is TEntity)
+                .Where(entry => entry.State == EntityState.Modified)
+                .Select(entry => entry.Entity as TEntity);
+
+            return modifiedEntities;
+        }
+
+        private IQueryable<Player> GetExistingPlayers(IEnumerable<Player> modifiedPlayers)
+        {
+            var existingPlayers = _gameSessionContext.Players.Where(t => modifiedPlayers.Contains(t));
+
+            return existingPlayers;
         }
     }
 }
