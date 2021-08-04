@@ -49,9 +49,9 @@ namespace TileGameServer.Commands.Menu
                 var player = session.Players.FirstOrDefault(p => p.Id == request.AccountId); 
                 session.Players.Remove(player);
                 
-                if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity)
+                if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity 
+                    && session.Status == GameSessionStatus.Running)
                 {
-                    await _gameSessionsRepository.DeleteAsync(session.Id);
                     session.Status = GameSessionStatus.Closed;
                 }
 
