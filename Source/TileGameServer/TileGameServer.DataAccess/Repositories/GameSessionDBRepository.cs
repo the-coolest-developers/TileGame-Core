@@ -46,10 +46,12 @@ namespace TileGameServer.DataAccess.Repositories
             return Task.FromResult(res);
         }
 
-        public Task<GameSession> GetWithPlayerAsync(Guid playerId)
+        public async Task<GameSession> GetWithPlayerAsync(Guid playerId)
         {
-            var player = Get(playerId);
-            return Task.FromResult(player);
+            var gameSession = await _gameSessionContext.GameSessions.Include(gs => gs.Players)
+                .FirstOrDefaultAsync(session => session.Players.FirstOrDefault(p => p.Id == playerId) != default);
+
+            return gameSession;
         }
 
         public override async Task SaveChangesAsync()
