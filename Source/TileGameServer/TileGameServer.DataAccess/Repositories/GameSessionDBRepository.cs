@@ -45,23 +45,24 @@ namespace TileGameServer.DataAccess.Repositories
             var res = ExistsWithPlayer(playerId, statuses);
             return Task.FromResult(res);
         }
-        
-        public GameSession GetWithPlayer(Guid playerId, params GameSessionStatus[] statuses) 
+
+        public GameSession GetWithPlayer(Guid playerId, params GameSessionStatus[] statuses)
         {
-            var gameSession = _gameSessionContext.GameSessions.Include(gs => gs.Players).
-                FirstOrDefault(session => session.Players.FirstOrDefault(p => p.Id == playerId) != default && statuses.Contains(session.Status));
+            var gameSession = _gameSessionContext.GameSessions.Include(gs => gs.Players)
+                .FirstOrDefault(session => session.Players.FirstOrDefault(p => p.Id == playerId) != default &&
+                                           statuses.Contains(session.Status));
 
             return gameSession;
         }
 
         public Task<GameSession> GetWithPlayerAsync(Guid playerId, params GameSessionStatus[] statuses)
         {
-            var gameSession = GetWithPlayer(playerId, statuses); 
+            var gameSession = GetWithPlayer(playerId, statuses);
 
             return Task.FromResult(gameSession);
         }
 
-        public override void SaveChanges() 
+        public override void SaveChanges()
         {
             var modifiedPlayers = _gameSessionContext.ChangeTracker.Entries()
                 .Where(entry => entry.Entity is Player)

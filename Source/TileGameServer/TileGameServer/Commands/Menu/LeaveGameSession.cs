@@ -36,9 +36,11 @@ namespace TileGameServer.Commands.Menu
                 LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                var statuses = new GameSessionStatus[3] { GameSessionStatus.Closed, GameSessionStatus.Created, GameSessionStatus.Running };
+                var session = await _gameSessionsRepository.GetWithPlayerAsync(
+                    request.AccountId,
+                    GameSessionStatus.Created, GameSessionStatus.Running);
 
-                if (!await _gameSessionsRepository.ExistsWithPlayerAsync(request.AccountId, statuses))
+                if (session == null)
                 {
                     return new Response<Unit>
                     {
@@ -46,12 +48,10 @@ namespace TileGameServer.Commands.Menu
                     };
                 }
 
-                var session = await _gameSessionsRepository.GetWithPlayerAsync(request.AccountId, statuses);
-
-                var player = session.Players.FirstOrDefault(p => p.Id == request.AccountId); 
+                var player = session.Players.FirstOrDefault(p => p.Id == request.AccountId);
                 session.Players.Remove(player);
-                
-                if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity 
+
+                if (session.Players.Count < _sessionCapacityConfigurator.Configuration.MinSessionCapacity
                     && session.Status == GameSessionStatus.Running)
                 {
                     session.Status = GameSessionStatus.Closed;
