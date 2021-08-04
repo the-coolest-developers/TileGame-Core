@@ -33,19 +33,6 @@ namespace TileGameServer.DataAccess.Repositories
             return await includableQueryable.FirstOrDefaultAsync(gs => gs.Id == id);
         }
 
-        public bool ExistsWithPlayer(Guid playerId, params GameSessionStatus[] statuses)
-        {
-            var gameSession = GetWithPlayer(playerId, statuses);
-
-            return gameSession != null;
-        }
-
-        public Task<bool> ExistsWithPlayerAsync(Guid playerId, params GameSessionStatus[] statuses)
-        {
-            var res = ExistsWithPlayer(playerId, statuses);
-            return Task.FromResult(res);
-        }
-
         public GameSession GetWithPlayer(Guid playerId, params GameSessionStatus[] statuses)
         {
             var gameSession = _gameSessionContext.GameSessions.Include(gs => gs.Players)
@@ -55,11 +42,31 @@ namespace TileGameServer.DataAccess.Repositories
             return gameSession;
         }
 
-        public Task<GameSession> GetWithPlayerAsync(Guid playerId, params GameSessionStatus[] statuses)
+        public async Task<GameSession> GetWithPlayerAsync(Guid playerId, params GameSessionStatus[] statuses)
         {
-            var gameSession = GetWithPlayer(playerId, statuses);
+            var gameSession = await _gameSessionContext.GameSessions.Include(gs => gs.Players)
+                .FirstOrDefaultAsync(session => session.Players.FirstOrDefault(p => p.Id == playerId) != default &&
+                                           statuses.Contains(session.Status));
 
-            return Task.FromResult(gameSession);
+            return gameSession;
+        }
+
+        public GameSession GetWithPlayerFromAllSessions(Guid playerId) 
+        {
+            var session = GetWithPlayer(playerId, GameSessionStatus.Running,
+                                                      GameSessionStatus.Created,
+                                                      GameSessionStatus.Closed);
+            
+            return session;
+        }
+
+        public async Task<GameSession> GetWithPlayerFromAllSessionsAsync(Guid playerId)
+        {
+            var session = await GetWithPlayerAsync(playerId, GameSessionStatus.Running,
+                                                      GameSessionStatus.Created,
+                                                      GameSessionStatus.Closed);
+
+            return session;
         }
 
         public override void SaveChanges()

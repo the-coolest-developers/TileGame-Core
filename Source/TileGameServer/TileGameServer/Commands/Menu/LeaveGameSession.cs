@@ -36,9 +36,7 @@ namespace TileGameServer.Commands.Menu
                 LeaveGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                var session = await _gameSessionsRepository.GetWithPlayerAsync(
-                    request.AccountId,
-                    GameSessionStatus.Created, GameSessionStatus.Running);
+                var session = await _gameSessionsRepository.GetWithPlayerFromAllSessionsAsync(request.AccountId);
 
                 if (session == null)
                 {
