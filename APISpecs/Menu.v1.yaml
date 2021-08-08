@@ -20,13 +20,23 @@ paths:
                   SessionId:
                     type: string
               examples: {}
+        '409':
+          description: Conflict
       operationId: get-Menu-NewGame
       parameters:
         - schema:
             type: string
           in: header
-          name: Autorization
+          name: Authorization
           description: 'Bearer {token}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SessionCapacity:
+                  type: integer
     parameters: []
   /Menu/JoinGameSession:
     post:
@@ -35,8 +45,8 @@ paths:
       responses:
         '200':
           description: OK
-        '403':
-          description: Forbidden
+        '409':
+          description: Conflict
       requestBody:
         content:
           application/json:
@@ -60,9 +70,47 @@ paths:
       responses:
         '200':
           description: OK
-        '403':
-          description: Forbidden
+        '409':
+          description: Conflict
       operationId: get-Menu-LeaveGame
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: 'Bearer {token}'
+    parameters: []
+  /Menu/ListCreatedGameSessions:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SessionId:
+                    type: string
+                  CreatorNickname:
+                    type: string
+                  SessionCapacity:
+                    type: integer
+                  SessionPlayerAmount:
+                    type: number
+      operationId: get-Menu-ListGameSessions
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: offset
+        - schema:
+            type: integer
+          in: query
+          name: limit
+      description: Shows open sessions
     parameters: []
 components:
   schemas:
