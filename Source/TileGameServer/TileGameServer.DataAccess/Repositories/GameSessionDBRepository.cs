@@ -112,7 +112,7 @@ namespace TileGameServer.DataAccess.Repositories
             return existingPlayers;
         }
 
-        public bool ExistsWithPlayer(Guid playerId)
+        public bool ExistsWithPlayerInOpenSessions(Guid playerId)
         {
             var player = GetWithPlayerInOpenSessions(playerId);
             bool existsWithPlayer = player != null;
@@ -120,7 +120,7 @@ namespace TileGameServer.DataAccess.Repositories
             return existsWithPlayer;
         }
 
-        public async Task<bool> ExistsWithPlayerAsync(Guid playerId)
+        public async Task<bool> ExistsWithPlayerInOpenSessionsAsync(Guid playerId)
         {
             var player = await GetWithPlayerInOpenSessionsAsync(playerId);
             bool existsWithPlayer = player != null;

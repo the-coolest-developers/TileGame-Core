@@ -40,10 +40,13 @@ namespace TileGameServer
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
 
             services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
+            
             services.AddScoped<IGameSessionRepository, GameSessionDbRepository>();
 
-            services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddSingletonSessionCapacityConfiguration(Configuration);
+            services.AddScoped<ISessionCapacityConfigurator, SessionCapacityConfigurator>();
 
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddSingleton<IJwtConfigurator, JwtConfigurator>(_ =>
             {
                 var jwtConfiguration = Configuration.GetSection(AuthorizationAppsettings.JwtConfiguration)
@@ -51,9 +54,6 @@ namespace TileGameServer
 
                 return new JwtConfigurator(jwtConfiguration);
             });
-
-            services.AddSingletonSessionCapacityConfiguration(Configuration);
-            services.AddScoped<ISessionCapacityConfigurator, SessionCapacityConfigurator>();
 
             services.AddAuthentication(options =>
             {

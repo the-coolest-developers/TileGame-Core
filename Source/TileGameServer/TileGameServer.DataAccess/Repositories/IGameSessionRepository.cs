@@ -13,7 +13,7 @@ namespace TileGameServer.DataAccess.Repositories
         public GameSession GetWithPlayerInOpenSessions(Guid playerId);
         public Task<GameSession> GetWithPlayerInOpenSessionsAsync(Guid playerId);
 
-        public bool ExistsWithPlayer(Guid playerId);
-        public Task<bool> ExistsWithPlayerAsync(Guid playerId);
+        public bool ExistsWithPlayerInOpenSessions(Guid playerId);
+        public Task<bool> ExistsWithPlayerInOpenSessionsAsync(Guid playerId);
     }
 }
