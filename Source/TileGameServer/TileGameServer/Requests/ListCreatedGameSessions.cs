@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.BaseLibrary.Domain.Entities;
 using TileGameServer.DataAccess.Repositories;
+using TileGameServer.Domain.Models.Requests;
+using TileGameServer.Domain.Models.Responses;
 using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;
 
@@ -11,12 +13,6 @@ namespace TileGameServer.Requests
 {
     public class ListCreatedGameSessions
     {
-        public class ListCreatedGameSessionsRequest : IRequest<IResponse<ListCreatedGameSessionsResponse>>
-        {
-            public int Offset { get; set; }
-            public int Limit { get; set; }
-        }
-
         public class ListCreatedGameSessionsHandler :
             IRequestHandler<ListCreatedGameSessionsRequest, IResponse<ListCreatedGameSessionsResponse>>
         {
@@ -42,11 +38,6 @@ namespace TileGameServer.Requests
 
                 return response.Success();
             }
-        }
-
-        public class ListCreatedGameSessionsResponse
-        {
-            public GameSession[] GameSessions { get; set; }
         }
     }
 }

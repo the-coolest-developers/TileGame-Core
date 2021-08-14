@@ -16,4 +16,10 @@
       <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.9-develop" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="TileGameServer.BaseLibrary.Domain">
+        <HintPath>..\..\..\output\TileGameServer.BaseLibrary.Domain.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
