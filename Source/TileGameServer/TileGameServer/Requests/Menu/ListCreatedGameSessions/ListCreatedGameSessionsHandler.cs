@@ -3,11 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.DataAccess.Repositories;
-using TileGameServer.Requests.ListCreatedGameSessions;
 using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;
 
-namespace TileGameServer.Requests
+namespace TileGameServer.Requests.Menu.ListCreatedGameSessions
 {
     public class ListCreatedGameSessionsHandler :
         IRequestHandler<ListCreatedGameSessionsRequest, IResponse<ListCreatedGameSessionsResponse>>

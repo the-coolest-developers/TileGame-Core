@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TileGameServer.Requests.ListCreatedGameSessions
+namespace TileGameServer.Requests.Menu.ListCreatedGameSessions
 {
     public class ListedGameSession
     {

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using WebApiBaseLibrary.Responses;
 
-namespace TileGameServer.Requests.ListCreatedGameSessions
+namespace TileGameServer.Requests.Menu.ListCreatedGameSessions
 {
     public class ListCreatedGameSessionsRequest : IRequest<IResponse<ListCreatedGameSessionsResponse>>
     {
