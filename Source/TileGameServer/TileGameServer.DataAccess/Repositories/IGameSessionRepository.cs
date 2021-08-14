@@ -10,7 +10,7 @@ namespace TileGameServer.DataAccess.Repositories
     public interface IGameSessionRepository : IRepository<GameSession>, IDatabaseRepository
     {
         public Task<IEnumerable<GameSession>> GetTopAsync(int offset, int limit);
-        
+
         public Task<GameSession> GetWithPlayerAsync(Guid playerId, params GameSessionStatus[] statuses);
 
         public GameSession GetWithPlayerInOpenSessions(Guid playerId);

@@ -1,13 +1,7 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TileGameServer.Domain.Models.Responses;
 using WebApiBaseLibrary.Responses;
 
-namespace TileGameServer.Domain.Models.Requests
+namespace TileGameServer.Requests.ListCreatedGameSessions
 {
     public class ListCreatedGameSessionsRequest : IRequest<IResponse<ListCreatedGameSessionsResponse>>
     {

@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu;
-using TileGameServer.Requests;
+using TileGameServer.Requests.ListCreatedGameSessions;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Controllers;
@@ -60,10 +60,10 @@ namespace TileGameServer.Controllers
         }
 
         [HttpGet("listCreatedGameSessions/{offset:int?}/{limit:int?}")]
-        public async Task<ActionResult<ListCreatedGameSessions.ListCreatedGameSessionsResponse>>
+        public async Task<ActionResult<ListCreatedGameSessionsResponse>>
             ListCreatedGameSessions(int offset = 0, int limit = 10)
         {
-            var command = new ListCreatedGameSessions.ListCreatedGameSessionsRequest
+            var command = new ListCreatedGameSessionsRequest
             {
                 Offset = offset,
                 Limit = limit
