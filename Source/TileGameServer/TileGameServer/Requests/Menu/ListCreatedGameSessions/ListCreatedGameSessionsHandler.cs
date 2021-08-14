@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.DataAccess.Repositories;
+using TileGameServer.Domain.Models.Configurations;
 using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;
 
@@ -12,10 +13,12 @@ namespace TileGameServer.Requests.Menu.ListCreatedGameSessions
         IRequestHandler<ListCreatedGameSessionsRequest, IResponse<ListCreatedGameSessionsResponse>>
     {
         private readonly IGameSessionRepository _gameSessionsRepository;
+        private readonly RequestLimitConfiguration requestLimit;
 
-        public ListCreatedGameSessionsHandler(IGameSessionRepository gameSessionsRepository)
+        public ListCreatedGameSessionsHandler(IGameSessionRepository gameSessionsRepository, RequestLimitConfiguration configuration)
         {
             _gameSessionsRepository = gameSessionsRepository;
+            requestLimit = configuration;
         }
 
         public async Task<IResponse<ListCreatedGameSessionsResponse>> Handle(

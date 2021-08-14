@@ -11,8 +11,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.DataAccess.Context;
+using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
+using TileGameServer.Domain.Models.Configurations;
 using TileGameServer.Extensions;
 using WebApiBaseLibrary.Authorization.Configurators;
 using WebApiBaseLibrary.Authorization.Constants;
@@ -39,6 +41,11 @@ namespace TileGameServer
         public void ConfigureServices(IServiceCollection services)
         {
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
+
+            var requestLimitConfiguration = Configuration
+                .GetSection(TileGameAppSettings.RequestLimitConfiguration)
+                .Get<RequestLimitConfiguration>();
+            services.AddSingleton<RequestLimitConfiguration>(requestLimitConfiguration);
 
             services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
 
