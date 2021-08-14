@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.DataAccess.Context;
 using TileGameServer.DataAccess.Repositories;
 using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
@@ -68,7 +69,9 @@ namespace TileGameServer
             });
             services.AddAuthorization();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TileGameServer", Version = "v1"});
