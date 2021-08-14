@@ -44,6 +44,14 @@ namespace TileGameServer.DataAccess.Repositories
             return gameSession;
         }
 
+        public Task<IEnumerable<GameSession>> GetTopAsync(int offset, int limit)
+        {
+            IEnumerable<GameSession> gameSessions = _gameSessionContext.GameSessions.Include(gs => gs.Players)
+                .OrderBy(gs => gs.CreationDate).Skip(offset).Take(limit);
+
+            return Task.FromResult(gameSessions);
+        }
+
         public async Task<GameSession> GetWithPlayerAsync(Guid playerId, params GameSessionStatus[] statuses)
         {
             var gameSession = await _gameSessionContext.GameSessions.Include(gs => gs.Players)

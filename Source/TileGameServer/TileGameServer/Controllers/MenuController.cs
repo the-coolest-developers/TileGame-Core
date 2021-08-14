@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu;
+using TileGameServer.Requests;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Controllers;
@@ -53,6 +54,19 @@ namespace TileGameServer.Controllers
             var command = new LeaveGameSession.LeaveGameSessionCommand
             {
                 AccountId = AccountId
+            };
+
+            return await ExecuteActionAsync(await Mediator.Send(command));
+        }
+
+        [HttpGet("listCreatedGameSessions/{offset:int?}/{limit:int?}")]
+        public async Task<ActionResult<ListCreatedGameSessions.ListCreatedGameSessionsResponse>>
+            ListCreatedGameSessions(int offset = 0, int limit = 10)
+        {
+            var command = new ListCreatedGameSessions.ListCreatedGameSessionsRequest
+            {
+                Offset = offset,
+                Limit = limit
             };
 
             return await ExecuteActionAsync(await Mediator.Send(command));
