@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.BaseLibrary.Domain.Entities;
 using TileGameServer.DataAccess.Repositories;
-using WebApiBaseLibrary.Enums;
+using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;
 
 namespace TileGameServer.Requests
@@ -34,18 +33,14 @@ namespace TileGameServer.Requests
             {
                 var limit = request.Limit is <= 0 or > 50 ? 10 : request.Limit;
 
-                var gameSessions = await _gameSessionsRepository.GetTopAsync(request.Offset, request.Limit);
+                var gameSessions = await _gameSessionsRepository.GetTopAsync(request.Offset, limit);
 
                 var response = new ListCreatedGameSessionsResponse
                 {
                     GameSessions = gameSessions.ToArray()
                 };
 
-                return new Response<ListCreatedGameSessionsResponse>
-                {
-                    Result = response,
-                    Status = ResponseStatus.Success
-                };
+                return response.Success();
             }
         }
 

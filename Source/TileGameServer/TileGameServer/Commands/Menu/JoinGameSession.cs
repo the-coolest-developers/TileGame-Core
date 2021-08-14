@@ -41,11 +41,21 @@ namespace TileGameServer.Commands.Menu
                 JoinGameSessionCommand request,
                 CancellationToken cancellationToken)
             {
-                var playerIsInSession = await _gameSessionsRepository.ExistsWithPlayerInOpenSessionsAsync(request.AccountId);
+                var playerIsInSession =
+                    await _gameSessionsRepository.ExistsWithPlayerInOpenSessionsAsync(request.AccountId);
 
                 if (!playerIsInSession)
                 {
                     GameSession session = await _gameSessionsRepository.GetAsync(request.SessionId);
+
+                    if (session == null)
+                    {
+                        return new Response<JoinGameSessionResponse>
+                        {
+                            Status = ResponseStatus.Conflict
+                        };
+                    }
+
                     bool sessionIsFull = session.Players.Count >= session.Capacity;
 
                     if (session.Status == GameSessionStatus.Created && !sessionIsFull)
