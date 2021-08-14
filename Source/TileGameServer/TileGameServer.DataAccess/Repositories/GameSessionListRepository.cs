@@ -12,7 +12,7 @@ namespace TileGameServer.DataAccess.Repositories
 
         public void Create(GameSession session)
         {
-            session.Players = new List<Player>();
+            session.Players = new List<SessionPlayer>();
             GameSessions.Add(session);
         }
 

@@ -4,9 +4,9 @@ using WebApiBaseLibrary.DataAccess.EntityConfigurations;
 
 namespace TileGameServer.BaseLibrary.DataAccess.EntityConfigurations
 {
-    public class PlayerConfiguration : BaseEntityConfiguration<Player>
+    public class PlayerConfiguration : BaseEntityConfiguration<SessionPlayer>
     {
-        public override void Configure(EntityTypeBuilder<Player> builder)
+        public override void Configure(EntityTypeBuilder<SessionPlayer> builder)
         {
             base.Configure(builder);
 

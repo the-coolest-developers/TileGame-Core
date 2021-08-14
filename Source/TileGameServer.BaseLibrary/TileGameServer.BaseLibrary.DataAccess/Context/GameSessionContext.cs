@@ -8,7 +8,7 @@ namespace TileGameServer.BaseLibrary.DataAccess.Context
     public class GameSessionContext : DbContext
     {
         public DbSet<GameSession> GameSessions { get; set; }
-        public DbSet<Player> Players { get; set; }
+        public DbSet<SessionPlayer> SessionPlayers { get; set; }
 
         private readonly Assembly _configurationAssembly;
 

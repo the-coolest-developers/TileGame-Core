@@ -83,9 +83,9 @@ namespace TileGameServer.DataAccess.Repositories
         {
             var (existingPlayers, newPlayers) = GetExistingAndNewPlayers();
 
-            _gameSessionContext.Players.UpdateRange(existingPlayers);
+            _gameSessionContext.SessionPlayers.UpdateRange(existingPlayers);
 
-            _gameSessionContext.Players.AddRange(newPlayers);
+            _gameSessionContext.SessionPlayers.AddRange(newPlayers);
             _gameSessionContext.SaveChanges();
         }
 
@@ -93,13 +93,13 @@ namespace TileGameServer.DataAccess.Repositories
         {
             var (existingPlayers, newPlayers) = GetExistingAndNewPlayers();
 
-            _gameSessionContext.Players.UpdateRange(existingPlayers);
+            _gameSessionContext.SessionPlayers.UpdateRange(existingPlayers);
 
-            await _gameSessionContext.Players.AddRangeAsync(newPlayers);
+            await _gameSessionContext.SessionPlayers.AddRangeAsync(newPlayers);
             await _gameSessionContext.SaveChangesAsync();
         }
 
-        private (IQueryable<Player>, IEnumerable<Player>) GetExistingAndNewPlayers()
+        private (IQueryable<SessionPlayer>, IEnumerable<SessionPlayer>) GetExistingAndNewPlayers()
         {
             var modifiedPlayers = GetModifiedPlayers().ToList();
 
@@ -109,11 +109,11 @@ namespace TileGameServer.DataAccess.Repositories
             return (existingPlayers, newPlayers);
         }
 
-        private IEnumerable<Player> GetModifiedPlayers() => GetModifiedEntities<Player>();
+        private IEnumerable<SessionPlayer> GetModifiedPlayers() => GetModifiedEntities<SessionPlayer>();
 
-        private IQueryable<Player> GetExistingPlayers(IEnumerable<Player> modifiedPlayers)
+        private IQueryable<SessionPlayer> GetExistingPlayers(IEnumerable<SessionPlayer> modifiedPlayers)
         {
-            var existingPlayers = _gameSessionContext.Players.Where(t => modifiedPlayers.Contains(t));
+            var existingPlayers = _gameSessionContext.SessionPlayers.Where(t => modifiedPlayers.Contains(t));
 
             return existingPlayers;
         }

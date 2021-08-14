@@ -1,6 +1,5 @@
 create table if not exists "game"."Players"
 (
-	"Id" uuid,
-	"GameSessionId" uuid, 
-	foreign key ("GameSessionId") references "game"."GameSessions"("Id")
+    "Id"       uuid primary key,
+    "Nickname" varchar(50) not null
 );

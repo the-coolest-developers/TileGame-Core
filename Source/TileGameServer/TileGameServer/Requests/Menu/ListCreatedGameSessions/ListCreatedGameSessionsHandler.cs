@@ -38,7 +38,7 @@ namespace TileGameServer.Requests.Menu.ListCreatedGameSessions
             var gameSessions = await _gameSessionsRepository.GetTopAsync(request.Offset, limit);
 
             var listedGameSessions = gameSessions.Select(
-                gs => new ListedGameSession()
+                gs => new ListedGameSession
                 {
                     Id = gs.Id,
                     Capacity = gs.Capacity,

@@ -15,7 +15,7 @@ using WebApiBaseLibrary.Responses;
 namespace TileGameServer.Commands.Menu.JoinGameSession
 {
     public class JoinGameSessionCommandHandler
-            : IRequestHandler<JoinGameSessionCommand, Response<JoinGameSessionResponse>>
+        : IRequestHandler<JoinGameSessionCommand, Response<JoinGameSessionResponse>>
     {
         private readonly IGameSessionRepository _gameSessionsRepository;
         private readonly IJwtGenerator _jwtGenerator;
@@ -52,7 +52,7 @@ namespace TileGameServer.Commands.Menu.JoinGameSession
                 if (session.Status == GameSessionStatus.Created && !sessionIsFull)
                 {
                     session.Players.Add(
-                        new Player
+                        new SessionPlayer
                         {
                             Id = request.AccountId,
                             GameSession = session,
@@ -63,8 +63,8 @@ namespace TileGameServer.Commands.Menu.JoinGameSession
                     var token = _jwtGenerator.GenerateToken(
                         new[]
                         {
-                                new Claim(WebApiClaimTypes.AccountId, request.AccountId.ToString()),
-                                new Claim(TileGameClaimTypes.SessionId, session.Id.ToString())
+                            new Claim(WebApiClaimTypes.AccountId, request.AccountId.ToString()),
+                            new Claim(TileGameClaimTypes.SessionId, session.Id.ToString())
                         });
 
                     var response = new JoinGameSessionResponse
