@@ -13,19 +13,27 @@ namespace TileGameServer.Requests.Menu.ListCreatedGameSessions
         IRequestHandler<ListCreatedGameSessionsRequest, IResponse<ListCreatedGameSessionsResponse>>
     {
         private readonly IGameSessionRepository _gameSessionsRepository;
-        private readonly RequestLimitConfiguration requestLimit;
+        private readonly RequestLimitConfiguration _requestLimitConfiguration;
 
-        public ListCreatedGameSessionsHandler(IGameSessionRepository gameSessionsRepository, RequestLimitConfiguration configuration)
+        public ListCreatedGameSessionsHandler(
+            IGameSessionRepository gameSessionsRepository,
+            RequestLimitConfiguration configuration)
         {
             _gameSessionsRepository = gameSessionsRepository;
-            requestLimit = configuration;
+            _requestLimitConfiguration = configuration;
         }
 
         public async Task<IResponse<ListCreatedGameSessionsResponse>> Handle(
             ListCreatedGameSessionsRequest request,
             CancellationToken cancellationToken)
         {
-            var limit = request.Limit is <= 0 or > 50 ? 10 : request.Limit;
+            var minRequestLimit = _requestLimitConfiguration.MinRequestLimit;
+            var maxRequestLimit = _requestLimitConfiguration.MaxRequestLimit;
+
+            var limit = request.Limit <= minRequestLimit
+                        || request.Limit > maxRequestLimit
+                ? _requestLimitConfiguration.Default
+                : request.Limit;
 
             var gameSessions = await _gameSessionsRepository.GetTopAsync(request.Offset, limit);
 

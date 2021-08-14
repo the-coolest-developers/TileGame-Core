@@ -42,10 +42,14 @@ namespace TileGameServer
         {
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
 
-            var requestLimitConfiguration = Configuration
-                .GetSection(TileGameAppSettings.RequestLimitConfiguration)
-                .Get<RequestLimitConfiguration>();
-            services.AddSingleton<RequestLimitConfiguration>(requestLimitConfiguration);
+            services.AddSingleton(_ =>
+            {
+                var requestLimitConfiguration = Configuration
+                    .GetSection(TileGameAppSettings.RequestLimitConfiguration)
+                    .Get<RequestLimitConfiguration>();
+
+                return requestLimitConfiguration;
+            });
 
             services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
 
@@ -78,7 +82,7 @@ namespace TileGameServer
 
             services.AddControllers().AddNewtonsoftJson(
                 options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TileGameServer", Version = "v1"});
