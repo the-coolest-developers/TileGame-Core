@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TileGameServer.BaseLibrary.Domain.Enums;
-using TileGameServer.DataAccess.Repositories;
+using TileGameServer.DataAccess.Repositories.GameSessions;
 using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Responses;

@@ -2,7 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TileGameServer.DataAccess.Repositories;
+using TileGameServer.DataAccess.Repositories.GameSessions;
+using TileGameServer.DataAccess.Repositories.Players;
 using TileGameServer.Domain.Models.Configurations;
 using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;
@@ -13,13 +14,16 @@ namespace TileGameServer.Requests.Menu.ListCreatedGameSessions
         IRequestHandler<ListCreatedGameSessionsRequest, IResponse<ListCreatedGameSessionsResponse>>
     {
         private readonly IGameSessionRepository _gameSessionsRepository;
+        private readonly IPlayerRepository _playerRepository;
         private readonly RequestLimitConfiguration _requestLimitConfiguration;
 
         public ListCreatedGameSessionsHandler(
             IGameSessionRepository gameSessionsRepository,
+            IPlayerRepository playerRepository,
             RequestLimitConfiguration configuration)
         {
             _gameSessionsRepository = gameSessionsRepository;
+            _playerRepository = playerRepository;
             _requestLimitConfiguration = configuration;
         }
 
@@ -38,17 +42,22 @@ namespace TileGameServer.Requests.Menu.ListCreatedGameSessions
             var gameSessions = await _gameSessionsRepository.GetTopAsync(request.Offset, limit);
 
             var listedGameSessions = gameSessions.Select(
-                gs => new ListedGameSession
+                gameSession =>
                 {
-                    Id = gs.Id,
-                    Capacity = gs.Capacity,
-                    CreatorNickname = "Creator!",
-                    PlayerAmount = gs.Players.Count
-                }).ToArray();
+                    var playerNickname = _playerRepository.Get(gameSession.CreatorId).Nickname;
+
+                    return new ListedGameSession
+                    {
+                        Id = gameSession.Id,
+                        Capacity = gameSession.Capacity,
+                        CreatorNickname = playerNickname,
+                        PlayerAmount = gameSession.Players.Count
+                    };
+                });
 
             var response = new ListCreatedGameSessionsResponse
             {
-                GameSessions = listedGameSessions
+                GameSessions = listedGameSessions.ToArray()
             };
 
             return response.Success();

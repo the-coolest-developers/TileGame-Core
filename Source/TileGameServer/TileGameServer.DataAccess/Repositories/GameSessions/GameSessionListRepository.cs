@@ -1,10 +1,10 @@
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TileGameServer.BaseLibrary.Domain.Entities;
 
-namespace TileGameServer.DataAccess.Repositories
+namespace TileGameServer.DataAccess.Repositories.GameSessions
 {
     public class GameSessionListRepository //: IGameSessionRepository
     {

@@ -5,7 +5,7 @@ using TileGameServer.BaseLibrary.Domain.Entities;
 using TileGameServer.BaseLibrary.Domain.Enums;
 using WebApiBaseLibrary.DataAccess.Repositories;
 
-namespace TileGameServer.DataAccess.Repositories
+namespace TileGameServer.DataAccess.Repositories.GameSessions
 {
     public interface IGameSessionRepository : IRepository<GameSession>, IDatabaseRepository
     {
