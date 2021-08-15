@@ -47,7 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Commands\Players" />
       <Folder Include="Requests\Menu" />
     </ItemGroup>
 
