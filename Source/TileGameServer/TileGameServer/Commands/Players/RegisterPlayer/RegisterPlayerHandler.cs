@@ -26,7 +26,7 @@ namespace TileGameServer.Commands.Players.RegisterPlayer
                 return new Unit().Forbidden();
             }
 
-            var player = new Player()
+            var player = new Player
             {
                 Id = request.PlayerId,
                 Nickname = request.PlayerNickname
