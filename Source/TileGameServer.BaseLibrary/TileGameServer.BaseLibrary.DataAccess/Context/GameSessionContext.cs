@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TileGameServer.BaseLibrary.DataAccess.EntityConfigurations;
 using TileGameServer.BaseLibrary.Domain.Entities;
+using WebApiBaseLibrary.DataAccess.Context;
 
 namespace TileGameServer.BaseLibrary.DataAccess.Context
 {
