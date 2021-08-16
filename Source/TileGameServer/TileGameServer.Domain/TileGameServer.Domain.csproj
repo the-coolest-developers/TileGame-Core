@@ -13,7 +13,7 @@
 
     <ItemGroup>
       <PackageReference Include="WebApiBaseLibrary" Version="1.0.4" />
-      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.0.9-develop" />
+      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.1.0-develop" />
     </ItemGroup>
 
     <ItemGroup>
