@@ -4,15 +4,15 @@ using WebApiBaseLibrary.DataAccess.EntityConfigurations;
 
 namespace TileGameServer.BaseLibrary.DataAccess.EntityConfigurations
 {
-    public class PlayerConfiguration : BaseEntityConfiguration<SessionPlayer>
+    public class SessionPlayerConfiguration : BaseEntityConfiguration<SessionPlayer>
     {
         public override void Configure(EntityTypeBuilder<SessionPlayer> builder)
         {
             base.Configure(builder);
 
-            builder.Property(player => player.GameSessionId).IsRequired();
+            builder.Property(sessionPlayer => sessionPlayer.GameSessionId).IsRequired();
 
-            builder.HasOne(player => player.GameSession)
+            builder.HasOne(sessionPlayer => sessionPlayer.GameSession)
                 .WithMany(gs => gs.Players).IsRequired();
         }
     }

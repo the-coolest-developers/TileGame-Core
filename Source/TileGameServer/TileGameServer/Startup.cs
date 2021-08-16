@@ -11,7 +11,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.DataAccess.Context;
+using TileGameServer.BaseLibrary.DataAccess.EntityConfigurations;
 using TileGameServer.Constants;
+using TileGameServer.DataAccess;
+using TileGameServer.DataAccess.Context;
 using TileGameServer.DataAccess.Repositories.GameSessions;
 using TileGameServer.DataAccess.Repositories.Players;
 using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
@@ -52,7 +55,10 @@ namespace TileGameServer
                 return requestLimitConfiguration;
             });
 
+            services.AddSingleton<IConfigurationAssembly, ConfigurationAssembly>();
+
             services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
+            services.AddDbContext<PlayerContext>(options => options.UseNpgsql(databaseConnectionString));
 
             services.AddScoped<IGameSessionRepository, GameSessionDbRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();

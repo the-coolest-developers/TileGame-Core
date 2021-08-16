@@ -5,25 +5,21 @@ using TileGameServer.BaseLibrary.Domain.Entities;
 
 namespace TileGameServer.BaseLibrary.DataAccess.Context
 {
-    public class GameSessionContext : BaseDbContext
+    public class BaseDbContext : DbContext
     {
-        public DbSet<GameSession> GameSessions { get; set; }
-        public DbSet<SessionPlayer> SessionPlayers { get; set; }
+        private readonly Assembly _configurationAssembly;
 
-        //private readonly Assembly _configurationAssembly;
-
-        public GameSessionContext(
+        public BaseDbContext(
             DbContextOptions<GameSessionContext> options,
-            IConfigurationAssembly assemblyWithConfigurations = null) : base(options, assemblyWithConfigurations)
+            IConfigurationAssembly assemblyWithConfigurations = null) : base(options)
         {
-            //_configurationAssembly = assemblyWithConfigurations?.GetConfigurationAssembly();
+            _configurationAssembly = assemblyWithConfigurations?.GetConfigurationAssembly();
         }
 
-        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             var assembly = Assembly.GetAssembly(GetType());
             modelBuilder.ApplyConfigurationsFromAssembly(assembly!);
 
@@ -31,6 +27,6 @@ namespace TileGameServer.BaseLibrary.DataAccess.Context
             {
                 modelBuilder.ApplyConfigurationsFromAssembly(_configurationAssembly!);
             }
-        }*/
+        }
     }
 }
