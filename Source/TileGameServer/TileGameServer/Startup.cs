@@ -25,6 +25,7 @@ using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
+using WebApiBaseLibrary.DataAccess;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;
 
@@ -55,7 +56,7 @@ namespace TileGameServer
                 return requestLimitConfiguration;
             });
 
-            services.AddSingleton<IConfigurationAssembly, ConfigurationAssembly>();
+            services.AddSingleton<IEntityConfigurationAssembly, ConfigurationAssembly>();
 
             services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
             services.AddDbContext<PlayerContext>(options => options.UseNpgsql(databaseConnectionString));

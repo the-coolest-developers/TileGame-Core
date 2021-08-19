@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
 using TileGameServer.BaseLibrary.DataAccess.EntityConfigurations;
+using WebApiBaseLibrary.DataAccess;
 
 namespace TileGameServer.DataAccess
 {
-    public class ConfigurationAssembly : IConfigurationAssembly
+    public class ConfigurationAssembly : IEntityConfigurationAssembly
     {
-        public Assembly GetConfigurationAssembly() => GetType().Assembly;
+        public Assembly GetEntityConfigurationAssembly() => GetType().Assembly;
     }
 }

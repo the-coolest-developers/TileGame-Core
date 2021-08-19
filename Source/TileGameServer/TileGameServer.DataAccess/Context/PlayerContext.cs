@@ -2,16 +2,17 @@
 using TileGameServer.BaseLibrary.DataAccess.Context;
 using TileGameServer.BaseLibrary.DataAccess.EntityConfigurations;
 using TileGameServer.BaseLibrary.Domain.Entities;
+using WebApiBaseLibrary.DataAccess;
 
 namespace TileGameServer.DataAccess.Context
 {
-    public class PlayerContext : BaseDbContext
+    public class PlayerContext : BaseContext
     {
         public DbSet<Player> Players { get; set; }
 
         public PlayerContext(
-            DbContextOptions<GameSessionContext> options,
-            IConfigurationAssembly assemblyWithConfigurations = null) : base(options, assemblyWithConfigurations)
+            DbContextOptions<BaseContext> options,
+            IEntityConfigurationAssembly assemblyWithConfigurations = null) : base(options, assemblyWithConfigurations)
         {
         }
     }
