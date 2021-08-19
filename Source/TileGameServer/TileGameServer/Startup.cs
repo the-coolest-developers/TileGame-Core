@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.DataAccess.Context;
-using TileGameServer.BaseLibrary.DataAccess.EntityConfigurations;
 using TileGameServer.Constants;
 using TileGameServer.DataAccess;
 using TileGameServer.DataAccess.Context;

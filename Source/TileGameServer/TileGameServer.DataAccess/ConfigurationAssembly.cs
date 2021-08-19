@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using TileGameServer.BaseLibrary.DataAccess.EntityConfigurations;
 using WebApiBaseLibrary.DataAccess;
 
 namespace TileGameServer.DataAccess

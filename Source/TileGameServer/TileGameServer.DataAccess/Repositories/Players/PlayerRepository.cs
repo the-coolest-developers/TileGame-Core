@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TileGameServer.BaseLibrary.Domain.Entities;
+﻿using TileGameServer.BaseLibrary.Domain.Entities;
 using TileGameServer.DataAccess.Context;
 using WebApiBaseLibrary.DataAccess.Repositories;
 
