@@ -44,7 +44,7 @@ namespace TileGameServer.BaseLibrary.DataAccess.Context
         public BaseContext(
             DbContextOptions<BaseContext> options,
             IEntityConfigurationAssembly entityConfigurationAssembly = null)
-            : base((DbContextOptions) options)
+            : base(options)
         {
             this._entityConfigurationAssembly = entityConfigurationAssembly?.GetEntityConfigurationAssembly();
         }
