@@ -33,6 +33,7 @@ namespace TileGameServer.Commands.Players.RegisterPlayer
             };
 
             await _playerRepository.CreateAsync(player);
+            await _playerRepository.SaveChangesAsync();
 
             return new Unit().Success();
         }
