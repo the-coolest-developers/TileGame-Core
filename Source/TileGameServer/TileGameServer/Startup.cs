@@ -54,8 +54,6 @@ namespace TileGameServer
                 return requestLimitConfiguration;
             });
 
-            services.AddSingleton<IEntityConfigurationAssembly, ConfigurationAssembly>();
-
             services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
             services.AddDbContext<PlayerContext>(options => options.UseNpgsql(databaseConnectionString));
 
