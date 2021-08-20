@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using TileGameServer.BaseLibrary.DataAccess.Repositories;
 using TileGameServer.DataAccess.Repositories.GameSessions;
-using TileGameServer.DataAccess.Repositories.Players;
 using TileGameServer.Domain.Models.Configurations;
 using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;

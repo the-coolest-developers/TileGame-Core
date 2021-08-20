@@ -1,7 +1,7 @@
 ﻿using TileGameServer.BaseLibrary.Domain.Entities;
 using WebApiBaseLibrary.DataAccess.Repositories;
 
-namespace TileGameServer.DataAccess.Repositories.Players
+namespace TileGameServer.BaseLibrary.DataAccess.Repositories
 {
     public interface IPlayerRepository : IRepository<Player>
     {

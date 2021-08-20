@@ -1,8 +1,8 @@
-﻿using TileGameServer.BaseLibrary.Domain.Entities;
-using TileGameServer.DataAccess.Context;
+﻿using TileGameServer.BaseLibrary.DataAccess.Context;
+using TileGameServer.BaseLibrary.Domain.Entities;
 using WebApiBaseLibrary.DataAccess.Repositories;
 
-namespace TileGameServer.DataAccess.Repositories.Players
+namespace TileGameServer.BaseLibrary.DataAccess.Repositories
 {
     public class PlayerRepository : EntityFrameworkBaseRepository<Player>, IPlayerRepository
     {

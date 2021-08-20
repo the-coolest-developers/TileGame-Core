@@ -4,12 +4,11 @@ using TileGameServer.BaseLibrary.Domain.Entities;
 
 namespace TileGameServer.BaseLibrary.DataAccess.Context
 {
-    public class GameSessionContext : DbContext
+    public class PlayerContext : DbContext
     {
-        public DbSet<GameSession> GameSessions { get; set; }
-        public DbSet<SessionPlayer> SessionPlayers { get; set; }
+        public DbSet<Player> Players { get; set; }
 
-        public GameSessionContext(DbContextOptions<GameSessionContext> options) : base(options)
+        public PlayerContext(DbContextOptions<PlayerContext> options) : base(options)
         {
         }
 
