@@ -13,7 +13,7 @@ using WebApiBaseLibrary.Responses;
 namespace TileGameServer.Commands.Menu.CreateGameSession
 {
     public class CreateGameSessionCommandHandler
-            : IRequestHandler<CreateGameSessionCommand, Response<CreateGameSessionResponse>>
+        : IRequestHandler<CreateGameSessionCommand, Response<CreateGameSessionResponse>>
     {
         private readonly IGameSessionRepository _gameSessionsRepository;
         private readonly ISessionCapacityConfigurator _sessionCapacityConfigurator;
@@ -34,7 +34,8 @@ namespace TileGameServer.Commands.Menu.CreateGameSession
                 request.SessionCapacity >= _sessionCapacityConfigurator.Configuration.MinSessionCapacity
                 && request.SessionCapacity <= _sessionCapacityConfigurator.Configuration.MaxSessionCapacity;
 
-            if (await _gameSessionsRepository.ExistsWithPlayerInOpenSessionsAsync(request.AccountId) || !capacityIsValid)
+            if (await _gameSessionsRepository.ExistsWithPlayerInOpenSessionsAsync(request.AccountId) 
+                || !capacityIsValid)
             {
                 return new Response<CreateGameSessionResponse>
                 {
@@ -45,6 +46,7 @@ namespace TileGameServer.Commands.Menu.CreateGameSession
             var session = new GameSession
             {
                 Id = Guid.NewGuid(),
+                CreatorId = request.AccountId,
                 Status = GameSessionStatus.Created,
                 CreationDate = DateTime.Now,
                 Capacity = request.SessionCapacity
