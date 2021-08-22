@@ -9,15 +9,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.DataAccess.Context;
-using TileGameServer.DataAccess.Repositories;
+using TileGameServer.BaseLibrary.DataAccess.Repositories;
+using TileGameServer.Constants;
+using TileGameServer.DataAccess;
+using TileGameServer.DataAccess.Repositories.GameSessions;
 using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
+using TileGameServer.Domain.Models.Configurations;
 using TileGameServer.Extensions;
 using WebApiBaseLibrary.Authorization.Configurators;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
+using WebApiBaseLibrary.DataAccess;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;
 
@@ -39,9 +45,20 @@ namespace TileGameServer
         {
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
 
+            services.AddSingleton(_ =>
+            {
+                var requestLimitConfiguration = Configuration
+                    .GetSection(TileGameAppSettings.RequestLimitConfiguration)
+                    .Get<RequestLimitConfiguration>();
+
+                return requestLimitConfiguration;
+            });
+
             services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
-            
+            services.AddDbContext<PlayerContext>(options => options.UseNpgsql(databaseConnectionString));
+
             services.AddScoped<IGameSessionRepository, GameSessionDbRepository>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
 
             services.AddSingletonSessionCapacityConfiguration(Configuration);
             services.AddScoped<ISessionCapacityConfigurator, SessionCapacityConfigurator>();
@@ -68,7 +85,9 @@ namespace TileGameServer
             });
             services.AddAuthorization();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TileGameServer", Version = "v1"});

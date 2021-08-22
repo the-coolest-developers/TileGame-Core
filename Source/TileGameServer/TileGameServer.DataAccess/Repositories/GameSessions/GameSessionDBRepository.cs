@@ -1,16 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 using TileGameServer.BaseLibrary.DataAccess.Context;
 using TileGameServer.BaseLibrary.Domain.Entities;
-using WebApiBaseLibrary.DataAccess.Repositories;
 using TileGameServer.BaseLibrary.Domain.Enums;
-using WebApiBaseLibrary.DataAccess.Entities;
+using WebApiBaseLibrary.DataAccess.Repositories;
 
-namespace TileGameServer.DataAccess.Repositories
+namespace TileGameServer.DataAccess.Repositories.GameSessions
 {
     public class GameSessionDbRepository : EntityFrameworkBaseRepository<GameSession>, IGameSessionRepository
     {
@@ -42,6 +40,14 @@ namespace TileGameServer.DataAccess.Repositories
                                            statuses.Contains(session.Status));
 
             return gameSession;
+        }
+
+        public Task<IEnumerable<GameSession>> GetTopAsync(int offset, int limit)
+        {
+            IEnumerable<GameSession> gameSessions = _gameSessionContext.GameSessions.Include(gs => gs.Players)
+                .OrderBy(gs => gs.CreationDate).Skip(offset).Take(limit);
+
+            return Task.FromResult(gameSessions);
         }
 
         public async Task<GameSession> GetWithPlayerAsync(Guid playerId, params GameSessionStatus[] statuses)
@@ -77,9 +83,9 @@ namespace TileGameServer.DataAccess.Repositories
         {
             var (existingPlayers, newPlayers) = GetExistingAndNewPlayers();
 
-            _gameSessionContext.Players.UpdateRange(existingPlayers);
+            _gameSessionContext.SessionPlayers.UpdateRange(existingPlayers);
 
-            _gameSessionContext.Players.AddRange(newPlayers);
+            _gameSessionContext.SessionPlayers.AddRange(newPlayers);
             _gameSessionContext.SaveChanges();
         }
 
@@ -87,13 +93,13 @@ namespace TileGameServer.DataAccess.Repositories
         {
             var (existingPlayers, newPlayers) = GetExistingAndNewPlayers();
 
-            _gameSessionContext.Players.UpdateRange(existingPlayers);
+            _gameSessionContext.SessionPlayers.UpdateRange(existingPlayers);
 
-            await _gameSessionContext.Players.AddRangeAsync(newPlayers);
+            await _gameSessionContext.SessionPlayers.AddRangeAsync(newPlayers);
             await _gameSessionContext.SaveChangesAsync();
         }
 
-        private (IQueryable<Player>, IEnumerable<Player>) GetExistingAndNewPlayers()
+        private (IQueryable<SessionPlayer>, IEnumerable<SessionPlayer>) GetExistingAndNewPlayers()
         {
             var modifiedPlayers = GetModifiedPlayers().ToList();
 
@@ -103,11 +109,11 @@ namespace TileGameServer.DataAccess.Repositories
             return (existingPlayers, newPlayers);
         }
 
-        private IEnumerable<Player> GetModifiedPlayers() => GetModifiedEntities<Player>();
+        private IEnumerable<SessionPlayer> GetModifiedPlayers() => GetModifiedEntities<SessionPlayer>();
 
-        private IQueryable<Player> GetExistingPlayers(IEnumerable<Player> modifiedPlayers)
+        private IQueryable<SessionPlayer> GetExistingPlayers(IEnumerable<SessionPlayer> modifiedPlayers)
         {
-            var existingPlayers = _gameSessionContext.Players.Where(t => modifiedPlayers.Contains(t));
+            var existingPlayers = _gameSessionContext.SessionPlayers.Where(t => modifiedPlayers.Contains(t));
 
             return existingPlayers;
         }
