@@ -58,7 +58,7 @@ namespace TileGameServer.Controllers
                 _messageQueuePublisher.PublishMessage("AAaaa");
             }
 
-            return await ExecuteActionAsync(await Mediator.Send(command));
+            return await ExecuteActionAsync(response);
         }
 
         [HttpPost("leaveGame")]
@@ -69,7 +69,13 @@ namespace TileGameServer.Controllers
                 AccountId = AccountId
             };
 
-            return await ExecuteActionAsync(await Mediator.Send(command));
+            var response = await Mediator.Send(command);
+            if (response.Status == ResponseStatus.Success)
+            {
+                _messageQueuePublisher.PublishMessage("AAaaa");
+            }
+
+            return await ExecuteActionAsync(response);
         }
 
         [HttpGet("listCreatedGameSessions/{offset:int?}/{limit:int?}")]
