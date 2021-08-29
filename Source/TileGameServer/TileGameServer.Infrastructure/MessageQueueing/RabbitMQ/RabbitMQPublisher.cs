@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
@@ -38,6 +39,21 @@ namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
         public void Dispose()
         {
             _channel?.Dispose();
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class RabbitMQPublisher<TBody> : RabbitMQPublisher, IMessageQueuePublisher<TBody>
+    {
+        public RabbitMQPublisher(IModel channel, string queueName) : base(channel, queueName)
+        {
+        }
+
+        public void PublishMessage(TBody messageBody)
+        {
+            var serializedBody = JsonConvert.SerializeObject(messageBody);
+
+            PublishMessage(serializedBody);
         }
     }
 }

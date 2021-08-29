@@ -26,5 +26,13 @@ namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
 
             return publisher;
         }
+
+        public IMessageQueuePublisher CreatePublisher<TBody>(string queueName)
+        {
+            var channel = _connection.CreateModel();
+            var publisher = new RabbitMQPublisher<TBody>(channel, queueName);
+
+            return publisher;
+        }
     }
 }
