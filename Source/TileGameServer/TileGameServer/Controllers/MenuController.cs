@@ -56,6 +56,7 @@ namespace TileGameServer.Controllers
             if (response.Status == ResponseStatus.Success)
             {
                 _messageQueuePublisher.PublishMessage("AAaaa");
+                _messageQueuePublisher.Dispose();
             }
 
             return await ExecuteActionAsync(response);
@@ -73,6 +74,7 @@ namespace TileGameServer.Controllers
             if (response.Status == ResponseStatus.Success)
             {
                 _messageQueuePublisher.PublishMessage("AAaaa");
+                _messageQueuePublisher.Dispose();
             }
 
             return await ExecuteActionAsync(response);
