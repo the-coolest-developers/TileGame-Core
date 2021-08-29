@@ -13,17 +13,18 @@ using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.DataAccess.Context;
 using TileGameServer.BaseLibrary.DataAccess.Repositories;
 using TileGameServer.Constants;
-using TileGameServer.DataAccess;
 using TileGameServer.DataAccess.Repositories.GameSessions;
 using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
 using TileGameServer.Domain.Models.Configurations;
 using TileGameServer.Extensions;
+using TileGameServer.Infrastructure;
+using TileGameServer.Infrastructure.MessageQueueing;
+using TileGameServer.Infrastructure.MessageQueueing.RabbitMQ;
 using WebApiBaseLibrary.Authorization.Configurators;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
-using WebApiBaseLibrary.DataAccess;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;
 
@@ -43,6 +44,30 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(_ =>
+            {
+                var configuration = Configuration.GetSection("RabbitMQConfiguration").Get<RabbitMQConfiguration>();
+
+                return configuration;
+            });
+            services.AddSingleton<IMessageQueueConnectionFactory, RabbitMQConnectionFactory>(_ =>
+            {
+                var configuration = _serviceProvider.GetService<RabbitMQConfiguration>();
+
+                var connectionFactory = new RabbitMQConnectionFactory(configuration?.HostName);
+
+                return connectionFactory;
+            });
+            services.AddScoped<IMessageQueuePublisher, RabbitMQPublisher>(_ =>
+            {
+                var connectionFactory = _serviceProvider.GetService<IMessageQueueConnectionFactory>();
+                var connection = connectionFactory?.GetConnection();
+
+                var publisher = connection?.CreatePublisher("");
+
+                return (RabbitMQPublisher) publisher;
+            });
+
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
 
             services.AddSingleton(_ =>

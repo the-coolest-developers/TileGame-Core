@@ -8,11 +8,11 @@ namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
     {
         private readonly ConnectionFactory _connectionFactory;
 
-        public RabbitMQConnectionFactory()
+        public RabbitMQConnectionFactory(string hostName)
         {
-            _connectionFactory = new ConnectionFactory()
+            _connectionFactory = new ConnectionFactory
             {
-                HostName = "localhost"
+                HostName = hostName
             };
         }
 
