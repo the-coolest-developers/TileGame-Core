@@ -1,11 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using RabbitMQ.Client;
 
 namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class RabbitMQPublisher : IMessageQueuePublisher
+    public class RabbitMQPublisher : IMessageQueuePublisher, IDisposable
     {
         private readonly IModel _channel;
         private readonly string _queueName;
@@ -32,6 +33,11 @@ namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
                 routingKey: _queueName,
                 basicProperties: null,
                 body: body);
+        }
+
+        public void Dispose()
+        {
+            _channel?.Dispose();
         }
     }
 }
