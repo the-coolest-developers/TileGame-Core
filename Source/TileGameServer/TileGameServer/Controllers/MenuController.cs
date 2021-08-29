@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu.CreateGameSession;
 using TileGameServer.Commands.Menu.JoinGameSession;
 using TileGameServer.Commands.Menu.LeaveGameSession;
+using TileGameServer.Infrastructure;
 using TileGameServer.Infrastructure.MessageQueueing;
 using TileGameServer.Requests.Menu.ListCreatedGameSessions;
 using WebApiBaseLibrary.Authorization.Constants;
@@ -20,13 +21,18 @@ namespace TileGameServer.Controllers
     [Route("menu")]
     public class MenuController : BaseMediatorController
     {
-        private readonly IMessageQueuePublisher _messageQueuePublisher;
+        private readonly IMessageQueuePublisher<JoinGameNotification> _joinGamePublisher;
+        private readonly IMessageQueuePublisher<LeaveGameNotification> _leaveGamePublisher;
 
         private Guid AccountId => Guid.Parse(User.GetClaim(WebApiClaimTypes.AccountId).Value);
 
-        public MenuController(IMediator mediator, IMessageQueuePublisher messageQueuePublisher) : base(mediator)
+        public MenuController(
+            IMediator mediator,
+            IMessageQueuePublisher<JoinGameNotification> joinGamePublisher,
+            IMessageQueuePublisher<LeaveGameNotification> leaveGamePublisher) : base(mediator)
         {
-            _messageQueuePublisher = messageQueuePublisher;
+            _joinGamePublisher = joinGamePublisher;
+            _leaveGamePublisher = leaveGamePublisher;
         }
 
         [HttpPost("createGame")]
@@ -55,8 +61,8 @@ namespace TileGameServer.Controllers
             var response = await Mediator.Send(command);
             if (response.Status == ResponseStatus.Success)
             {
-                _messageQueuePublisher.PublishMessage("AAaaa");
-                _messageQueuePublisher.Dispose();
+                _joinGamePublisher.PublishMessage(new JoinGameNotification());
+                _joinGamePublisher.Dispose();
             }
 
             return await ExecuteActionAsync(response);
@@ -73,8 +79,8 @@ namespace TileGameServer.Controllers
             var response = await Mediator.Send(command);
             if (response.Status == ResponseStatus.Success)
             {
-                _messageQueuePublisher.PublishMessage("AAaaa");
-                _messageQueuePublisher.Dispose();
+                _leaveGamePublisher.PublishMessage(new LeaveGameNotification());
+                _leaveGamePublisher.Dispose();
             }
 
             return await ExecuteActionAsync(response);
