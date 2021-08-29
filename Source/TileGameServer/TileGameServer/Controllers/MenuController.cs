@@ -55,13 +55,18 @@ namespace TileGameServer.Controllers
             var command = new JoinGameSessionCommand
             {
                 AccountId = AccountId,
-                SessionId = request.SessionId
+                SessionId = request.GameSessionId
             };
 
             var response = await Mediator.Send(command);
             if (response.Status == ResponseStatus.Success)
             {
-                _joinGamePublisher.PublishMessage(new JoinGameNotification());
+                _joinGamePublisher.PublishMessage(new JoinGameNotification()
+                {
+                    PlayerId = AccountId,
+                    PlayerNickname = "Abrakadabra",
+                    GameSessionId = request.GameSessionId
+                });
                 _joinGamePublisher.Dispose();
             }
 
@@ -79,7 +84,10 @@ namespace TileGameServer.Controllers
             var response = await Mediator.Send(command);
             if (response.Status == ResponseStatus.Success)
             {
-                _leaveGamePublisher.PublishMessage(new LeaveGameNotification());
+                _leaveGamePublisher.PublishMessage(new LeaveGameNotification()
+                {
+                    PlayerId = AccountId
+                });
                 _leaveGamePublisher.Dispose();
             }
 
