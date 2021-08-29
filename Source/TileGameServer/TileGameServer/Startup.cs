@@ -63,7 +63,7 @@ namespace TileGameServer
                 var connectionFactory = _serviceProvider.GetService<IMessageQueueConnectionFactory>();
                 var connection = connectionFactory?.GetConnection();
 
-                var publisher = connection?.CreatePublisher("");
+                var publisher = connection?.CreatePublisher("JoinGameQueue");
 
                 return (RabbitMQPublisher) publisher;
             });
