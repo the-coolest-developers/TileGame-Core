@@ -24,22 +24,17 @@ namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
                 arguments: null);
         }
 
-        public void PublishMessage(string messageBody)
+        public void PublishMessage<TBody>(TBody messageBody)
         {
-            var body = Encoding.UTF8.GetBytes(messageBody);
+            var serializedBody = JsonConvert.SerializeObject(messageBody);
+
+            var body = Encoding.UTF8.GetBytes(serializedBody);
 
             _channel.BasicPublish(
                 exchange: string.Empty,
                 routingKey: _queueName,
                 basicProperties: null,
                 body: body);
-        }
-
-        public void PublishMessage<TBody>(TBody messageBody)
-        {
-            var serializedBody = JsonConvert.SerializeObject(messageBody);
-
-            PublishMessage(serializedBody);
         }
 
         public void Dispose()
