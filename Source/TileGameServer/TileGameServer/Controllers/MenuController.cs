@@ -7,13 +7,10 @@ using TileGameServer.Commands.Menu.CreateGameSession;
 using TileGameServer.Commands.Menu.JoinGameSession;
 using TileGameServer.Commands.Menu.LeaveGameSession;
 using TileGameServer.Commands.Menu.Notifications.JoinGameNotification;
-using TileGameServer.Infrastructure.MessageQueueing;
-using TileGameServer.Infrastructure.Notifications;
 using TileGameServer.Requests.Menu.ListCreatedGameSessions;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Controllers;
-using WebApiBaseLibrary.Enums;
 
 namespace TileGameServer.Controllers
 {
@@ -22,15 +19,10 @@ namespace TileGameServer.Controllers
     [Route("menu")]
     public class MenuController : BaseMediatorController
     {
-        private readonly IMessageQueuePublisher<LeaveGameNotification> _leaveGamePublisher;
-
         private Guid AccountId => Guid.Parse(User.GetClaim(WebApiClaimTypes.AccountId).Value);
 
-        public MenuController(
-            IMediator mediator,
-            IMessageQueuePublisher<LeaveGameNotification> leaveGamePublisher) : base(mediator)
+        public MenuController(IMediator mediator) : base(mediator)
         {
-            _leaveGamePublisher = leaveGamePublisher;
         }
 
         [HttpPost("createGame")]
@@ -57,11 +49,19 @@ namespace TileGameServer.Controllers
             };
             var response = await Mediator.Send(command);
 
+            /*var joinGameNotification = new JoinGameNotification
+            {
+                PlayerId = AccountId,
+                PlayerNickname = "Abrakadabra",
+                GameSessionId = request.GameSessionId
+            };
+            _messageQueuePublisher.PublishMessage(joinGameNotification);
+            _messageQueuePublisher.Dispose();*/
+
             var joinGameNotificationCommand = new JoinGameNotificationCommand
             {
                 ResponseStatus = response.Status,
                 PlayerId = AccountId,
-                PlayerNickname = "Abrakadabra",
                 GameSessionId = request.GameSessionId
             };
             await Mediator.Send(joinGameNotificationCommand);
@@ -78,14 +78,14 @@ namespace TileGameServer.Controllers
             };
 
             var response = await Mediator.Send(command);
-            if (response.Status == ResponseStatus.Success)
+            /*if (response.Status == ResponseStatus.Success)
             {
-                _leaveGamePublisher.PublishMessage(new LeaveGameNotification
+                _messageQueuePublisher.PublishMessage(new LeaveGameNotification
                 {
                     PlayerId = AccountId
                 });
-                _leaveGamePublisher.Dispose();
-            }
+                _messageQueuePublisher.Dispose();
+            }*/
 
             return await ExecuteActionAsync(response);
         }

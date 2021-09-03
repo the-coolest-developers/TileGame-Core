@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -7,7 +6,7 @@ using RabbitMQ.Client;
 namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class RabbitMQPublisher : IMessageQueuePublisher, IDisposable
+    public class RabbitMQPublisher : IMessageQueuePublisher
     {
         private readonly IModel _channel;
         private readonly string _queueName;
@@ -36,24 +35,16 @@ namespace TileGameServer.Infrastructure.MessageQueueing.RabbitMQ
                 body: body);
         }
 
-        public void Dispose()
-        {
-            _channel?.Dispose();
-        }
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class RabbitMQPublisher<TBody> : RabbitMQPublisher, IMessageQueuePublisher<TBody>
-    {
-        public RabbitMQPublisher(IModel channel, string queueName) : base(channel, queueName)
-        {
-        }
-
-        public void PublishMessage(TBody messageBody)
+        public void PublishMessage<TBody>(TBody messageBody)
         {
             var serializedBody = JsonConvert.SerializeObject(messageBody);
 
             PublishMessage(serializedBody);
+        }
+
+        public void Dispose()
+        {
+            _channel?.Dispose();
         }
     }
 }

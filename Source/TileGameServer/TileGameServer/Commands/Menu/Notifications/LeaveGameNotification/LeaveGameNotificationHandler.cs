@@ -2,17 +2,18 @@
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.BaseLibrary.DataAccess.Repositories;
+using TileGameServer.Commands.Menu.Notifications.JoinGameNotification;
 using TileGameServer.Infrastructure.MessageQueueing;
 using WebApiBaseLibrary.Enums;
 
-namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
+namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
 {
-    public class JoinGameNotificationHandler : IRequestHandler<JoinGameNotificationCommand>
+    public class LeaveGameNotificationHandler : IRequestHandler<JoinGameNotificationCommand>
     {
         private readonly IMessageQueuePublisher _joinGamePublisher;
         private readonly IPlayerRepository _playerRepository;
 
-        public JoinGameNotificationHandler(
+        public LeaveGameNotificationHandler(
             IMessageQueuePublisher joinGamePublisher,
             IPlayerRepository playerRepository)
         {
@@ -20,25 +21,23 @@ namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
             _playerRepository = playerRepository;
         }
 
-        public Task<Unit> Handle(JoinGameNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(JoinGameNotificationCommand request, CancellationToken cancellationToken)
         {
             if (request.ResponseStatus == ResponseStatus.Success)
             {
-                var player = _playerRepository.Get(request.PlayerId);
-                if (player != null)
+                var playerExists = await _playerRepository.ExistsWithIdAsync(request.PlayerId);
+                if (playerExists)
                 {
                     _joinGamePublisher.PublishMessage(
-                        new Infrastructure.Notifications.JoinGameNotification
+                        new Infrastructure.Notifications.LeaveGameNotification()
                         {
-                            PlayerId = request.PlayerId,
-                            PlayerNickname = player.Nickname,
-                            GameSessionId = request.GameSessionId
+                            PlayerId = request.PlayerId
                         });
                     _joinGamePublisher.Dispose();
                 }
             }
 
-            return Task.FromResult(Unit.Value);
+            return Unit.Value;
         }
     }
 }

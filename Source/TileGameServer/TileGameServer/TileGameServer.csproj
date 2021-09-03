@@ -47,7 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Commands\Menu\Notifications\LeaveGameNotification" />
       <Folder Include="Requests\Menu" />
     </ItemGroup>
 

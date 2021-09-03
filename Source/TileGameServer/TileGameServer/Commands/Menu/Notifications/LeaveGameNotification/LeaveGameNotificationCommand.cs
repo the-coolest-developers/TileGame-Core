@@ -2,13 +2,15 @@
 using MediatR;
 using WebApiBaseLibrary.Enums;
 
-namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
+namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
 {
-    public class JoinGameNotificationCommand : IRequest<Unit>
+    public class LeaveGameNotificationCommand : IRequest<Unit>
     {
         public ResponseStatus ResponseStatus { get; set; }
         
         public Guid PlayerId { get; set; }
         public Guid GameSessionId { get; set; }
+
+        public string PlayerNickname { get; set; }
     }
 }
