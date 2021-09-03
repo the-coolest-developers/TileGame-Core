@@ -13,10 +13,10 @@ namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
         private readonly IPlayerRepository _playerRepository;
 
         public JoinGameNotificationHandler(
-            IMessageQueuePublisher joinGamePublisher,
+            IMessageQueueConnection messageQueueConnection,
             IPlayerRepository playerRepository)
         {
-            _joinGamePublisher = joinGamePublisher;
+            _joinGamePublisher = messageQueueConnection.CreatePublisher("JoinGameQueue");
             _playerRepository = playerRepository;
         }
 

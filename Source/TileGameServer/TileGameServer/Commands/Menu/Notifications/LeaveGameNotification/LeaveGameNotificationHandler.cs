@@ -10,14 +10,14 @@ namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
 {
     public class LeaveGameNotificationHandler : IRequestHandler<JoinGameNotificationCommand>
     {
-        private readonly IMessageQueuePublisher _joinGamePublisher;
+        private readonly IMessageQueuePublisher _leaveGamePublisher;
         private readonly IPlayerRepository _playerRepository;
 
         public LeaveGameNotificationHandler(
-            IMessageQueuePublisher joinGamePublisher,
+            IMessageQueueConnection messageQueueConnection,
             IPlayerRepository playerRepository)
         {
-            _joinGamePublisher = joinGamePublisher;
+            _leaveGamePublisher = messageQueueConnection.CreatePublisher("LeaveGameQueue");
             _playerRepository = playerRepository;
         }
 
@@ -28,12 +28,12 @@ namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
                 var playerExists = await _playerRepository.ExistsWithIdAsync(request.PlayerId);
                 if (playerExists)
                 {
-                    _joinGamePublisher.PublishMessage(
-                        new Infrastructure.Notifications.LeaveGameNotification()
+                    _leaveGamePublisher.PublishMessage(
+                        new Infrastructure.Notifications.LeaveGameNotification
                         {
                             PlayerId = request.PlayerId
                         });
-                    _joinGamePublisher.Dispose();
+                    _leaveGamePublisher.Dispose();
                 }
             }
 

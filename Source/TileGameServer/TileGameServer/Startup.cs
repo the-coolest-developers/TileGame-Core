@@ -68,15 +68,12 @@ namespace TileGameServer
 
                 return (RabbitMQPublisher) publisher;
             });
-
-            services.AddScoped<IMessageQueuePublisher, RabbitMQPublisher>(_ =>
+            services.AddScoped<IMessageQueueConnection, RabbitMQConnection>(_ =>
             {
                 var connectionFactory = _serviceProvider.GetService<IMessageQueueConnectionFactory>();
                 var connection = connectionFactory?.GetConnection();
 
-                var publisher = connection?.CreatePublisher("LeaveGameQueue");
-
-                return (RabbitMQPublisher) publisher;
+                return (RabbitMQConnection) connection;
             });
 
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
