@@ -7,6 +7,7 @@ using TileGameServer.Commands.Menu.CreateGameSession;
 using TileGameServer.Commands.Menu.JoinGameSession;
 using TileGameServer.Commands.Menu.LeaveGameSession;
 using TileGameServer.Commands.Menu.Notifications.JoinGameNotification;
+using TileGameServer.Commands.Menu.Notifications.LeaveGameNotification;
 using TileGameServer.Requests.Menu.ListCreatedGameSessions;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
@@ -49,15 +50,6 @@ namespace TileGameServer.Controllers
             };
             var response = await Mediator.Send(command);
 
-            /*var joinGameNotification = new JoinGameNotification
-            {
-                PlayerId = AccountId,
-                PlayerNickname = "Abrakadabra",
-                GameSessionId = request.GameSessionId
-            };
-            _messageQueuePublisher.PublishMessage(joinGameNotification);
-            _messageQueuePublisher.Dispose();*/
-
             var joinGameNotificationCommand = new JoinGameNotificationCommand
             {
                 ResponseStatus = response.Status,
@@ -78,14 +70,13 @@ namespace TileGameServer.Controllers
             };
 
             var response = await Mediator.Send(command);
-            /*if (response.Status == ResponseStatus.Success)
+
+            var leaveGameNotificationCommand = new LeaveGameNotificationCommand
             {
-                _messageQueuePublisher.PublishMessage(new LeaveGameNotification
-                {
-                    PlayerId = AccountId
-                });
-                _messageQueuePublisher.Dispose();
-            }*/
+                ResponseStatus = response.Status,
+                PlayerId = AccountId
+            };
+            await Mediator.Send(leaveGameNotificationCommand);
 
             return await ExecuteActionAsync(response);
         }

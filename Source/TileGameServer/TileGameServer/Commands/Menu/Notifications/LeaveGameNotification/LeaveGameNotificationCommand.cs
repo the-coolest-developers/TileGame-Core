@@ -9,8 +9,6 @@ namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
         public ResponseStatus ResponseStatus { get; set; }
         
         public Guid PlayerId { get; set; }
-        public Guid GameSessionId { get; set; }
 
-        public string PlayerNickname { get; set; }
     }
 }
