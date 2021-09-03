@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TileGameServer.Infrastructure
+namespace TileGameServer.Infrastructure.Notifications
 {
     public class JoinGameNotification
     {

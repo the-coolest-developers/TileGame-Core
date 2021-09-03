@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TileGameServer.Infrastructure
+namespace TileGameServer.Infrastructure.Configurations
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class RabbitMQConfiguration
