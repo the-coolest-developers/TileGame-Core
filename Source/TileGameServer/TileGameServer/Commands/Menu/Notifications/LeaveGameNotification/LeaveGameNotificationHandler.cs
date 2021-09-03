@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.BaseLibrary.DataAccess.Repositories;
-using TileGameServer.Commands.Menu.Notifications.JoinGameNotification;
 using TileGameServer.Infrastructure.MessageQueueing;
 using WebApiBaseLibrary.Enums;
 
 namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
 {
-    public class LeaveGameNotificationHandler : IRequestHandler<JoinGameNotificationCommand>
+    public class LeaveGameNotificationHandler : IRequestHandler<LeaveGameNotificationCommand>
     {
         private readonly IMessageQueuePublisher _leaveGamePublisher;
         private readonly IPlayerRepository _playerRepository;
@@ -21,7 +20,7 @@ namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
             _playerRepository = playerRepository;
         }
 
-        public async Task<Unit> Handle(JoinGameNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(LeaveGameNotificationCommand request, CancellationToken cancellationToken)
         {
             if (request.ResponseStatus == ResponseStatus.Success)
             {

@@ -20,7 +20,6 @@ using TileGameServer.Extensions;
 using TileGameServer.Infrastructure.Configurations;
 using TileGameServer.Infrastructure.MessageQueueing;
 using TileGameServer.Infrastructure.MessageQueueing.RabbitMQ;
-using TileGameServer.Infrastructure.Notifications;
 using WebApiBaseLibrary.Authorization.Configurators;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
@@ -58,15 +57,6 @@ namespace TileGameServer
                 var connectionFactory = new RabbitMQConnectionFactory(configuration?.HostName);
 
                 return connectionFactory;
-            });
-            services.AddScoped<IMessageQueuePublisher, RabbitMQPublisher>(_ =>
-            {
-                var connectionFactory = _serviceProvider.GetService<IMessageQueueConnectionFactory>();
-                var connection = connectionFactory?.GetConnection();
-
-                var publisher = connection?.CreatePublisher("JoinGameQueue");
-
-                return (RabbitMQPublisher) publisher;
             });
             services.AddScoped<IMessageQueueConnection, RabbitMQConnection>(_ =>
             {
