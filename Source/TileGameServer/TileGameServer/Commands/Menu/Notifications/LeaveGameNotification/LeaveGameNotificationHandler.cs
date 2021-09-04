@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.BaseLibrary.DataAccess.Repositories;
-using TileGameServer.Infrastructure.MessageQueueing;
 using WebApiBaseLibrary.Enums;
+using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
 namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
 {
