@@ -42,28 +42,7 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRabbitMQ(Configuration, _serviceProvider);
-            /*services.AddSingleton(_ =>
-            {
-                var configuration = Configuration.GetSection("RabbitMQConfiguration").Get<RabbitMQConfiguration>();
-
-                return configuration;
-            });
-            services.AddSingleton<IMessageQueueConnectionFactory, RabbitMQConnectionFactory>(_ =>
-            {
-                var configuration = _serviceProvider.GetService<RabbitMQConfiguration>();
-
-                var connectionFactory = new RabbitMQConnectionFactory(configuration?.HostName);
-
-                return connectionFactory;
-            });
-            services.AddScoped<IMessageQueueConnection, RabbitMQConnection>(_ =>
-            {
-                var connectionFactory = _serviceProvider.GetService<IMessageQueueConnectionFactory>();
-                var connection = connectionFactory?.GetConnection();
-
-                return (RabbitMQConnection) connection;
-            });*/
+            services.AddRabbitMQ(Configuration, () => _serviceProvider);
 
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
 
