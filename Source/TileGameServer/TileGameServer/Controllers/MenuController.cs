@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu.CreateGameSession;
 using TileGameServer.Commands.Menu.JoinGameSession;
 using TileGameServer.Commands.Menu.LeaveGameSession;
+using TileGameServer.Commands.Menu.Notifications.JoinGameNotification;
+using TileGameServer.Commands.Menu.Notifications.LeaveGameNotification;
 using TileGameServer.Requests.Menu.ListCreatedGameSessions;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
@@ -44,10 +46,19 @@ namespace TileGameServer.Controllers
             var command = new JoinGameSessionCommand
             {
                 AccountId = AccountId,
-                SessionId = request.SessionId
+                SessionId = request.GameSessionId
             };
+            var response = await Mediator.Send(command);
 
-            return await ExecuteActionAsync(await Mediator.Send(command));
+            var joinGameNotificationCommand = new JoinGameNotificationCommand
+            {
+                ResponseStatus = response.Status,
+                PlayerId = AccountId,
+                GameSessionId = request.GameSessionId
+            };
+            await Mediator.Send(joinGameNotificationCommand);
+
+            return await ExecuteActionAsync(response);
         }
 
         [HttpPost("leaveGame")]
@@ -58,7 +69,16 @@ namespace TileGameServer.Controllers
                 AccountId = AccountId
             };
 
-            return await ExecuteActionAsync(await Mediator.Send(command));
+            var response = await Mediator.Send(command);
+
+            var leaveGameNotificationCommand = new LeaveGameNotificationCommand
+            {
+                ResponseStatus = response.Status,
+                PlayerId = AccountId
+            };
+            await Mediator.Send(leaveGameNotificationCommand);
+
+            return await ExecuteActionAsync(response);
         }
 
         [HttpGet("listCreatedGameSessions/{offset:int?}/{limit:int?}")]

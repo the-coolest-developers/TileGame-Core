@@ -4,6 +4,6 @@ namespace TileGameServer.Commands.Menu.JoinGameSession
 {
     public class JoinGameSessionRequest
     {
-        public Guid SessionId { get; set; }
+        public Guid GameSessionId { get; set; }
     }
 }

@@ -13,7 +13,6 @@ using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.DataAccess.Context;
 using TileGameServer.BaseLibrary.DataAccess.Repositories;
 using TileGameServer.Constants;
-using TileGameServer.DataAccess;
 using TileGameServer.DataAccess.Repositories.GameSessions;
 using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
 using TileGameServer.Domain.Models.Configurations;
@@ -23,7 +22,7 @@ using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
-using WebApiBaseLibrary.DataAccess;
+using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ.Extensions;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;
 
@@ -43,6 +42,8 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRabbitMQ(Configuration, () => _serviceProvider);
+
             var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
 
             services.AddSingleton(_ =>
