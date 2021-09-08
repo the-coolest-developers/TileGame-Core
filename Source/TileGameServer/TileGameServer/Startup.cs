@@ -44,7 +44,7 @@ namespace TileGameServer
         {
             services.AddRabbitMQ(Configuration, () => _serviceProvider);
 
-            var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
+            var databaseConnectionString = Environment.GetEnvironmentVariable("TileGame-Core.PostgreSQLAws");
 
             services.AddSingleton(_ =>
             {
@@ -55,8 +55,8 @@ namespace TileGameServer
                 return requestLimitConfiguration;
             });
 
-            services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
-            services.AddDbContext<PlayerContext>(options => options.UseNpgsql(databaseConnectionString));
+            services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString!));
+            services.AddDbContext<PlayerContext>(options => options.UseNpgsql(databaseConnectionString!));
 
             services.AddScoped<IGameSessionRepository, GameSessionDbRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
