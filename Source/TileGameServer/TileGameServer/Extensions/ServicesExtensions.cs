@@ -11,7 +11,7 @@ namespace TileGameServer.Extensions
             IConfiguration configuration)
         {
             var sessionCapacityConfiguration = configuration
-                .GetSection(TileGameAppSettings.SessionCapacityConfiguration)
+                .GetSection(AppSettings.SessionCapacityConfiguration)
                 .Get<SessionCapacityConfiguration>();
 
             return services.AddSingleton(sessionCapacityConfiguration);

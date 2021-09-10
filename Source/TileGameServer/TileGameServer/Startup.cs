@@ -45,18 +45,19 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var databaseConnectionString = Environment.GetEnvironmentVariable("CORE_DB_CONNECTION_STRING");
+            var databaseConnectionString =
+                Environment.GetEnvironmentVariable(EnvironmentVariables.DatabaseConnectionString);
             var rabbitMqConfiguration = new RabbitMQConfiguration
             {
-                HostName = Environment.GetEnvironmentVariable("CORE_RABBITMQ_HOSTNAME")
+                HostName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQHostName)
             };
-            
+
             services.AddRabbitMQ(rabbitMqConfiguration, () => _serviceProvider);
 
             services.AddSingleton(_ =>
             {
                 var requestLimitConfiguration = Configuration
-                    .GetSection(TileGameAppSettings.RequestLimitConfiguration)
+                    .GetSection(AppSettings.RequestLimitConfiguration)
                     .Get<RequestLimitConfiguration>();
 
                 return requestLimitConfiguration;
