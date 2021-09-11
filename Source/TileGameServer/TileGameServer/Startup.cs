@@ -22,6 +22,9 @@ using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
+using WebApiBaseLibrary.Infrastructure.Configuration;
+using WebApiBaseLibrary.Infrastructure.MessageQueueing;
+using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ.Extensions;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;
@@ -42,21 +45,26 @@ namespace TileGameServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRabbitMQ(Configuration, () => _serviceProvider);
+            var databaseConnectionString =
+                Environment.GetEnvironmentVariable(EnvironmentVariables.DatabaseConnectionString);
+            var rabbitMqConfiguration = new RabbitMQConfiguration
+            {
+                HostName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQHostName)
+            };
 
-            var databaseConnectionString = Configuration.GetConnectionString("PostgreSqlAws");
+            services.AddRabbitMQ(rabbitMqConfiguration, () => _serviceProvider);
 
             services.AddSingleton(_ =>
             {
                 var requestLimitConfiguration = Configuration
-                    .GetSection(TileGameAppSettings.RequestLimitConfiguration)
+                    .GetSection(AppSettings.RequestLimitConfiguration)
                     .Get<RequestLimitConfiguration>();
 
                 return requestLimitConfiguration;
             });
 
-            services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString));
-            services.AddDbContext<PlayerContext>(options => options.UseNpgsql(databaseConnectionString));
+            services.AddDbContext<GameSessionContext>(options => options.UseNpgsql(databaseConnectionString!));
+            services.AddDbContext<PlayerContext>(options => options.UseNpgsql(databaseConnectionString!));
 
             services.AddScoped<IGameSessionRepository, GameSessionDbRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();

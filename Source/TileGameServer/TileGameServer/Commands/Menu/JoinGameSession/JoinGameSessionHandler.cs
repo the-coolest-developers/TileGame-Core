@@ -11,6 +11,7 @@ using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Extensions;
 using WebApiBaseLibrary.Responses;
+using ClaimTypes = TileGameServer.Constants.ClaimTypes;
 
 namespace TileGameServer.Commands.Menu.JoinGameSession
 {
@@ -64,7 +65,7 @@ namespace TileGameServer.Commands.Menu.JoinGameSession
                         new[]
                         {
                             new Claim(WebApiClaimTypes.AccountId, request.AccountId.ToString()),
-                            new Claim(TileGameClaimTypes.SessionId, session.Id.ToString())
+                            new Claim(ClaimTypes.SessionId, session.Id.ToString())
                         });
 
                     var response = new JoinGameSessionResponse

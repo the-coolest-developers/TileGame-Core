@@ -1,6 +1,6 @@
 ﻿namespace TileGameServer.Constants
 {
-    public static class TileGameClaimTypes
+    public static class ClaimTypes
     {
         public const string SessionId = "SessionId";
     }
