@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer", "TileGameServer\TileGameServer.csproj", "{F5402CCD-F33D-4373-B008-759453B165B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.Infrastructure", "TileGameServer.Infrastructure\TileGameServer.Infrastructure.csproj", "{8DBF7F94-5E05-475B-A3EA-A6B896EF77DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.DataAccess", "TileGameServer.DataAccess\TileGameServer.DataAccess.csproj", "{FF5BD612-676D-48C5-871F-840284FCED4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.Domain", "TileGameServer.Domain\TileGameServer.Domain.csproj", "{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5402CCD-F33D-4373-B008-759453B165B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5402CCD-F33D-4373-B008-759453B165B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5402CCD-F33D-4373-B008-759453B165B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5402CCD-F33D-4373-B008-759453B165B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DBF7F94-5E05-475B-A3EA-A6B896EF77DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DBF7F94-5E05-475B-A3EA-A6B896EF77DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DBF7F94-5E05-475B-A3EA-A6B896EF77DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DBF7F94-5E05-475B-A3EA-A6B896EF77DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF5BD612-676D-48C5-871F-840284FCED4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF5BD612-676D-48C5-871F-840284FCED4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF5BD612-676D-48C5-871F-840284FCED4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF5BD612-676D-48C5-871F-840284FCED4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
