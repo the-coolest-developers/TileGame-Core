@@ -11,5 +11,9 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <OutputPath>$(MSBuildProjectDirectory)/../../../output</OutputPath>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="WebApiBaseLibrary.Infrastructure" Version="1.0.7" />
+    </ItemGroup>
     
 </Project>
