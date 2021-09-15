@@ -8,30 +8,26 @@ namespace TileGameServer.InSession.HostedServices
 {
     public class MessageQueueHostedService : IHostedService
     {
-        private readonly IMessageQueueReader _joinGameReader;
-        private readonly IMessageQueueReader _leaveGameReader;
-
         private readonly IMessageQueueConnection _connection;
 
-        public MessageQueueHostedService(IMessageQueueConnection connection)
+        public MessageQueueHostedService(IMessageQueueConnectionFactory connectionFactory)
         {
-            _connection = connection;
-
-            _joinGameReader = connection.CreateReader("JoinGameQueue");
-            _joinGameReader.SetReceivedAction(JoinGameNotificationHandler);
-
-            _leaveGameReader = connection.CreateReader("LeaveGameQueue");
-            _leaveGameReader.SetReceivedAction(LeaveGameNotificationHandler);
+            _connection = connectionFactory.CreateConnection();
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _joinGameReader.StartReading();
-            _leaveGameReader.StartReading();
+            var joinGameReader = _connection.CreateReader("JoinGameQueue");
+            joinGameReader.SetReceivedAction(JoinGameNotificationHandler);
+            joinGameReader.StartReading();
+
+            var leaveGameReader = _connection.CreateReader("LeaveGameQueue");
+            leaveGameReader.SetReceivedAction(LeaveGameNotificationHandler);
+            leaveGameReader.StartReading();
 
             return Task.CompletedTask;
         }
-
+        
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _connection.Dispose();
