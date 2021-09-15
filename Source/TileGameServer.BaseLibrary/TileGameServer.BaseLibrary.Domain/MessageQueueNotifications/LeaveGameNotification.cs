@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TileGameServer.Infrastructure.Notifications
+namespace TileGameServer.BaseLibrary.Domain.MessageQueueNotifications
 {
     public class LeaveGameNotification
     {

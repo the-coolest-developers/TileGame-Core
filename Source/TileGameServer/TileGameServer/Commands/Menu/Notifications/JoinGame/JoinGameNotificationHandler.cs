@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.BaseLibrary.DataAccess.Repositories;
+using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
-namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
+namespace TileGameServer.Commands.Menu.Notifications.JoinGame
 {
     public class JoinGameNotificationHandler : IRequestHandler<JoinGameNotificationCommand>
     {
@@ -28,7 +29,7 @@ namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
                 if (player != null)
                 {
                     _joinGamePublisher.PublishMessage(
-                        new Infrastructure.Notifications.JoinGameNotification
+                        new JoinGameNotification
                         {
                             PlayerId = request.PlayerId,
                             PlayerNickname = player.Nickname,
