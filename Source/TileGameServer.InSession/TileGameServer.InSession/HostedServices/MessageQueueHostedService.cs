@@ -27,7 +27,7 @@ namespace TileGameServer.InSession.HostedServices
 
             return Task.CompletedTask;
         }
-        
+
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _connection.Dispose();
@@ -37,12 +37,12 @@ namespace TileGameServer.InSession.HostedServices
 
         private void JoinGameNotificationHandler(string message)
         {
-            Debug.WriteLine(" [x] Received {0}", message);
+            Debug.WriteLine($"A player has joined the game: {message}");
         }
 
         private void LeaveGameNotificationHandler(string message)
         {
-            Debug.WriteLine(" [x] Received {0}", message);
+            Debug.WriteLine($"A player has left the game: {message}");
         }
     }
 }
