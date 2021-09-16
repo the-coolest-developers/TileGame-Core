@@ -1,12 +1,9 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
+using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
 
 namespace TileGameServer.InSession.Commands.Notifications.JoinGameSession
 {
-    public class JoinGameSessionNotificationCommand : IRequest
+    public class JoinGameSessionNotificationCommand : JoinGameSessionNotification, IRequest
     {
-        public Guid PlayerId { get; set; }
-        public Guid GameSessionId { get; set; }
-        public string PlayerNickname { get; set; }
     }
 }

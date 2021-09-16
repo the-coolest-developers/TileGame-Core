@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
 using TileGameServer.InSession.Commands.Notifications.JoinGameSession;
 using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;

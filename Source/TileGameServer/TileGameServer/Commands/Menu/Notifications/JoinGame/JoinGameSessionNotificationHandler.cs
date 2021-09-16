@@ -29,7 +29,7 @@ namespace TileGameServer.Commands.Menu.Notifications.JoinGame
                 if (player != null)
                 {
                     _joinGamePublisher.PublishMessage(
-                        new JoinGameNotification
+                        new JoinGameSessionNotification
                         {
                             PlayerId = request.PlayerId,
                             PlayerNickname = player.Nickname,

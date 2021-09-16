@@ -29,7 +29,7 @@ namespace TileGameServer.Commands.Menu.Notifications.LeaveGame
                 if (playerExists)
                 {
                     _leaveGamePublisher.PublishMessage(
-                        new LeaveGameNotification
+                        new LeaveGameSessionNotification
                         {
                             PlayerId = request.PlayerId
                         });

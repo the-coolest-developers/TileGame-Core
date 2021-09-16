@@ -2,7 +2,7 @@
 
 namespace TileGameServer.BaseLibrary.Domain.MessageQueueNotifications
 {
-    public class LeaveGameNotification
+    public class LeaveGameSessionNotification
     {
         public Guid PlayerId { get; set; }
     }
