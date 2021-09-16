@@ -2,9 +2,9 @@
 using MediatR;
 using WebApiBaseLibrary.Enums;
 
-namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
+namespace TileGameServer.Commands.Menu.Notifications.JoinGame
 {
-    public class JoinGameNotificationCommand : IRequest<Unit>
+    public class JoinGameSessionNotificationCommand : IRequest<Unit>
     {
         public ResponseStatus ResponseStatus { get; set; }
         

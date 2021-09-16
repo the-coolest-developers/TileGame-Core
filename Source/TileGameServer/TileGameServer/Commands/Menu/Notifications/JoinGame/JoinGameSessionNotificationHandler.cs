@@ -2,17 +2,18 @@
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.BaseLibrary.DataAccess.Repositories;
+using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
-namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
+namespace TileGameServer.Commands.Menu.Notifications.JoinGame
 {
-    public class JoinGameNotificationHandler : IRequestHandler<JoinGameNotificationCommand>
+    public class JoinGameSessionNotificationHandler : IRequestHandler<JoinGameSessionNotificationCommand>
     {
         private readonly IMessageQueuePublisher _joinGamePublisher;
         private readonly IPlayerRepository _playerRepository;
 
-        public JoinGameNotificationHandler(
+        public JoinGameSessionNotificationHandler(
             IMessageQueueConnection messageQueueConnection,
             IPlayerRepository playerRepository)
         {
@@ -20,7 +21,7 @@ namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
             _playerRepository = playerRepository;
         }
 
-        public Task<Unit> Handle(JoinGameNotificationCommand request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(JoinGameSessionNotificationCommand request, CancellationToken cancellationToken)
         {
             if (request.ResponseStatus == ResponseStatus.Success)
             {
@@ -28,7 +29,7 @@ namespace TileGameServer.Commands.Menu.Notifications.JoinGameNotification
                 if (player != null)
                 {
                     _joinGamePublisher.PublishMessage(
-                        new Infrastructure.Notifications.JoinGameNotification
+                        new JoinGameSessionNotification
                         {
                             PlayerId = request.PlayerId,
                             PlayerNickname = player.Nickname,

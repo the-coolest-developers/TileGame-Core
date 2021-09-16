@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using TileGameServer.BaseLibrary.Domain.Entities;
 using TileGameServer.BaseLibrary.Domain.Enums;
-using TileGameServer.Constants;
 using TileGameServer.DataAccess.Repositories.GameSessions;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Generators;

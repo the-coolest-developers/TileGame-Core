@@ -2,17 +2,18 @@
 using System.Threading.Tasks;
 using MediatR;
 using TileGameServer.BaseLibrary.DataAccess.Repositories;
+using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
-namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
+namespace TileGameServer.Commands.Menu.Notifications.LeaveGame
 {
-    public class LeaveGameNotificationHandler : IRequestHandler<LeaveGameNotificationCommand>
+    public class LeaveGameSessionNotificationHandler : IRequestHandler<LeaveGameSessionNotificationCommand>
     {
         private readonly IMessageQueuePublisher _leaveGamePublisher;
         private readonly IPlayerRepository _playerRepository;
 
-        public LeaveGameNotificationHandler(
+        public LeaveGameSessionNotificationHandler(
             IMessageQueueConnection messageQueueConnection,
             IPlayerRepository playerRepository)
         {
@@ -20,7 +21,7 @@ namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
             _playerRepository = playerRepository;
         }
 
-        public async Task<Unit> Handle(LeaveGameNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(LeaveGameSessionNotificationCommand request, CancellationToken cancellationToken)
         {
             if (request.ResponseStatus == ResponseStatus.Success)
             {
@@ -28,7 +29,7 @@ namespace TileGameServer.Commands.Menu.Notifications.LeaveGameNotification
                 if (playerExists)
                 {
                     _leaveGamePublisher.PublishMessage(
-                        new Infrastructure.Notifications.LeaveGameNotification
+                        new LeaveGameSessionNotification
                         {
                             PlayerId = request.PlayerId
                         });

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TileGameServer.Infrastructure.Notifications
+namespace TileGameServer.BaseLibrary.Domain.MessageQueueNotifications
 {
-    public class JoinGameNotification
+    public class JoinGameSessionNotification
     {
         public Guid PlayerId { get; set; }
         public Guid GameSessionId { get; set; }
