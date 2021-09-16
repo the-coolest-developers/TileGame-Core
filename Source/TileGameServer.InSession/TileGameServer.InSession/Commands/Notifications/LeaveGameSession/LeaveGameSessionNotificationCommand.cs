@@ -1,6 +1,10 @@
-﻿namespace TileGameServer.InSession.Commands.Notifications.LeaveGameSession
+﻿using System;
+using MediatR;
+
+namespace TileGameServer.InSession.Commands.Notifications.LeaveGameSession
 {
-    public class JoinGameSessionNotificationCommand
+    public class LeaveGameSessionNotificationCommand : IRequest
     {
+        public Guid PlayerId { get; set; }
     }
 }

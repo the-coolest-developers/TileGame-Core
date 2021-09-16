@@ -5,6 +5,8 @@ using MediatR;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
+using TileGameServer.InSession.Commands.Notifications.JoinGameSession;
+using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
 namespace TileGameServer.InSession.HostedServices
@@ -45,16 +47,16 @@ namespace TileGameServer.InSession.HostedServices
 
         private void JoinGameNotificationHandler(string message)
         {
-            var joinGameNotification = JsonConvert.DeserializeObject<JoinGameNotification>(message);
+            var joinGameNotification = JsonConvert.DeserializeObject<JoinGameSessionNotificationCommand>(message);
 
-            Debug.WriteLine($"A player has joined the game: {joinGameNotification.PlayerNickname}");
+            _mediator.Send(joinGameNotification);
         }
 
         private void LeaveGameNotificationHandler(string message)
         {
-            var leaveGameNotification = JsonConvert.DeserializeObject<LeaveGameNotification>(message);
+            var leaveGameNotification = JsonConvert.DeserializeObject<LeaveGameSessionNotificationCommand>(message);
 
-            Debug.WriteLine($"A player has left the game: {leaveGameNotification.PlayerId}");
+            _mediator.Send(leaveGameNotification);
         }
     }
 }

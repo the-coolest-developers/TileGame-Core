@@ -1,7 +1,17 @@
-﻿namespace TileGameServer.InSession.Commands.Notifications.JoinGameSession
+﻿using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+
+namespace TileGameServer.InSession.Commands.Notifications.JoinGameSession
 {
-    public class JoinGameSessionNotificationHandler
+    public class JoinGameSessionNotificationHandler : IRequestHandler<JoinGameSessionNotificationCommand>
     {
-        
+        public Task<Unit> Handle(JoinGameSessionNotificationCommand request, CancellationToken cancellationToken)
+        {
+            Debug.WriteLine($"A player has joined the game: {request.PlayerNickname}");
+
+            return Unit.Task;
+        }
     }
 }
