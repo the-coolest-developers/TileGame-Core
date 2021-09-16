@@ -50,7 +50,7 @@ namespace TileGameServer.Controllers
             };
             var response = await Mediator.Send(command);
 
-            var joinGameNotificationCommand = new JoinGameNotificationCommand
+            var joinGameNotificationCommand = new JoinGameSessionNotificationCommand
             {
                 ResponseStatus = response.Status,
                 PlayerId = AccountId,
@@ -71,7 +71,7 @@ namespace TileGameServer.Controllers
 
             var response = await Mediator.Send(command);
 
-            var leaveGameNotificationCommand = new LeaveGameNotificationCommand
+            var leaveGameNotificationCommand = new LeaveGameSessionNotificationCommand
             {
                 ResponseStatus = response.Status,
                 PlayerId = AccountId

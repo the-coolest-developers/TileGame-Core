@@ -23,8 +23,6 @@ using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
 using WebApiBaseLibrary.Infrastructure.Configuration;
-using WebApiBaseLibrary.Infrastructure.MessageQueueing;
-using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ.Extensions;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;

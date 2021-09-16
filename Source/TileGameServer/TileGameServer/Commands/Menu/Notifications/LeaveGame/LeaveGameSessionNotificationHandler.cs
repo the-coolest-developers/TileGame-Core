@@ -8,12 +8,12 @@ using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
 namespace TileGameServer.Commands.Menu.Notifications.LeaveGame
 {
-    public class LeaveGameNotificationHandler : IRequestHandler<LeaveGameNotificationCommand>
+    public class LeaveGameSessionNotificationHandler : IRequestHandler<LeaveGameSessionNotificationCommand>
     {
         private readonly IMessageQueuePublisher _leaveGamePublisher;
         private readonly IPlayerRepository _playerRepository;
 
-        public LeaveGameNotificationHandler(
+        public LeaveGameSessionNotificationHandler(
             IMessageQueueConnection messageQueueConnection,
             IPlayerRepository playerRepository)
         {
@@ -21,7 +21,7 @@ namespace TileGameServer.Commands.Menu.Notifications.LeaveGame
             _playerRepository = playerRepository;
         }
 
-        public async Task<Unit> Handle(LeaveGameNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(LeaveGameSessionNotificationCommand request, CancellationToken cancellationToken)
         {
             if (request.ResponseStatus == ResponseStatus.Success)
             {

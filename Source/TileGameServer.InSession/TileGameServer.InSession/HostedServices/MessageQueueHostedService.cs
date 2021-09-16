@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
@@ -11,10 +12,15 @@ namespace TileGameServer.InSession.HostedServices
     public class MessageQueueHostedService : IHostedService
     {
         private readonly IMessageQueueConnection _connection;
+        private readonly IMediator _mediator;
 
-        public MessageQueueHostedService(IMessageQueueConnectionFactory connectionFactory)
+        public MessageQueueHostedService(
+            IMessageQueueConnectionFactory connectionFactory,
+            IMediator mediator)
         {
             _connection = connectionFactory.CreateConnection();
+
+            _mediator = mediator;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

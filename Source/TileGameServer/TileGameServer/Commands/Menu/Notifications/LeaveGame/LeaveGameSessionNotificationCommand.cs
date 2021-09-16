@@ -4,7 +4,7 @@ using WebApiBaseLibrary.Enums;
 
 namespace TileGameServer.Commands.Menu.Notifications.LeaveGame
 {
-    public class LeaveGameNotificationCommand : IRequest<Unit>
+    public class LeaveGameSessionNotificationCommand : IRequest<Unit>
     {
         public ResponseStatus ResponseStatus { get; set; }
         
