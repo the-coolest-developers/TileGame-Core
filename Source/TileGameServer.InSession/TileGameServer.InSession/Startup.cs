@@ -9,7 +9,6 @@ using TileGameServer.InSession.Constants;
 using TileGameServer.InSession.Extensions.DependencyInjection;
 using TileGameServer.InSession.HostedServices;
 using WebApiBaseLibrary.Infrastructure.Configuration;
-using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ.Extensions;
 
 namespace TileGameServer.InSession
@@ -29,15 +28,14 @@ namespace TileGameServer.InSession
 
             services.AddRabbitMQ(rabbitMqConfiguration, () => _serviceProvider);
 
-            services.AddMessageQueueingHostingServices<MessageQueueHostedService>(
-                _serviceProvider.GetService<IMessageQueueConnectionFactory>());
-
-            //services.AddHostedService<MessageQueueHostedService>();
+            services.AddMessageQueueingServices<MessageQueueService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             _serviceProvider = app.ApplicationServices;
+
+            app.UseMessageQueueingServices<MessageQueueService>();
 
             if (env.IsDevelopment())
             {
