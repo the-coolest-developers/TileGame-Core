@@ -5,11 +5,11 @@ namespace TileGameServer.InSession.Attributes
     [AttributeUsage(AttributeTargets.Method)]
     public class QueueActionAttribute : Attribute
     {
-        private readonly string _queueName;
+        public string QueueName { get; }
 
         public QueueActionAttribute(string queueName)
         {
-            _queueName = queueName;
+            QueueName = queueName;
         }
     }
 }

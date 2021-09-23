@@ -26,13 +26,13 @@ namespace TileGameServer.InSession.HostedServices
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            var joinGameReader = _connection.CreateReader("JoinGameQueue");
+            /*var joinGameReader = _connection.CreateReader("JoinGameQueue");
             joinGameReader.SetReceivedAction(JoinGameNotificationHandler);
             joinGameReader.StartReading();
 
             var leaveGameReader = _connection.CreateReader("LeaveGameQueue");
             leaveGameReader.SetReceivedAction(LeaveGameNotificationHandler);
-            leaveGameReader.StartReading();
+            leaveGameReader.StartReading();*/
 
             return Task.CompletedTask;
         }

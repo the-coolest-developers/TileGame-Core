@@ -22,9 +22,23 @@ namespace TileGameServer.InSession.Extensions.DependencyInjection
             var mqHostedService = assembly?.GetType(nameof(TMessageQueueingHostedService));
             if (mqHostedService != null)
             {
-                var methods = mqHostedService.GetMethods()
-                    .Where(m => m.GetCustomAttributes(typeof(QueueActionAttribute), false).Any())
-                    .ToArray();
+                var methods = mqHostedService.GetMethods();
+
+                foreach (var method in methods)
+                {
+                    var attributes = method.GetCustomAttributes<QueueActionAttribute>(false).ToArray();
+                    if (attributes.Any())
+                    {
+                        var connection = messageQueueConnectionFactory.CreateConnection();
+
+                        foreach (var attribute in attributes)
+                        {
+                            var reader = connection.CreateReader(attribute.QueueName);
+                            reader.SetReceivedAction(method.CreateDelegate<Action<string>>());
+                            reader.StartReading();
+                        }
+                    }
+                }
             }
 
             return services;
