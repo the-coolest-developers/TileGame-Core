@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TileGameServer.InSession.Constants;
+using TileGameServer.InSession.Extensions.DependencyInjection;
 using TileGameServer.InSession.HostedServices;
 using WebApiBaseLibrary.Infrastructure.Configuration;
+using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ.Extensions;
 
 namespace TileGameServer.InSession
@@ -19,7 +21,7 @@ namespace TileGameServer.InSession
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(Startup));
-            
+
             var rabbitMqConfiguration = new RabbitMQConfiguration
             {
                 HostName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQHostName)
@@ -27,7 +29,10 @@ namespace TileGameServer.InSession
 
             services.AddRabbitMQ(rabbitMqConfiguration, () => _serviceProvider);
 
-            services.AddHostedService<MessageQueueHostedService>();
+            services.AddMessageQueueingHostingServices<MessageQueueHostedService>(
+                _serviceProvider.GetService<IMessageQueueConnectionFactory>());
+
+            //services.AddHostedService<MessageQueueHostedService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
