@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using TileGameServer.InSession.Attributes;
 using TileGameServer.InSession.Commands.Notifications.JoinGameSession;
 using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
@@ -43,6 +44,7 @@ namespace TileGameServer.InSession.HostedServices
             return Task.CompletedTask;
         }
 
+        [QueueAction("JoinGameQueue")]
         private void JoinGameNotificationHandler(string message)
         {
             var joinGameNotification = JsonConvert.DeserializeObject<JoinGameSessionNotificationCommand>(message);
@@ -50,6 +52,7 @@ namespace TileGameServer.InSession.HostedServices
             _mediator.Send(joinGameNotification);
         }
 
+        [QueueAction("LeaveGameQueue")]
         private void LeaveGameNotificationHandler(string message)
         {
             var leaveGameNotification = JsonConvert.DeserializeObject<LeaveGameSessionNotificationCommand>(message);
