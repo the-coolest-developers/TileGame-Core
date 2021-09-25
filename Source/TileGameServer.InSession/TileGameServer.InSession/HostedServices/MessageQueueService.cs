@@ -1,13 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
-using Newtonsoft.Json;
+﻿using MediatR;
 using TileGameServer.InSession.Attributes;
 using TileGameServer.InSession.Commands.Notifications.JoinGameSession;
 using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
 
 namespace TileGameServer.InSession.HostedServices
 {
+    [MessageQueueService]
     public class MessageQueueService
     {
         private readonly IMediator _mediator;
@@ -17,14 +15,14 @@ namespace TileGameServer.InSession.HostedServices
             _mediator = mediator;
         }
 
-        [QueueAction("JoinGameQueue")]
-        public void JoinGameNotificationHandler(JoinGameSessionNotificationCommand command)
+        [MessageQueueAction("JoinGameQueue")]
+        public void ReceiveJoinGameNotification(JoinGameSessionNotificationCommand command)
         {
             _mediator.Send(command);
         }
 
-        [QueueAction("LeaveGameQueue")]
-        public void LeaveGameNotificationHandler(LeaveGameSessionNotificationCommand command)
+        [MessageQueueAction("LeaveGameQueue")]
+        public void ReceiveLeaveGameNotification(LeaveGameSessionNotificationCommand command)
         {
             _mediator.Send(command);
         }

@@ -3,11 +3,11 @@
 namespace TileGameServer.InSession.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class QueueActionAttribute : Attribute
+    public class MessageQueueActionAttribute : Attribute
     {
         public string QueueName { get; }
 
-        public QueueActionAttribute(string queueName)
+        public MessageQueueActionAttribute(string queueName)
         {
             QueueName = queueName;
         }

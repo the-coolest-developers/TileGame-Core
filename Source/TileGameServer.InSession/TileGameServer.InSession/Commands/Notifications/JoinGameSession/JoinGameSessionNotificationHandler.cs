@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
+﻿using MediatR;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 
 namespace TileGameServer.InSession.Commands.Notifications.JoinGameSession
 {
