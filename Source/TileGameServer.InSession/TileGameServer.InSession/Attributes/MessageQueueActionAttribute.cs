@@ -2,7 +2,7 @@
 
 namespace TileGameServer.InSession.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class MessageQueueActionAttribute : Attribute
     {
         public string QueueName { get; }

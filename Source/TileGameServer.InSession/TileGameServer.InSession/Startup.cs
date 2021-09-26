@@ -28,14 +28,14 @@ namespace TileGameServer.InSession
 
             services.AddRabbitMQ(rabbitMqConfiguration, () => _serviceProvider);
 
-            services.AddMessageQueueingServices<MessageQueueService>();
+            services.AddMessageQueueingServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             _serviceProvider = app.ApplicationServices;
 
-            app.UseMessageQueueingServices<MessageQueueService>();
+            app.UseMessageQueueingServices<MenuMessageQueueService>();
 
             if (env.IsDevelopment())
             {

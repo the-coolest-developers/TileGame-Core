@@ -6,11 +6,11 @@ using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
 namespace TileGameServer.InSession.HostedServices
 {
     [MessageQueueService]
-    public class MessageQueueService
+    public class MenuMessageQueueService
     {
         private readonly IMediator _mediator;
 
-        public MessageQueueService(IMediator mediator)
+        public MenuMessageQueueService(IMediator mediator)
         {
             _mediator = mediator;
         }
