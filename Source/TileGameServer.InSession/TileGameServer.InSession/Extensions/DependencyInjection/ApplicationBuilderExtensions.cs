@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Reflection;
 using TileGameServer.InSession.Attributes;
-using TileGameServer.Reflection;
+using TileGameServer.InSession.Reflection;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
 namespace TileGameServer.InSession.Extensions.DependencyInjection
@@ -13,41 +13,37 @@ namespace TileGameServer.InSession.Extensions.DependencyInjection
     {
         public static IApplicationBuilder UseMessageQueueingServices(this IApplicationBuilder app)
         {
-            var messageQueueServices = ReflectionHelper.GetAllTypesWithAttribute<MessageQueueServiceAttribute>();
+            var messageQueueServices = ReflectionHelper
+                .GetAllTypesWithAttribute<MessageQueueServiceAttribute>()
+                .ToArray();
 
-            var methods = messageQueueServices.Select(s => s.GetMethods());
+            var connection = app.ApplicationServices
+                .GetService<IMessageQueueConnectionFactory>()?
+                .CreateConnection();
 
-            var methods = mqService.GetMethods();
-
-            foreach (var method in methods)
+            foreach (var messageQueueServiceType in messageQueueServices)
             {
-                var attributes = method.GetCustomAttributes<MessageQueueActionAttribute>(false).ToArray();
-                if (attributes.Any())
+                var messageQueueServiceActionMethods = messageQueueServiceType
+                    .GetMethods()
+                    .ToDictionary(
+                        m => m.GetCustomAttribute<MessageQueueActionAttribute>()?.QueueName,
+                        m => m);
+
+                foreach (var (queueName, method) in messageQueueServiceActionMethods)
                 {
-                    var connectionFactory = app.ApplicationServices.GetService<IMessageQueueConnectionFactory>();
-                    if (connectionFactory != null)
+                    var reader = connection?.CreateReader(queueName);
+
+                    var parameter = method.GetParameters().FirstOrDefault();
+                    var parameterType = parameter?.ParameterType;
+
+                    reader?.SetReceivedAction(message =>
                     {
-                        var connection = connectionFactory.CreateConnection();
+                        var serviceInstance = app.ApplicationServices.GetService(messageQueueServiceType);
 
-                        foreach (var attribute in attributes)
-                        {
-                            var reader = connection.CreateReader(attribute.QueueName);
+                        var deserializedMessage = JsonConvert.DeserializeObject(message, parameterType);
 
-                            var receiveActionParameter = method.GetParameters().First();
-
-                            reader.SetReceivedAction(message =>
-                            {
-                                var serviceInstance = app.ApplicationServices.GetService<TMessageQueueingService>();
-
-                                var parameterType = receiveActionParameter.ParameterType;
-                                var deserializedParameter = JsonConvert.DeserializeObject(message, parameterType);
-
-                                method.Invoke(serviceInstance, new[] { deserializedParameter });
-                            });
-
-                            reader.StartReading();
-                        }
-                    }
+                        method.Invoke(serviceInstance, new[] {deserializedMessage});
+                    });
                 }
             }
 

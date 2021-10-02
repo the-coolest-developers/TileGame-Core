@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace TileGameServer.Reflection
+namespace TileGameServer.InSession.Reflection
 {
     public static class ReflectionHelper
     {

@@ -35,7 +35,7 @@ namespace TileGameServer.InSession
         {
             _serviceProvider = app.ApplicationServices;
 
-            app.UseMessageQueueingServices<MenuMessageQueueService>();
+            app.UseMessageQueueingServices();
 
             if (env.IsDevelopment())
             {

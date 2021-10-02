@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TileGameServer.InSession.Attributes;
-using TileGameServer.Reflection;
+using TileGameServer.InSession.Reflection;
 
 namespace TileGameServer.InSession.Extensions.DependencyInjection
 {
