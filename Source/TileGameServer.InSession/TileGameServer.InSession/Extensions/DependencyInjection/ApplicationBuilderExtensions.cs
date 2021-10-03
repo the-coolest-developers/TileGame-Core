@@ -17,9 +17,7 @@ namespace TileGameServer.InSession.Extensions.DependencyInjection
                 .GetAllTypesWithAttribute<MessageQueueServiceAttribute>()
                 .ToArray();
 
-            var connection = app.ApplicationServices
-                .GetService<IMessageQueueConnectionFactory>()?
-                .CreateConnection();
+            var connection = app.ApplicationServices.GetService<IMessageQueueConnection>();
 
             foreach (var messageQueueServiceType in messageQueueServices)
             {
