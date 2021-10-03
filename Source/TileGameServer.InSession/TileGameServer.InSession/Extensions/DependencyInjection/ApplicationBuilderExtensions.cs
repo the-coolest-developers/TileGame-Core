@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using TileGameServer.InSession.Attributes;
 using TileGameServer.InSession.Reflection;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
@@ -21,11 +21,12 @@ namespace TileGameServer.InSession.Extensions.DependencyInjection
 
             foreach (var messageQueueServiceType in messageQueueServices)
             {
-                var messageQueueServiceActionMethods = messageQueueServiceType
-                    .GetMethods()
-                    .ToDictionary(
-                        m => m.GetCustomAttribute<MessageQueueActionAttribute>()?.QueueName,
-                        m => m);
+                var methodsWithAttribute =  messageQueueServiceType.GetMethods()
+                    .Where(m => m.GetCustomAttributes<MessageQueueActionAttribute>().Any());
+
+                var messageQueueServiceActionMethods = methodsWithAttribute.ToDictionary(
+                    m => m.GetCustomAttribute<MessageQueueActionAttribute>()?.QueueName,
+                    m => m);
 
                 foreach (var (queueName, method) in messageQueueServiceActionMethods)
                 {
