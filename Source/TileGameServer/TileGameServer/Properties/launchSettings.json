@@ -26,7 +26,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "CORE_DB_CONNECTION_STRING": "Server=52.57.106.5; Port=5433; Database=TileGame; Username=TCD_TileGame_Master; password=TileGame_Secret_Password;",
-        "CORE_RABBITMQ_HOSTNAME" : "localhost"
+        "CORE_RABBITMQ_HOSTNAME": "3.69.44.62",
+        "CORE_RABBITMQ_PORT": "5672",
+        "CORE_RABBITMQ_VIRTUALHOST": "/tcd",
+        "CORE_RABBITMQ_USERNAME": "tcd_sso",
+        "CORE_RABBITMQ_PASSWORD": "tcd_sso_password"
       }
     }
   }

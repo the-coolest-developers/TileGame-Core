@@ -23,7 +23,7 @@ using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
 using WebApiBaseLibrary.Infrastructure.Configuration;
-using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ.Extensions;
+using WebApiBaseLibrary.Infrastructure.Extensions.RabbitMQ;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;
 
@@ -45,12 +45,17 @@ namespace TileGameServer
         {
             var databaseConnectionString =
                 Environment.GetEnvironmentVariable(EnvironmentVariables.DatabaseConnectionString);
+                
             var rabbitMqConfiguration = new RabbitMQConfiguration
             {
-                HostName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQHostName)
+                HostName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQHostName),
+                Port = int.Parse(Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQPort)!),
+                VirtualHost = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQVirtualHost),
+                UserName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQUserName),
+                Password = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQPassword)
             };
 
-            services.AddRabbitMQ(rabbitMqConfiguration, () => _serviceProvider);
+            services.AddRabbitMQ(rabbitMqConfiguration);
 
             services.AddSingleton(_ =>
             {
