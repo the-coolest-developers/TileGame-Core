@@ -1,14 +1,15 @@
-using System;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using TileGameServer.InSession.Constants;
-using TileGameServer.InSession.HostedServices;
 using WebApiBaseLibrary.Infrastructure.Configuration;
-using WebApiBaseLibrary.Infrastructure.MessageQueueing.RabbitMQ.Extensions;
+using WebApiBaseLibrary.Infrastructure.Extensions.RabbitMQ;
 
 namespace TileGameServer.InSession
 {
@@ -16,23 +17,35 @@ namespace TileGameServer.InSession
     {
         private IServiceProvider _serviceProvider;
 
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup));
-            
             var rabbitMqConfiguration = new RabbitMQConfiguration
             {
-                HostName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQHostName)
+                HostName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQHostName),
+                Port = int.Parse(Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQPort)!),
+                VirtualHost = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQVirtualHost),
+                UserName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQUserName),
+                Password = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQPassword)
             };
 
-            services.AddRabbitMQ(rabbitMqConfiguration, () => _serviceProvider);
+            services.AddMessageQueueingServices(typeof(Startup));
+            services.AddRabbitMQ(rabbitMqConfiguration);
 
-            services.AddHostedService<MessageQueueHostedService>();
+            services.AddMediatR(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             _serviceProvider = app.ApplicationServices;
+
+            app.UseMessageQueueingServices(typeof(Startup));
 
             if (env.IsDevelopment())
             {

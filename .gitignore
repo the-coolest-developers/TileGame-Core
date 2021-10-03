@@ -78,6 +78,7 @@ fabric.properties
 **/bin
 
 *.sln.DotSettings.user
+*.cproj.user
 
 output
 

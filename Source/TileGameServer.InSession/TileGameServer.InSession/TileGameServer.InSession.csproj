@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <IsPackable>true</IsPackable>
-        <VersionPrefix>1.0.1</VersionPrefix>
+        <VersionPrefix>1.0.2</VersionPrefix>
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
 
@@ -15,7 +15,7 @@
     <ItemGroup>
       <PackageReference Include="MediatR" Version="9.0.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-      <PackageReference Include="WebApiBaseLibrary.Infrastructure" Version="1.0.7" />
+      <PackageReference Include="WebApiBaseLibrary.Infrastructure" Version="1.1.5-develop" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,6 +25,10 @@
         <Reference Include="TileGameServer.BaseLibrary.Domain, Culture=neutral, PublicKeyToken=null">
             <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.Domain.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Extensions" />
     </ItemGroup>
     
 </Project>
