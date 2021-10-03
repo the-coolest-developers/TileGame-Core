@@ -21,10 +21,12 @@ namespace TileGameServer.InSession.Extensions.DependencyInjection
 
             foreach (var messageQueueServiceType in messageQueueServices)
             {
-                var methodsWithAttribute =  messageQueueServiceType.GetMethods()
+                var methodsWithAttribute =  messageQueueServiceType
+                    .GetMethods()
                     .Where(m => m.GetCustomAttributes<MessageQueueActionAttribute>().Any());
 
-                var messageQueueServiceActionMethods = methodsWithAttribute.ToDictionary(
+                var messageQueueServiceActionMethods = methodsWithAttribute
+                    .ToDictionary(
                     m => m.GetCustomAttribute<MessageQueueActionAttribute>()?.QueueName,
                     m => m);
 
@@ -39,10 +41,11 @@ namespace TileGameServer.InSession.Extensions.DependencyInjection
                     {
                         var serviceInstance = app.ApplicationServices.GetService(messageQueueServiceType);
 
-                        var deserializedMessage = JsonConvert.DeserializeObject(message, parameterType);
+                        var deserializedMessage = JsonConvert.DeserializeObject(message, parameterType!);
 
                         method.Invoke(serviceInstance, new[] {deserializedMessage});
                     });
+                    reader?.StartReading();
                 }
             }
 

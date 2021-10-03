@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <IsPackable>true</IsPackable>
-        <VersionPrefix>1.0.3</VersionPrefix>
+        <VersionPrefix>1.0.4</VersionPrefix>
         <VersionSuffix>develop</VersionSuffix>
     </PropertyGroup>
 
@@ -21,7 +21,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4" />
-        <PackageReference Include="WebApiBaseLibrary.Infrastructure" Version="1.1.0-develop" />
+        <PackageReference Include="WebApiBaseLibrary.Infrastructure" Version="1.1.1-develop" />
     </ItemGroup>
 
     <!-- TCD writen libs from own artifactory -->

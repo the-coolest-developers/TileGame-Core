@@ -12,7 +12,7 @@ namespace TileGameServer.InSession.Extensions.DependencyInjection
 
             foreach (var mqService in messageQueueServices)
             {
-                services.AddScoped(mqService);
+                services.AddSingleton(mqService);
             }
 
             return services;
