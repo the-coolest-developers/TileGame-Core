@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using TileGameServer.InSession.Constants;
 using WebApiBaseLibrary.Infrastructure.Configuration;
@@ -34,7 +35,7 @@ namespace TileGameServer.InSession
                 Password = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQPassword)
             };
 
-            services.AddMessageQueueingServices();
+            services.AddMessageQueueingServices(typeof(Startup));
             services.AddRabbitMQ(rabbitMqConfiguration);
 
             services.AddMediatR(typeof(Startup));
@@ -44,7 +45,7 @@ namespace TileGameServer.InSession
         {
             _serviceProvider = app.ApplicationServices;
 
-            app.UseMessageQueueingServices();
+            app.UseMessageQueueingServices(typeof(Startup));
 
             if (env.IsDevelopment())
             {
