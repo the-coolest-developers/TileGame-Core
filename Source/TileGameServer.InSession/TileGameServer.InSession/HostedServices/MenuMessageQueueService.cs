@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using TileGameServer.InSession.Attributes;
 using TileGameServer.InSession.Commands.Notifications.JoinGameSession;
 using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
+using WebApiBaseLibrary.Infrastructure.Attributes;
 
 namespace TileGameServer.InSession.HostedServices
 {

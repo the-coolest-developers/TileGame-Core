@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using System;
 using Microsoft.Extensions.Configuration;
 using TileGameServer.InSession.Constants;
-using TileGameServer.InSession.Extensions.DependencyInjection;
 using WebApiBaseLibrary.Infrastructure.Configuration;
 using WebApiBaseLibrary.Infrastructure.Extensions.RabbitMQ;
 
