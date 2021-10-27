@@ -2,8 +2,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using TileGameServer.BaseLibrary.Domain.Entities;
-using TileGameServer.BaseLibrary.Domain.Enums;
+using TileGameServer.BaseLibrary.DataAccess.Entities;
+using TileGameServer.BaseLibrary.DataAccess.Enums;
 using TileGameServer.DataAccess.Repositories.GameSessions;
 using TileGameServer.Domain.Configurators.SessionCapacityConfigurators;
 using WebApiBaseLibrary.Enums;

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using TileGameServer.BaseLibrary.Domain.Entities;
+using TileGameServer.BaseLibrary.DataAccess.Entities;
 
 namespace TileGameServer.BaseLibrary.DataAccess.Context
 {

@@ -3,7 +3,7 @@ using TileGameServer.InSession.Commands.Notifications.JoinGameSession;
 using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
 using WebApiBaseLibrary.Infrastructure.Attributes;
 
-namespace TileGameServer.InSession.HostedServices
+namespace TileGameServer.InSession.MessageQueueServices
 {
     [MessageQueueService]
     public class MenuMessageQueueService

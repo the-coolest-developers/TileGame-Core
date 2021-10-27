@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TileGameServer.BaseLibrary.Domain.Entities;
+using TileGameServer.BaseLibrary.DataAccess.Entities;
 using WebApiBaseLibrary.DataAccess.EntityConfigurations;
 
 namespace TileGameServer.BaseLibrary.DataAccess.EntityConfigurations

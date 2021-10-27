@@ -1,7 +1,7 @@
 ﻿using System;
 using WebApiBaseLibrary.DataAccess.Entities;
 
-namespace TileGameServer.BaseLibrary.Domain.Entities
+namespace TileGameServer.BaseLibrary.DataAccess.Entities
 {
     public class SessionPlayer : BaseEntity
     {

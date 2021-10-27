@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using TileGameServer.BaseLibrary.Domain.Enums;
+using TileGameServer.BaseLibrary.DataAccess.Enums;
 using WebApiBaseLibrary.DataAccess.Entities;
 
-namespace TileGameServer.BaseLibrary.Domain.Entities
+namespace TileGameServer.BaseLibrary.DataAccess.Entities
 {
     public class GameSession : BaseEntity
     {
