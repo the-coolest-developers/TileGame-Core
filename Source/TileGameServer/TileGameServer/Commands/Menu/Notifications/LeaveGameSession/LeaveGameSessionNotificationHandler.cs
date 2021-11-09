@@ -6,7 +6,7 @@ using TileGameServer.DataAccess.Repositories.Players;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
-namespace TileGameServer.Commands.Menu.Notifications.LeaveGame
+namespace TileGameServer.Commands.Menu.Notifications.LeaveGameSession
 {
     public class LeaveGameSessionNotificationHandler : IRequestHandler<LeaveGameSessionNotificationCommand>
     {

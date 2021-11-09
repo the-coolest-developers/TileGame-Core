@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using TileGameServer.Commands.Menu.CreateGameSession;
 using TileGameServer.Commands.Menu.JoinGameSession;
 using TileGameServer.Commands.Menu.LeaveGameSession;
-using TileGameServer.Commands.Menu.Notifications.JoinGame;
-using TileGameServer.Commands.Menu.Notifications.LeaveGame;
+using TileGameServer.Commands.Menu.Notifications.CreateGameSession;
+using TileGameServer.Commands.Menu.Notifications.JoinGameSession;
+using TileGameServer.Commands.Menu.Notifications.LeaveGameSession;
 using TileGameServer.Requests.Menu.ListCreatedGameSessions;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
@@ -28,15 +29,23 @@ namespace TileGameServer.Controllers
 
         [HttpPost("createGame")]
         public async Task<ActionResult<CreateGameSessionResponse>> CreateGame(
-            [FromBody] CreateGameSessionRequest request)
+            [FromBody] CreateGameSessionDto dto)
         {
             var command = new CreateGameSessionCommand
             {
                 AccountId = AccountId,
-                SessionCapacity = request.SessionCapacity
+                SessionCapacity = dto.SessionCapacity
             };
+            var response = await Mediator.Send(command);
 
-            return await ExecuteActionAsync(await Mediator.Send(command));
+            var createGameNotificationCommand = new CreateGameSessionNotificationCommand
+            {
+                ResponseStatus = response.Status,
+                GameSessionId = response.Result.SessionId
+            };
+            await Mediator.Send(createGameNotificationCommand);
+
+            return await ExecuteActionAsync(response);
         }
 
         [HttpPost("joinGame")]

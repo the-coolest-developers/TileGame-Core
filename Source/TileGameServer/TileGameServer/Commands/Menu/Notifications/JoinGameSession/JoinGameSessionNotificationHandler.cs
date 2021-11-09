@@ -6,18 +6,18 @@ using TileGameServer.DataAccess.Repositories.Players;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
-namespace TileGameServer.Commands.Menu.Notifications.JoinGame
+namespace TileGameServer.Commands.Menu.Notifications.JoinGameSession
 {
     public class JoinGameSessionNotificationHandler : IRequestHandler<JoinGameSessionNotificationCommand>
     {
-        private readonly IMessageQueuePublisher _joinGamePublisher;
+        private readonly IMessageQueuePublisher _messageQueuePublisher;
         private readonly IPlayerRepository _playerRepository;
 
         public JoinGameSessionNotificationHandler(
             IMessageQueueConnection messageQueueConnection,
             IPlayerRepository playerRepository)
         {
-            _joinGamePublisher = messageQueueConnection.CreatePublisher("JoinGameQueue");
+            _messageQueuePublisher = messageQueueConnection.CreatePublisher("JoinGameQueue");
             _playerRepository = playerRepository;
         }
 
@@ -28,18 +28,18 @@ namespace TileGameServer.Commands.Menu.Notifications.JoinGame
                 var player = _playerRepository.Get(request.PlayerId);
                 if (player != null)
                 {
-                    _joinGamePublisher.PublishMessage(
+                    _messageQueuePublisher.PublishMessage(
                         new JoinGameSessionNotification
                         {
                             PlayerId = request.PlayerId,
                             PlayerNickname = player.Nickname,
                             GameSessionId = request.GameSessionId
                         });
-                    _joinGamePublisher.Dispose();
+                    _messageQueuePublisher.Dispose();
                 }
             }
 
-            return Task.FromResult(Unit.Value);
+            return Unit.Task;
         }
     }
 }
