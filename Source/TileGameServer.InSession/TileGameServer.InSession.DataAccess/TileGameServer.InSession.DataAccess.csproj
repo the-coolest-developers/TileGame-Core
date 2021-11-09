@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.1.0-develop" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.DataAccess\TileGameServer.BaseLibrary.DataAccess.csproj" />
+    </ItemGroup>
+
+</Project>

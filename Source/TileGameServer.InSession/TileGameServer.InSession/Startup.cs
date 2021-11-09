@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using TileGameServer.InSession.Constants;
 using WebApiBaseLibrary.Infrastructure.Configuration;
 using WebApiBaseLibrary.Infrastructure.Extensions.RabbitMQ;
+using TileGameServer.InSession.DataAccess.Context;
 
 namespace TileGameServer.InSession
 {
@@ -39,6 +40,8 @@ namespace TileGameServer.InSession
             services.AddRabbitMQ(rabbitMqConfiguration);
 
             services.AddMediatR(typeof(Startup));
+
+            services.AddSingleton<IInSessionContext, LazyInSessionContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

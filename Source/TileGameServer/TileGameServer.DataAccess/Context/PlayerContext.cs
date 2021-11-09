@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using TileGameServer.BaseLibrary.DataAccess.Entities;
+using TileGameServer.DataAccess.Entities;
 
-namespace TileGameServer.BaseLibrary.DataAccess.Context
+namespace TileGameServer.DataAccess.Context
 {
     public class PlayerContext : DbContext
     {

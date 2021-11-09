@@ -19,6 +19,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\TileGameServer.InSession.DataAccess\TileGameServer.InSession.DataAccess.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Reference Include="TileGameServer.BaseLibrary, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\..\output\TileGameServer.BaseLibrary.dll</HintPath>
         </Reference>

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TileGameServer.BaseLibrary.DataAccess.Entities;
-using TileGameServer.BaseLibrary.DataAccess.Enums;
+using TileGameServer.BaseLibrary.Domain.Enums;
+using TileGameServer.DataAccess.Entities;
 using WebApiBaseLibrary.DataAccess.Repositories;
 
 namespace TileGameServer.DataAccess.Repositories.GameSessions

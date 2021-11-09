@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TileGameServer.BaseLibrary.DataAccess.Context;
-using TileGameServer.BaseLibrary.DataAccess.Entities;
-using TileGameServer.BaseLibrary.DataAccess.Enums;
+using TileGameServer.BaseLibrary.Domain.Enums;
+using TileGameServer.DataAccess.Context;
+using TileGameServer.DataAccess.Entities;
 using WebApiBaseLibrary.DataAccess.Repositories;
 
 namespace TileGameServer.DataAccess.Repositories.GameSessions

@@ -2,8 +2,8 @@
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using TileGameServer.BaseLibrary.DataAccess.Entities;
-using TileGameServer.BaseLibrary.DataAccess.Enums;
+using TileGameServer.BaseLibrary.Domain.Enums;
+using TileGameServer.DataAccess.Entities;
 using TileGameServer.DataAccess.Repositories.GameSessions;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Generators;

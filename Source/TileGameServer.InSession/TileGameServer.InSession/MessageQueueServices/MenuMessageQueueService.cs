@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using TileGameServer.InSession.Commands.Notifications.CreateGameSession;
 using TileGameServer.InSession.Commands.Notifications.JoinGameSession;
 using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
 using WebApiBaseLibrary.Infrastructure.Attributes;
@@ -13,6 +14,12 @@ namespace TileGameServer.InSession.MessageQueueServices
         public MenuMessageQueueService(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [MessageQueueAction("CreateGameQueue")]
+        public void ReceiveJoinGameNotification(CreateGameSessionNotificationCommand command)
+        {
+            _mediator.Send(command);
         }
 
         [MessageQueueAction("JoinGameQueue")]
