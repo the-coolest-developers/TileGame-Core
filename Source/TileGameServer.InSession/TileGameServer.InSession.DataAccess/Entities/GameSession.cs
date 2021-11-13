@@ -6,7 +6,7 @@ namespace TileGameServer.InSession.DataAccess.Entities
 {
     public class GameSession : BaseEntity
     {
-        private readonly Lazy<ICollection<SessionPlayer>> _sessionPlayers;
+        private readonly Lazy<ICollection<SessionPlayer>> _sessionPlayers = new();
         public ICollection<SessionPlayer> Players => _sessionPlayers.Value;
     }
 }

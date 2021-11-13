@@ -19,9 +19,9 @@ namespace TileGameServer.InSession.Commands.Notifications.CreateGameSession
         public Task<Unit> Handle(CreateGameSessionNotificationCommand request, CancellationToken cancellationToken)
         {
             var sessions = _inSessionContext.EntitySet<GameSession>();
-            if (!sessions.Any(s => s.Id == request.GameSessionId))
+            if (sessions.All(s => s.Id != request.GameSessionId))
             {
-                var gameSession = new GameSession()
+                var gameSession = new GameSession
                 {
                     Id = request.GameSessionId
                 };
