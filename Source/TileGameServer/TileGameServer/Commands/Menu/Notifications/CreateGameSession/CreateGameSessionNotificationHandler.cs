@@ -1,17 +1,17 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
 
 namespace TileGameServer.Commands.Menu.Notifications.CreateGameSession
 {
-    public class JoinGameSessionNotificationHandler : IRequestHandler<CreateGameSessionNotificationCommand>
+    public class CreateGameSessionNotificationHandler : IRequestHandler<CreateGameSessionNotificationCommand>
     {
         private readonly IMessageQueuePublisher _messageQueuePublisher;
 
-        public JoinGameSessionNotificationHandler(IMessageQueueConnection messageQueueConnection)
+        public CreateGameSessionNotificationHandler(IMessageQueueConnection messageQueueConnection)
         {
             _messageQueuePublisher = messageQueueConnection.CreatePublisher("CreateGameQueue");
         }
@@ -20,11 +20,6 @@ namespace TileGameServer.Commands.Menu.Notifications.CreateGameSession
         {
             if (request.ResponseStatus == ResponseStatus.Success)
             {
-                var n = new CreateGameSessionNotification()
-                {
-                    GameSessionId = request.GameSessionId
-                };
-
                 _messageQueuePublisher.PublishMessage(
                     new CreateGameSessionNotification
                     {
@@ -36,5 +31,10 @@ namespace TileGameServer.Commands.Menu.Notifications.CreateGameSession
 
             return Unit.Task;
         }
+    }
+
+    public class CreateGameSessionNotification
+    {
+        public Guid GameSessionId { get; set; }
     }
 }

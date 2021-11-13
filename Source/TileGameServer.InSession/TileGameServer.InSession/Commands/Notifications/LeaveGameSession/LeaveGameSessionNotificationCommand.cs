@@ -1,9 +1,10 @@
-﻿using MediatR;
-using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
+﻿using System;
+using MediatR;
 
 namespace TileGameServer.InSession.Commands.Notifications.LeaveGameSession
 {
-    public class LeaveGameSessionNotificationCommand : LeaveGameSessionNotification, IRequest
+    public class LeaveGameSessionNotificationCommand : IRequest
     {
+        public Guid PlayerId { get; set; }
     }
 }

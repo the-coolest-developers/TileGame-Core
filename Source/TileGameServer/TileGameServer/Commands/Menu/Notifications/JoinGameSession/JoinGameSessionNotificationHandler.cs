@@ -1,7 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TileGameServer.BaseLibrary.Domain.MessageQueueNotifications;
 using TileGameServer.DataAccess.Repositories.Players;
 using WebApiBaseLibrary.Enums;
 using WebApiBaseLibrary.Infrastructure.MessageQueueing;
@@ -41,5 +41,12 @@ namespace TileGameServer.Commands.Menu.Notifications.JoinGameSession
 
             return Unit.Task;
         }
+    }
+
+    public class JoinGameSessionNotification
+    {
+        public Guid PlayerId { get; set; }
+        public Guid GameSessionId { get; set; }
+        public string PlayerNickname { get; set; }
     }
 }
