@@ -1,4 +1,4 @@
-﻿namespace TileGameServer.BaseLibrary.DataAccess.Enums
+﻿namespace TileGameServer.BaseLibrary.Domain.Enums
 {
     public enum GameSessionStatus
     {

@@ -1,6 +1,6 @@
 ﻿using WebApiBaseLibrary.DataAccess.Entities;
 
-namespace TileGameServer.BaseLibrary.DataAccess.Entities
+namespace TileGameServer.DataAccess.Entities
 {
     public class Player : BaseEntity
     {
