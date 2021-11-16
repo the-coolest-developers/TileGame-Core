@@ -10,6 +10,9 @@ using TileGameServer.InSession.Constants;
 using WebApiBaseLibrary.Infrastructure.Configuration;
 using WebApiBaseLibrary.Infrastructure.Extensions.RabbitMQ;
 using TileGameServer.InSession.DataAccess.Context;
+using TileGameServer.InSession.Hubs;
+using WebApiBaseLibrary.Authorization.Configurators;
+using WebApiBaseLibrary.Authorization.Extensions;
 
 namespace TileGameServer.InSession
 {
@@ -34,13 +37,24 @@ namespace TileGameServer.InSession
                 UserName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQUserName),
                 Password = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQPassword)
             };
-
+            
+            services.AddAuthorization();
+            
             services.AddMessageQueueingServices(typeof(Startup));
             services.AddRabbitMQ(rabbitMqConfiguration);
 
-            services.AddMediatR(typeof(Startup));
+            services.AddSingleton<IJwtConfigurator, JwtConfigurator>();
+            services.AddConfiguredJwtBearer(() =>
+            {
+                var jwtConfigurator = _serviceProvider.GetService<IJwtConfigurator>();
+
+                return jwtConfigurator?.ValidationParameters;
+            });
+
 
             services.AddSingleton<IInSessionContext, LazyInSessionContext>();
+            services.AddSignalR();
+            services.AddMediatR(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -56,9 +70,13 @@ namespace TileGameServer.InSession
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
+                endpoints.MapHub<TileGameHub>("/TileGame");
+                //endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
             });
         }
     }
