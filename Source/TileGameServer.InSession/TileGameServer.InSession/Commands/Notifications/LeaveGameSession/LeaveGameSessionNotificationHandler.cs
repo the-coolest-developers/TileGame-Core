@@ -26,6 +26,11 @@ namespace TileGameServer.InSession.Commands.Notifications.LeaveGameSession
                 var sessionPlayer = sessionWithPlayer.Players.Single(p => p.Id == request.PlayerId);
 
                 sessionWithPlayer.Players.Remove(sessionPlayer);
+
+                if (!sessionWithPlayer.Players.Any())
+                {
+                    sessions.Remove(sessionWithPlayer);
+                }
             }
 
             return Unit.Task;
