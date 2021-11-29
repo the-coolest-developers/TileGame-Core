@@ -87,3 +87,5 @@ output
 *.v2
 *.suo
 .vs
+
+./Resources/CI/.circleci/config.yml

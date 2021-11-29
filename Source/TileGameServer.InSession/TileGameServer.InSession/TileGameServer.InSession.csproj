@@ -23,11 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="TileGameServer.BaseLibrary, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.dll</HintPath>
+        <Reference Include="TileGameServer.BaseLibrary">
+          <HintPath>$(OutputPath)/TileGameServer.BaseLibrary.dll</HintPath>
         </Reference>
-        <Reference Include="TileGameServer.BaseLibrary.Domain, Culture=neutral, PublicKeyToken=null">
-            <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.Domain.dll</HintPath>
+        <Reference Include="TileGameServer.BaseLibrary.Domain">
+            <HintPath>$(OutputPath)/TileGameServer.BaseLibrary.Domain.dll</HintPath>
         </Reference>
     </ItemGroup>
     

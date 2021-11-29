@@ -18,7 +18,7 @@
 
     <ItemGroup>
       <Reference Include="TileGameServer.BaseLibrary.Domain">
-        <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.Domain.dll</HintPath>
+        <HintPath>$(OutputPath)/TileGameServer.BaseLibrary.Domain.dll</HintPath>
       </Reference>
     </ItemGroup>
 

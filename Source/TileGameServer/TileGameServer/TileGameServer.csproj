@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
@@ -40,10 +40,10 @@
 
     <ItemGroup>
         <Reference Include="TileGameServer.BaseLibrary.DataAccess">
-          <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.DataAccess.dll</HintPath>
+          <HintPath>$(OutputPath)/TileGameServer.BaseLibrary.DataAccess.dll</HintPath>
         </Reference>
-        <Reference Include="TileGameServer.BaseLibrary.Domain, Culture=neutral, PublicKeyToken=null">
-            <HintPath>$(MSBuildProjectDirectory)/../../../output/TileGameServer.BaseLibrary.Domain.dll</HintPath>
+        <Reference Include="TileGameServer.BaseLibrary.Domain">
+            <HintPath>$(OutputPath)/TileGameServer.BaseLibrary.Domain.dll</HintPath>
         </Reference>
     </ItemGroup>
 

@@ -1,0 +1,60 @@
+.code_image_runner: &code_image
+  image:
+    name: mcr.microsoft.com/dotnet/sdk:6.0
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_IID}"
+    paths:
+      - NuGet.Config
+  before_script:
+    - >-
+      [[ -f "${CI_PROJECT_DIR}/NuGet.Config" ]] &&
+      cp -f "${CI_PROJECT_DIR}/NuGet.Config" "${HOME}/.nuget/NuGet/NuGet.Config"
+  after_script:
+    - cp -f "${HOME}/.nuget/NuGet/NuGet.Config"  "${CI_PROJECT_DIR}/NuGet.Config"
+
+.dev_changes: &dev_changes
+  changes:
+    - Source/*
+
+.protected_branch_rules:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        VSUFFIX: "${CI_COMMIT_BRANCH}"
+      <<: *dev_changes
+    - if: $CI_COMMIT_REF_NAME =~ /release/
+      variables:
+        VSUFFIX: "${CI_COMMIT_BRANCH}"
+      <<: *dev_changes
+
+stages:
+  - build
+  - pack_nugets
+  - docker_image
+
+prepare_runner:
+  stage: .pre
+  <<: *code_image
+  rules:
+    - !reference [ .protected_branch_rules, rules ]
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - >-
+      dotnet nuget add source "${ARTIFACTORY_URL}/nuget/tcd-nuget/"
+      --name Artifactory
+      --username "${ARTIFACTORY_USER}"
+      --password "${ARTIFACTORY_PASSWORD}"
+      --store-password-in-clear-text
+    - >-
+      OUTPUT_BASE_PATH="${CI_PROJECT_DIR}/output"
+
+build_code:
+  stage: build
+  needs:
+    - prepare_runner
+  <<: *code_image
+  rules:
+    - !reference [.protected_branch_rules, rules]
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - dotnet build "${CI_PROJECT_DIR}/Source/${PROJECT_NAME}.sln"

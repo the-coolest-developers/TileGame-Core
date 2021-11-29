@@ -1,0 +1,102 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+
+###################################
+# To successfully build entire project from cli using dotnet build command u need to specify the right projects order here.
+#
+# Build order:
+# 	1. TileGameServer.BaseLibrary
+# 	2. TileGameServer.InSession
+# 	3. TileGameServer
+# 
+# !!! IMPORTANT !!! 
+#	Do not change the order if this is not required, or you'll break the CI builds
+# !!! IMPORTANT !!!
+#
+###################################
+
+# 1 --> TileGameServer.BaseLibrary
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TileGameServer.BaseLibrary", "TileGameServer.BaseLibrary", "{B1CA3D0F-31B8-4B40-B438-13B74273D6F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary", "TileGameServer.BaseLibrary\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.csproj", "{8BC8EBC6-C21C-46F0-9FEA-17C45309EB20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary.DataAccess", "TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.DataAccess\TileGameServer.BaseLibrary.DataAccess.csproj", "{74F1CC3C-19D7-439A-90B0-29C7913D2011}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary.Domain", "TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.Domain\TileGameServer.BaseLibrary.Domain.csproj", "{9C5A439E-3DB6-4A19-82E5-7F0B14D07F64}"
+EndProject
+
+# 2 --> TileGameServer.InSession
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TileGameServer.InSession", "TileGameServer.InSession", "{9EC349C8-27C4-468C-8F1E-B87D2BB4C2FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.InSession", "TileGameServer.InSession\TileGameServer.InSession\TileGameServer.InSession.csproj", "{047AE5F6-9B12-4167-B9F8-516925CCA35D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.InSession.DataAccess", "TileGameServer.InSession\TileGameServer.InSession.DataAccess\TileGameServer.InSession.DataAccess.csproj", "{2DFF49D9-B26D-41B9-93BD-6E1D92BD055B}"
+EndProject
+
+# 3 --> TileGameServer
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TileGameServer", "TileGameServer", "{64408A0A-36AE-488D-AC3E-173CF3B36D29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer", "TileGameServer\TileGameServer\TileGameServer.csproj", "{88DCB52B-7B97-450E-A401-04C1E56889FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.DataAccess", "TileGameServer\TileGameServer.DataAccess\TileGameServer.DataAccess.csproj", "{22210C37-0BBB-4EC0-85FD-5E6C05929CD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.Domain", "TileGameServer\TileGameServer.Domain\TileGameServer.Domain.csproj", "{05B9F93C-99F1-4E8E-9F67-FFB3436B895B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.Infrastructure", "TileGameServer\TileGameServer.Infrastructure\TileGameServer.Infrastructure.csproj", "{DD8F6845-52EC-4A5B-84A6-AE4C6C33E5BD}"
+EndProject
+
+
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{88DCB52B-7B97-450E-A401-04C1E56889FA} = {64408A0A-36AE-488D-AC3E-173CF3B36D29}
+		{22210C37-0BBB-4EC0-85FD-5E6C05929CD7} = {64408A0A-36AE-488D-AC3E-173CF3B36D29}
+		{05B9F93C-99F1-4E8E-9F67-FFB3436B895B} = {64408A0A-36AE-488D-AC3E-173CF3B36D29}
+		{DD8F6845-52EC-4A5B-84A6-AE4C6C33E5BD} = {64408A0A-36AE-488D-AC3E-173CF3B36D29}
+		{8BC8EBC6-C21C-46F0-9FEA-17C45309EB20} = {B1CA3D0F-31B8-4B40-B438-13B74273D6F1}
+		{74F1CC3C-19D7-439A-90B0-29C7913D2011} = {B1CA3D0F-31B8-4B40-B438-13B74273D6F1}
+		{9C5A439E-3DB6-4A19-82E5-7F0B14D07F64} = {B1CA3D0F-31B8-4B40-B438-13B74273D6F1}
+		{047AE5F6-9B12-4167-B9F8-516925CCA35D} = {9EC349C8-27C4-468C-8F1E-B87D2BB4C2FA}
+		{2DFF49D9-B26D-41B9-93BD-6E1D92BD055B} = {9EC349C8-27C4-468C-8F1E-B87D2BB4C2FA}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88DCB52B-7B97-450E-A401-04C1E56889FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88DCB52B-7B97-450E-A401-04C1E56889FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88DCB52B-7B97-450E-A401-04C1E56889FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88DCB52B-7B97-450E-A401-04C1E56889FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22210C37-0BBB-4EC0-85FD-5E6C05929CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22210C37-0BBB-4EC0-85FD-5E6C05929CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22210C37-0BBB-4EC0-85FD-5E6C05929CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22210C37-0BBB-4EC0-85FD-5E6C05929CD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05B9F93C-99F1-4E8E-9F67-FFB3436B895B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05B9F93C-99F1-4E8E-9F67-FFB3436B895B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05B9F93C-99F1-4E8E-9F67-FFB3436B895B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05B9F93C-99F1-4E8E-9F67-FFB3436B895B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD8F6845-52EC-4A5B-84A6-AE4C6C33E5BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD8F6845-52EC-4A5B-84A6-AE4C6C33E5BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD8F6845-52EC-4A5B-84A6-AE4C6C33E5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD8F6845-52EC-4A5B-84A6-AE4C6C33E5BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BC8EBC6-C21C-46F0-9FEA-17C45309EB20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC8EBC6-C21C-46F0-9FEA-17C45309EB20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BC8EBC6-C21C-46F0-9FEA-17C45309EB20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC8EBC6-C21C-46F0-9FEA-17C45309EB20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74F1CC3C-19D7-439A-90B0-29C7913D2011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74F1CC3C-19D7-439A-90B0-29C7913D2011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74F1CC3C-19D7-439A-90B0-29C7913D2011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74F1CC3C-19D7-439A-90B0-29C7913D2011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C5A439E-3DB6-4A19-82E5-7F0B14D07F64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C5A439E-3DB6-4A19-82E5-7F0B14D07F64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C5A439E-3DB6-4A19-82E5-7F0B14D07F64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C5A439E-3DB6-4A19-82E5-7F0B14D07F64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{047AE5F6-9B12-4167-B9F8-516925CCA35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{047AE5F6-9B12-4167-B9F8-516925CCA35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{047AE5F6-9B12-4167-B9F8-516925CCA35D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{047AE5F6-9B12-4167-B9F8-516925CCA35D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DFF49D9-B26D-41B9-93BD-6E1D92BD055B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DFF49D9-B26D-41B9-93BD-6E1D92BD055B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DFF49D9-B26D-41B9-93BD-6E1D92BD055B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DFF49D9-B26D-41B9-93BD-6E1D92BD055B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
