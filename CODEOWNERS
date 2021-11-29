@@ -1,1 +1,14 @@
-* @ArtiomCiobanu @Cute-Monster 
+[App Code]
+APISpecs/ @ArtiomCiobanu @Cute-Monster
+DataBase/ @ArtiomCiobanu @Cute-Monster
+Diagrams/ @ArtiomCiobanu @Cute-Monster
+Source/ @ArtiomCiobanu @Cute-Monster
+
+[CI/CD]
+Resources/ @Cute-Monster
+CODEOWNERS @Cute-Monster
+.github/ @Cute-Monster
+
+[All other stuff]
+.gitignore @ArtiomCiobanu @Cute-Monster
+README.md @ArtiomCiobanu @Cute-Monster
