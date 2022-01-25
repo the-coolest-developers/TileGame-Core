@@ -1,6 +1,6 @@
 include:
   - project: "the-coolest-developers/devops/shared-pilelines"
-    ref: v1.0.8 
+    ref: v1.0.9 
     file: "shared.yml"
 
 variables:
@@ -8,7 +8,6 @@ variables:
 
 stages:
   - build_code_base
-  - code_scan
 
 build_source_code:
   stage: build_code_base
