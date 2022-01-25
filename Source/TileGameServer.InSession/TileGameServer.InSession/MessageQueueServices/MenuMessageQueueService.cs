@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using TileGameServer.InSession.Commands.Notifications.CreateGameSession;
-using TileGameServer.InSession.Commands.Notifications.JoinGameSession;
-using TileGameServer.InSession.Commands.Notifications.LeaveGameSession;
-using WebApiBaseLibrary.Infrastructure.Attributes;
+using TileGameServer.InSession.Notifications.CreateGameSession;
+using TileGameServer.InSession.Notifications.JoinGameSession;
+using TileGameServer.InSession.Notifications.LeaveGameSession;
+using WebApiBaseLibrary.MessageQueueing.Attributes;
 
 namespace TileGameServer.InSession.MessageQueueServices
 {

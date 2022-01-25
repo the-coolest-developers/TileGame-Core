@@ -14,7 +14,13 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CORE_DB_CONNECTION_STRING": "Server=18.192.198.228; Port=5433; Database=TileGame; Username=TCD_TileGame_Master; password=zfjugcTt_WdA3pNywVk2-A3J4;",
+        "CORE_RABBITMQ_HOSTNAME": "18.192.198.228",
+        "CORE_RABBITMQ_PORT": "5672",
+        "CORE_RABBITMQ_VIRTUALHOST": "/tcd",
+        "CORE_RABBITMQ_USERNAME": "tcd_sso_rabbit",
+        "CORE_RABBITMQ_PASSWORD": "Aspirate_Overlying_Claim_Jockstrap_Cannabis_Selective_Purchase"
       }
     },
     "Development": {
@@ -25,12 +31,12 @@
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CORE_DB_CONNECTION_STRING": "Server=52.57.106.5; Port=5433; Database=TileGame; Username=TCD_TileGame_Master; password=TileGame_Secret_Password;",
-        "CORE_RABBITMQ_HOSTNAME": "3.69.44.62",
+        "CORE_DB_CONNECTION_STRING": "Server=18.192.198.228; Port=5433; Database=TileGame; Username=TCD_TileGame_Master; password=zfjugcTt_WdA3pNywVk2-A3J4;",
+        "CORE_RABBITMQ_HOSTNAME": "18.192.198.228",
         "CORE_RABBITMQ_PORT": "5672",
         "CORE_RABBITMQ_VIRTUALHOST": "/tcd",
-        "CORE_RABBITMQ_USERNAME": "tcd_sso",
-        "CORE_RABBITMQ_PASSWORD": "tcd_sso_password"
+        "CORE_RABBITMQ_USERNAME": "tcd_sso_rabbit",
+        "CORE_RABBITMQ_PASSWORD": "Aspirate_Overlying_Claim_Jockstrap_Cannabis_Selective_Purchase"
       }
     }
   }

@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.DataAccess",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.Domain", "TileGameServer.Domain\TileGameServer.Domain.csproj", "{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary", "..\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.csproj", "{FDE7125A-9545-493F-9FCA-71E31C56C7AF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary.Domain", "..\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.Domain\TileGameServer.BaseLibrary.Domain.csproj", "{B366AEC8-1A78-4655-B4BC-E39D734F84EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BaseLibrary", "BaseLibrary", "{02AEF104-4771-4C30-ACD3-D696D6D7C41C}"
@@ -36,17 +34,12 @@ Global
 		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A539F9AE-92A2-4972-AB8A-BB50081E1AC2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDE7125A-9545-493F-9FCA-71E31C56C7AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDE7125A-9545-493F-9FCA-71E31C56C7AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDE7125A-9545-493F-9FCA-71E31C56C7AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDE7125A-9545-493F-9FCA-71E31C56C7AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B366AEC8-1A78-4655-B4BC-E39D734F84EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B366AEC8-1A78-4655-B4BC-E39D734F84EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B366AEC8-1A78-4655-B4BC-E39D734F84EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B366AEC8-1A78-4655-B4BC-E39D734F84EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FDE7125A-9545-493F-9FCA-71E31C56C7AF} = {02AEF104-4771-4C30-ACD3-D696D6D7C41C}
 		{B366AEC8-1A78-4655-B4BC-E39D734F84EE} = {02AEF104-4771-4C30-ACD3-D696D6D7C41C}
 	EndGlobalSection
 EndGlobal

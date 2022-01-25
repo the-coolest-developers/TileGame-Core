@@ -2,15 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.InSession", "TileGameServer.InSession\TileGameServer.InSession.csproj", "{680E0AC2-8342-45CE-9A68-2A2A25F34ACC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary", "..\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.csproj", "{EFF2D46F-4586-4A6C-AB69-0D68815A102C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary.DataAccess", "..\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.DataAccess\TileGameServer.BaseLibrary.DataAccess.csproj", "{5D77CE0E-BD56-4530-BA20-DF18D1383C5B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary.Domain", "..\TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.Domain\TileGameServer.BaseLibrary.Domain.csproj", "{9C27B243-5AE3-418A-B0BA-D005805A7794}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BaseLibrary", "BaseLibrary", "{05EBDAA8-9EDF-4B73-814C-FC04210A8D74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.InSession.DataAccess", "TileGameServer.InSession.DataAccess\TileGameServer.InSession.DataAccess.csproj", "{DC7DAA52-6003-4689-955B-ADF4A7BA3033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.InSession.Domain", "TileGameServer.InSession.Domain\TileGameServer.InSession.Domain.csproj", "{FDC139B9-2679-41E1-A55A-1819848D0259}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,14 +20,6 @@ Global
 		{680E0AC2-8342-45CE-9A68-2A2A25F34ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{680E0AC2-8342-45CE-9A68-2A2A25F34ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{680E0AC2-8342-45CE-9A68-2A2A25F34ACC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EFF2D46F-4586-4A6C-AB69-0D68815A102C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EFF2D46F-4586-4A6C-AB69-0D68815A102C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EFF2D46F-4586-4A6C-AB69-0D68815A102C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EFF2D46F-4586-4A6C-AB69-0D68815A102C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D77CE0E-BD56-4530-BA20-DF18D1383C5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D77CE0E-BD56-4530-BA20-DF18D1383C5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D77CE0E-BD56-4530-BA20-DF18D1383C5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D77CE0E-BD56-4530-BA20-DF18D1383C5B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C27B243-5AE3-418A-B0BA-D005805A7794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C27B243-5AE3-418A-B0BA-D005805A7794}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C27B243-5AE3-418A-B0BA-D005805A7794}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,10 +28,12 @@ Global
 		{DC7DAA52-6003-4689-955B-ADF4A7BA3033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC7DAA52-6003-4689-955B-ADF4A7BA3033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC7DAA52-6003-4689-955B-ADF4A7BA3033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC139B9-2679-41E1-A55A-1819848D0259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC139B9-2679-41E1-A55A-1819848D0259}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC139B9-2679-41E1-A55A-1819848D0259}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC139B9-2679-41E1-A55A-1819848D0259}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EFF2D46F-4586-4A6C-AB69-0D68815A102C} = {05EBDAA8-9EDF-4B73-814C-FC04210A8D74}
-		{5D77CE0E-BD56-4530-BA20-DF18D1383C5B} = {05EBDAA8-9EDF-4B73-814C-FC04210A8D74}
 		{9C27B243-5AE3-418A-B0BA-D005805A7794} = {05EBDAA8-9EDF-4B73-814C-FC04210A8D74}
 	EndGlobalSection
 EndGlobal

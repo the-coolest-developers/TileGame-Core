@@ -1,9 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <VersionPrefix>1.0.1</VersionPrefix>
         <VersionSuffix>develop</VersionSuffix>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -22,12 +24,12 @@
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
-      <PackageReference Include="WebApiBaseLibrary" Version="1.0.5" />
+      <PackageReference Include="WebApiBaseLibrary" Version="1.0.6" />
     </ItemGroup>
     
     <!-- TCD writen libs from own artifactory -->
     <ItemGroup>
-      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.1.1" />
+      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.1.2" />
     </ItemGroup>
     
     <!-- Local repo refs -->

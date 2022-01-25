@@ -1,9 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <VersionPrefix>1.0.1</VersionPrefix>
         <VersionSuffix>develop</VersionSuffix>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -12,14 +14,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="WebApiBaseLibrary" Version="1.0.5" />
-      <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.1.1" />
+        <PackageReference Include="WebApiBaseLibrary" Version="1.0.6" />
+        <PackageReference Include="WebApiBaseLibrary.DataAccess" Version="1.1.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="TileGameServer.BaseLibrary.Domain">
-        <HintPath>$(OutputPath)/TileGameServer.BaseLibrary.Domain.dll</HintPath>
-      </Reference>
+        <Reference Include="TileGameServer.BaseLibrary.Domain">
+            <HintPath>$(OutputPath)/TileGameServer.BaseLibrary.Domain.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

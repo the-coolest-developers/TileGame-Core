@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TileGameServer.Commands.Menu.CreateGameSession;
-using TileGameServer.Commands.Menu.JoinGameSession;
-using TileGameServer.Commands.Menu.LeaveGameSession;
-using TileGameServer.Commands.Menu.Notifications.CreateGameSession;
-using TileGameServer.Commands.Menu.Notifications.JoinGameSession;
-using TileGameServer.Commands.Menu.Notifications.LeaveGameSession;
-using TileGameServer.Requests.Menu.ListCreatedGameSessions;
+using TileGameServer.Features.Menu.CreateGameSession;
+using TileGameServer.Features.Menu.JoinGameSession;
+using TileGameServer.Features.Menu.LeaveGameSession;
+using TileGameServer.Features.Menu.ListCreatedGameSessions;
+using TileGameServer.Features.Menu.Notifications.CreateGameSession;
+using TileGameServer.Features.Menu.Notifications.JoinGameSession;
+using TileGameServer.Features.Menu.Notifications.LeaveGameSession;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Controllers;
@@ -49,7 +49,7 @@ namespace TileGameServer.Controllers
         }
 
         [HttpPost("joinGame")]
-        public async Task<ActionResult<JoinGameSessionResponse>> JoinGame(
+        public async Task<ActionResult<Unit>> JoinGame(
             [FromBody] JoinGameSessionRequest request)
         {
             var command = new JoinGameSessionCommand
@@ -70,7 +70,7 @@ namespace TileGameServer.Controllers
             return await ExecuteActionAsync(response);
         }
 
-        [HttpPost("leaveGame")]
+        [HttpGet("leaveGame")]
         public async Task<ActionResult<Unit>> Leave()
         {
             var command = new LeaveGameSessionCommand

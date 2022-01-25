@@ -1,10 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary", "TileGameServer.BaseLibrary\TileGameServer.BaseLibrary.csproj", "{F372209E-966C-4013-80FF-707249DB7A13}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary.Domain", "TileGameServer.BaseLibrary.Domain\TileGameServer.BaseLibrary.Domain.csproj", "{27B22621-C279-4FE5-AA9B-889B3B0BFFE9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameServer.BaseLibrary.DataAccess", "TileGameServer.BaseLibrary.DataAccess\TileGameServer.BaseLibrary.DataAccess.csproj", "{B6314BEE-0FDB-419B-A779-CF1E32729C2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

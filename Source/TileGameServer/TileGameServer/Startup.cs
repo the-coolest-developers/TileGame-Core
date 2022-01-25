@@ -22,8 +22,8 @@ using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Authorization.Generators;
 using WebApiBaseLibrary.Authorization.Models;
-using WebApiBaseLibrary.Infrastructure.Configuration;
-using WebApiBaseLibrary.Infrastructure.Extensions.RabbitMQ;
+using WebApiBaseLibrary.MessageQueueing.Configuration;
+using WebApiBaseLibrary.MessageQueueing.Extensions.RabbitMQ;
 using HeaderNames = TileGameServer.Constants.HeaderNames;
 using Schemes = TileGameServer.Constants.Schemes;
 
@@ -45,7 +45,7 @@ namespace TileGameServer
         {
             var databaseConnectionString =
                 Environment.GetEnvironmentVariable(EnvironmentVariables.DatabaseConnectionString);
-                
+
             var rabbitMqConfiguration = new RabbitMQConfiguration
             {
                 HostName = Environment.GetEnvironmentVariable(EnvironmentVariables.RabbitMQHostName),
@@ -100,16 +100,13 @@ namespace TileGameServer
             services.AddControllers().AddNewtonsoftJson(
                 options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "TileGameServer", Version = "v1"});
-            });
-
             services.AddAuthorization(
                 options => { options.AddRequireAdministratorRolePolicy(); });
 
             services.AddSwaggerGen(options =>
             {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "TileGameServer", Version = "v1" });
+
                 var securityScheme = new OpenApiSecurityScheme
                 {
                     Description = "Json Web Token for authorization. Write: 'Bearer {your token}'",

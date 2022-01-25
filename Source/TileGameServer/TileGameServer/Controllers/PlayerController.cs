@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TileGameServer.Commands.Players.RegisterPlayer;
+using TileGameServer.Features.Players.GetPlayerProfile;
+using TileGameServer.Features.Players.RegisterPlayer;
 using WebApiBaseLibrary.Authorization.Constants;
 using WebApiBaseLibrary.Authorization.Extensions;
 using WebApiBaseLibrary.Controllers;
@@ -30,7 +32,18 @@ namespace TileGameServer.Controllers
                 PlayerNickname = registerPlayerDto.Nickname
             };
 
-            return await ExecuteActionAsync(await Mediator.Send(command));
+            return await SendToMediatorAsync(command);
+        }
+
+        [HttpGet("profile")]
+        public Task<ActionResult<GetPlayerProfileResponse>> GetPlayerProfile()
+        {
+            var query = new GetPlayerProfileQuery
+            {
+                PlayerId = AccountId
+            };
+
+            return SendToMediatorAsync(query);
         }
     }
 }
